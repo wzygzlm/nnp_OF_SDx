@@ -41,5 +41,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma SDS data zero_copy(in1[0:dim*dim], in2[0:dim*dim], out[0:dim*dim])
 void mmult_zero_copy(int *in1, int *in2, int *out, int dim);
 
+#pragma SDS data zero_copy(in[0:size], out[0:size])
+void array_copy(int *in, int *out, int size);
+
 #endif
 

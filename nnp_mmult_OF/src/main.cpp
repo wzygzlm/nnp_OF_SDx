@@ -10,6 +10,17 @@
 #include "xf_headers.h"
 #include "xf_dense_npyr_optical_flow_config.h"
 
+#ifdef __SDSCC__
+#include "sds_lib.h"
+#else
+#define sds_alloc(x)(malloc(x))
+#define sds_free(x)(free(x))
+#endif
+
+#define N 16
+#define NUM_ITERATIONS N
+typedef short data_t;
+
 using namespace std;
 
 static atomic_bool globalShutdown(false);
@@ -310,6 +321,11 @@ int main(int argc, char *argv[]){
 				uint16_t x = firstEvent.getX();
 				uint16_t y = firstEvent.getY();
 				bool pol   = firstEvent.getPolarity();
+
+				int size = polarity->getEventCapacity();
+			    int *A = (int *) sds_alloc(size);
+			    int *B = (int *) sds_alloc(size);
+		         array_copy(A, B, size);
 
 				printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 			}
