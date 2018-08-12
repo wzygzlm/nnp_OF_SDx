@@ -1,8 +1,0 @@
-//showInclude\:C\:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include=false
-//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include=false
-eclipse.preferences.version=1
-environment/project/com.xilinx.sdsoc.managedbuild.project.debug.351835363/SYSROOT/delimiter=;
-environment/project/com.xilinx.sdsoc.managedbuild.project.debug.351835363/SYSROOT/operation=append
-environment/project/com.xilinx.sdsoc.managedbuild.project.debug.351835363/SYSROOT/value=E\:\\sdk_petalinux_2018_2_roofs\\sdk\\sysroots\\cortexa9hf-neon-xilinx-linux-gnueabi
-environment/project/com.xilinx.sdsoc.managedbuild.project.debug.351835363/append=true
-environment/project/com.xilinx.sdsoc.managedbuild.project.debug.351835363/appendContributed=true
