@@ -42,7 +42,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 void mmult_zero_copy(int *in1, int *in2, int *out, int dim);
 
 // #pragma SDS data zero_copy(in[0:size], out[0:size])
-#pragma SDS data access_pattern(in:SEQUENTIAL, out:SEQUENTIAL)
+#pragma SDS data access_pattern(in:SEQUENTIAL, out:RANDOM)
 #pragma SDS data copy(in[0:size], out[0:size])
 void array_copy(int *in, int *out, int size);
 

@@ -36,8 +36,8 @@
 									<listOptionValue builtIn="false" value="../libs/sds_utils"/>
 								</option>
 								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1610877112" name="Software Platform Inferred Flags" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -Wno-unused-label" valueType="string"/>
-								<option id="xilinx.gnu.compiler.misc.other.156722238" name="Other flags" superClass="xilinx.gnu.compiler.misc.other" value="-c -fmessage-length=0 -MT&quot;$@&quot; -std=c++0x -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare" valueType="string"/>
-								<option id="xilinx.sdspp.compiler.misc.verbose.1859806368" superClass="xilinx.sdspp.compiler.misc.verbose" value="true" valueType="boolean"/>
+								<option id="xilinx.gnu.compiler.misc.other.156722238" name="Other flags" superClass="xilinx.gnu.compiler.misc.other" value="-c -fmessage-length=0 -MT&quot;$@&quot; -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare" valueType="string"/>
+								<option id="xilinx.sdspp.compiler.misc.verbose.1859806368" name="Verbose (-verbose)" superClass="xilinx.sdspp.compiler.misc.verbose" value="true" valueType="boolean"/>
 								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdspp.input.1782389075" name="C++ source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdspp.input"/>
 							</tool>
 							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.linker.491735643" name="SDS++ Linker" superClass="com.xilinx.sdsoc.managedbuild.toolchain.linker">

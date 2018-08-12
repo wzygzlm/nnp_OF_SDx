@@ -81,7 +81,10 @@ void mmult_zero_copy(int *in1, int *in2, int *out, int dim)
 
 void array_copy(int *in, int *out, int size)
 {
+	// int test_str[200];
+	// #pragma HLS stream depth=4 variable=test_str // Set depth to non-default value
+
      for(int i = 0; i < size; i++) {
-          out[i] = in[i];
+          out[i] = in[i] + 1;
      }
 }
