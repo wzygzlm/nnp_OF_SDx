@@ -240,7 +240,12 @@ int main(int argc, char *argv[]){
 
 	/************** libcaer part ***********************/
 
-	// Open a DAVIS, give it a device ID of 1, and don't care about USB bus or SN restrictions.
+    int socketPort;
+    if (argc < 2) socketPort = 4097;     //default port number 4097
+    if (argc == 2) socketPort = atoi(argv[1]);
+    int remoteSocket;
+
+    // Open a DAVIS, give it a device ID of 1, and don't care about USB bus or SN restrictions.
 	libcaer::devices::davis davisHandle = libcaer::devices::davis(1);
 
 	// Let's take a look at the information we have on the device.
@@ -325,7 +330,7 @@ int main(int argc, char *argv[]){
 //			    int *B = (int *) sds_alloc(size);
 //		         array_copy(A, B, size);
 
-				abmof(polarity);
+				remoteSocket = abmof(polarity, socketPort);
 				printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 			}
 
@@ -354,6 +359,7 @@ int main(int argc, char *argv[]){
 
 	// Close automatically done by destructor.
 
+    close(remoteSocket);   // close socket;
 	printf("Shutdown successful.\n");
 
 	return (EXIT_SUCCESS);
