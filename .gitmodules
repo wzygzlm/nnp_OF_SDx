@@ -1,0 +1,3 @@
+[submodule "abmof_server"]
+	path = abmof_server
+	url = https://github.com/wzygzlm/abmof_server.git
