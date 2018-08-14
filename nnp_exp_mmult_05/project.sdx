@@ -5,7 +5,7 @@
       <accelerator name="mmult_array_partition" filepath="src/mmult_accel.cpp" clkid="2" location="E:/xfOpenCV/wksp_2018_1/nnp_exp_mmult_05/src/mmult_accel.cpp"/>
     </configBuildOptions>
     <lastBuildOptions xsi:type="sdsproject:Option" insertapm="false" genbitstream="true" gensdcard="true" dmclkid="2" enableHwSwTrace="false" traceApplication="false" genEmulationModel="false">
-      <accelerator name="mmult_array_partition" filepath="src/mmult_accel.cpp" clkid="2" location="E:/xfOpenCV/wksp_2018_1/test/src/mmult_accel.cpp"/>
+      <accelerator name="mmult_array_partition" filepath="src/mmult_accel.cpp" clkid="2" location="E:/xfOpenCV/wksp_2018_1/nnp_exp_mmult_05/src/mmult_accel.cpp"/>
     </lastBuildOptions>
   </configuration>
   <configuration name="Release" id="com.xilinx.sdsoc.managedbuild.project.release.590930782">

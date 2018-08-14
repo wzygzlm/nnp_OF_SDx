@@ -1,14 +1,12 @@
 #include <libcaer/devices/davis.hpp>
 #include <atomic>
 #include <csignal>
+#include "ABMOF/abmof.h"
 
 #include <iostream>
 #include <stdlib.h>
 #include "sds_utils.h"
 #include "mmult_accel.h"
-
-#include "xf_headers.h"
-#include "xf_dense_npyr_optical_flow_config.h"
 
 #ifdef __SDSCC__
 #include "sds_lib.h"
@@ -316,7 +314,7 @@ int main(int argc, char *argv[]){
 
 				// Get full timestamp and addresses of first event.
 				const libcaer::events::PolarityEvent &firstEvent = (*polarity)[0];
-
+				const libcaer::events::PolarityEvent &SecondEvent = (*polarity)[1];
 				int32_t ts = firstEvent.getTimestamp();
 				uint16_t x = firstEvent.getX();
 				uint16_t y = firstEvent.getY();
@@ -327,6 +325,7 @@ int main(int argc, char *argv[]){
 //			    int *B = (int *) sds_alloc(size);
 //		         array_copy(A, B, size);
 
+				abmof(polarity);
 				printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 			}
 
