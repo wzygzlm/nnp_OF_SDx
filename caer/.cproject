@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.xilinx.sdsoc.managedbuild.project.debug.1922988048">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xilinx.sdsoc.managedbuild.project.debug.1922988048" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xilinx.sdk.managedbuilder.XELF.arm.a53.x32.linux" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf _sds sd_card" description="" id="com.xilinx.sdsoc.managedbuild.project.debug.1922988048" name="Debug" parent="com.xilinx.sdsoc.managedbuild.project.debug" prebuildStep="sdsoc_make_clean Debug">
+					<folderInfo id="com.xilinx.sdsoc.managedbuild.project.debug.1922988048." name="/" resourcePath="">
+						<toolChain id="xilinx.gnu.armv7.linux.toolchain.179594423" name="Xilinx ARM v7 GNU/Linux Toolchain" superClass="xilinx.gnu.armv7.linux.toolchain">
+							<targetPlatform binaryParser="com.xilinx.sdk.managedbuilder.XELF.arm.a53.x32.linux" id="xilinx.armv7.linux.target.gnu.base.2086081219" isAbstract="false" name="Debug Platform" superClass="xilinx.armv7.linux.target.gnu.base"/>
+							<builder buildPath="${workspace_loc:/caer}/Debug" enableAutoBuild="true" id="xilinx.gnu.armv7.linux.toolchain.builder.1986032433" keepEnvironmentInBuildfile="false" name="GNU make" superClass="xilinx.gnu.armv7.linux.toolchain.builder"/>
+							<tool id="xilinx.gnu.armv7.linux.c.toolchain.assembler.1748250429" name="ARM v7 Linux gcc assembler" superClass="xilinx.gnu.armv7.linux.c.toolchain.assembler">
+								<inputType id="xilinx.gnu.assembler.input.1150873206" superClass="xilinx.gnu.assembler.input"/>
+							</tool>
+							<tool id="xilinx.gnu.armv7.linux.c.toolchain.compiler.814669404" name="ARM v7 Linux gcc compiler" superClass="xilinx.gnu.armv7.linux.c.toolchain.compiler"/>
+							<tool id="xilinx.gnu.armv7.linux.cxx.toolchain.compiler.1663898403" name="ARM v7 Linux g++ compiler" superClass="xilinx.gnu.armv7.linux.cxx.toolchain.compiler">
+								<option id="xilinx.gnu.compiler.dircategory.includes.1627392518" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="E:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/include"/>
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+								</option>
+								<option id="xilinx.gnu.compiler.misc.other.860897575" name="Other flags" superClass="xilinx.gnu.compiler.misc.other" value="-c -fmessage-length=0 -MT&quot;$@&quot;" valueType="string"/>
+								<option id="xilinx.gnu.compiler.symbols.defined.2065035076" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="OS_UNIX"/>
+									<listOptionValue builtIn="false" value="OS_LINUX"/>
+								</option>
+								<inputType id="xilinx.gnu.armv7.linux.cxx.compiler.input.760018395" name="C++ source files" superClass="xilinx.gnu.armv7.linux.cxx.compiler.input"/>
+							</tool>
+							<tool id="xilinx.gnu.armv7.linux.toolchain.archiver.120136181" name="ARM v7 Linux archiver" superClass="xilinx.gnu.armv7.linux.toolchain.archiver"/>
+							<tool id="xilinx.gnu.armv7.linux.c.toolchain.linker.422329329" name="ARM v7 Linux gcc linker" superClass="xilinx.gnu.armv7.linux.c.toolchain.linker"/>
+							<tool id="xilinx.gnu.armv7.linux.cxx.toolchain.linker.1655920856" name="ARM v7 Linux g++ linker" superClass="xilinx.gnu.armv7.linux.cxx.toolchain.linker">
+								<option id="xilinx.gnu.c.link.option.paths.1667360341" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="E:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/lib"/>
+									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\caer_libs&quot;"/>
+								</option>
+								<option id="xilinx.gnu.c.link.option.ldflags.461701388" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.libs.60335836" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="caer"/>
+									<listOptionValue builtIn="false" value="boost_program_options"/>
+									<listOptionValue builtIn="false" value="usb-1.0"/>
+									<listOptionValue builtIn="false" value="boost_system"/>
+									<listOptionValue builtIn="false" value="boost_iostreams"/>
+									<listOptionValue builtIn="false" value="boost_filesystem"/>
+									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="dl"/>
+								</option>
+								<option id="xilinx.gnu.c.link.option.other.1452923604" superClass="xilinx.gnu.c.link.option.other" valueType="stringList">
+									<listOptionValue builtIn="false" value="--allow-shlib-undefined"/>
+								</option>
+								<inputType id="xilinx.gnu.linker.input.1088231577" superClass="xilinx.gnu.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<inputType id="xilinx.gnu.linker.input.lscript.659208337" name="Linker Script" superClass="xilinx.gnu.linker.input.lscript"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="**/_sds/iprepo/|**/_sds/p0/|**/_sds/reports/|**/_sds/vhls/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xilinx.sdsoc.managedbuild.project.release.883415382">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xilinx.sdsoc.managedbuild.project.release.883415382" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xilinx.sdk.managedbuilder.XELF.armlinux" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.xilinx.sdk.apf.XilinxErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf _sds sd_card" description="" id="com.xilinx.sdsoc.managedbuild.project.release.883415382" name="Release" parent="com.xilinx.sdsoc.managedbuild.project.release" prebuildStep="sdsoc_make_clean Release">
+					<folderInfo id="com.xilinx.sdsoc.managedbuild.project.release.883415382." name="/" resourcePath="">
+						<toolChain id="com.xilinx.sdsoc.managedbuild.project.release.toolchain.295155590" name="SDS Toolchain" superClass="com.xilinx.sdsoc.managedbuild.project.release.toolchain">
+							<targetPlatform binaryParser="com.xilinx.sdk.managedbuilder.XELF.armlinux" id="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform.1606424035" isAbstract="false" name="SDS Target Platform" superClass="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform"/>
+							<builder buildPath="${workspace_loc:/caer}/Release" enableAutoBuild="true" id="com.xilinx.sdsoc.managedbuild.toolchain.builder.67118912" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU make" superClass="com.xilinx.sdsoc.managedbuild.toolchain.builder"/>
+							<tool id="com.xilinx.sdsoc.managedbuild.project.release.sdscc.1039819237" name="SDSCC Compiler" superClass="com.xilinx.sdsoc.managedbuild.project.release.sdscc">
+								<option id="xilinx.gnu.compiler.dircategory.includes.1843343421" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="E:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/include"/>
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+								</option>
+								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdscc.input.2065627841" name="C source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdscc.input"/>
+							</tool>
+							<tool id="com.xilinx.sdsoc.managedbuild.project.release.sdspp.303702424" name="SDS++ Compiler" superClass="com.xilinx.sdsoc.managedbuild.project.release.sdspp">
+								<option id="xilinx.gnu.compiler.dircategory.includes.90713073" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="E:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/include"/>
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+								</option>
+								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdspp.input.1313805152" name="C++ source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdspp.input"/>
+							</tool>
+							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.linker.1014754761" name="SDS++ Linker" superClass="com.xilinx.sdsoc.managedbuild.toolchain.linker">
+								<option id="xilinx.gnu.c.link.option.paths.160618313" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="E:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/lib"/>
+								</option>
+								<inputType id="xilinx.gnu.linker.input.1475834988" superClass="xilinx.gnu.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<inputType id="xilinx.gnu.linker.input.lscript.1890637275" name="Linker Script" superClass="xilinx.gnu.linker.input.lscript"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="**/_sds/iprepo/|**/_sds/p0/|**/_sds/reports/|**/_sds/vhls/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="caer.com.xilinx.sdsoc.managedbuild.project.1795349375" name="Xilinx SDS Project" projectType="com.xilinx.sdsoc.managedbuild.project"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/caer"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/caer"/>
+		</configuration>
+	</storageModule>
+</cproject>
