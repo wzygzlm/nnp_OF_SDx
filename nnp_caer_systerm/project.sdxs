@@ -3,12 +3,16 @@
   <configuration name="Debug">
     <configBuildOptions xsi:type="systemproject:SystemOptions">
       <applications name="caer" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
+      <applications name="caer_dvsnoisefilter" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
+      <applications name="caer_npp_mmult_04" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
       <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" genEmulationModel="false"/>
     </configBuildOptions>
   </configuration>
   <configuration name="Release">
     <configBuildOptions xsi:type="systemproject:SystemOptions">
       <applications name="caer" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
+      <applications name="caer_dvsnoisefilter" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
+      <applications name="caer_npp_mmult_04" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" genEmulationModel="false"/>
     </configBuildOptions>
   </configuration>

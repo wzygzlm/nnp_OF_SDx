@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>nnp_caer_systerm</name>
+	<name>caer_npp_mmult_04</name>
 	<comment></comment>
 	<projects>
-		<project>caer</project>
-		<project>caer_dvsnoisefilter</project>
-		<project>caer_npp_mmult_04</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -21,7 +18,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>com.xilinx.sdx.system.systemprojectnature</nature>
+		<nature>com.xilinx.sdsoc.core.sdsocnature</nature>
 		<nature>org.eclipse.cdt.core.cnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.core.ccnature</nature>
