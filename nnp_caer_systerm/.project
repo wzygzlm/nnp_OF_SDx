@@ -3,9 +3,9 @@
 	<name>nnp_caer_systerm</name>
 	<comment></comment>
 	<projects>
-		<project>caer</project>
 		<project>caer_dvsnoisefilter</project>
 		<project>caer_npp_mmult_04</project>
+		<project>my_caer_bin</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

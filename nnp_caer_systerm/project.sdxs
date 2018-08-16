@@ -2,17 +2,17 @@
 <systemproject:SystemProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdsproject="http://www.xilinx.com/sdsproject" xmlns:systemproject="http://www.xilinx.com/systemproject" name="nnp_caer_systerm" platform="D:\Xilinx\my_SDx_platforms\nnp_stream\nnp_stream.xpfm" platformUID="ini.com:nnp_stream:nnp_board:1.0(custom)" sysConfig="linux" runtime="C/C++">
   <configuration name="Debug">
     <configBuildOptions xsi:type="systemproject:SystemOptions">
-      <applications name="caer" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
       <applications name="caer_dvsnoisefilter" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
       <applications name="caer_npp_mmult_04" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
+      <applications name="my_caer_bin" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
       <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" genEmulationModel="false"/>
     </configBuildOptions>
   </configuration>
   <configuration name="Release">
     <configBuildOptions xsi:type="systemproject:SystemOptions">
-      <applications name="caer" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <applications name="caer_dvsnoisefilter" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <applications name="caer_npp_mmult_04" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
+      <applications name="my_caer_bin" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" genEmulationModel="false"/>
     </configBuildOptions>
   </configuration>
