@@ -3,7 +3,7 @@
         <node name="caer" path="/caer/">
             <node name="logger" path="/caer/logger/">
                 <attr key="logFile" type="string">/home/root/caer.log</attr>
-                <attr key="logLevel" type="byte">5</attr>
+                <attr key="logLevel" type="byte">7</attr>
             </node>
             <node name="modules" path="/caer/modules/">
                 <attr key="modulesSearchPath" type="string">/usr/share/caer/modules/</attr>
@@ -28,7 +28,7 @@
                     <attr key="ColumnSettle" type="short">30</attr>
                     <attr key="EndColumn0" type="short">239</attr>
                     <attr key="EndRow0" type="short">179</attr>
-                    <attr key="Exposure" type="int">7818</attr>
+                    <attr key="Exposure" type="int">11774</attr>
                     <attr key="FrameDelay" type="int">1000</attr>
                     <attr key="GlobalShutter" type="bool">true</attr>
                     <attr key="NullSettle" type="short">3</attr>
@@ -371,14 +371,16 @@
             <attr key="refractoryPeriodTime" type="int">100</attr>
             <attr key="runAtStartup" type="bool">true</attr>
         </node>
-        <node name="outFile" path="/outFile/">
-            <attr key="directory" type="string">/home/root</attr>
+        <node name="netTCPServer" path="/netTCPServer/">
+            <attr key="backlogSize" type="short">5</attr>
+            <attr key="concurrentConnections" type="short">10</attr>
+            <attr key="ipAddress" type="string">172.19.13.137</attr>
             <attr key="keepPackets" type="bool">false</attr>
             <attr key="logLevel" type="byte">5</attr>
-            <attr key="moduleId" type="short">3</attr>
+            <attr key="moduleId" type="short">4</attr>
             <attr key="moduleInput" type="string">1[1a2]</attr>
-            <attr key="moduleLibrary" type="string">caer_output_file</attr>
-            <attr key="prefix" type="string">caerOut</attr>
+            <attr key="moduleLibrary" type="string">caer_output_net_tcp_server</attr>
+            <attr key="portNumber" type="int">7777</attr>
             <attr key="ringBufferSize" type="int">512</attr>
             <attr key="runAtStartup" type="bool">true</attr>
             <attr key="validOnly" type="bool">false</attr>
