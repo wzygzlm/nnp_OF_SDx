@@ -40,7 +40,6 @@
 							<tool id="xilinx.gnu.armv7.linux.cxx.toolchain.linker.1655920856" name="ARM v7 Linux g++ linker" superClass="xilinx.gnu.armv7.linux.cxx.toolchain.linker">
 								<option id="xilinx.gnu.c.link.option.paths.1667360341" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="E:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/lib"/>
-									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\caer_libs&quot;"/>
 								</option>
 								<option id="xilinx.gnu.c.link.option.ldflags.461701388" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi" valueType="string"/>
 								<option id="xilinx.gnu.c.link.option.libs.60335836" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
@@ -53,7 +52,7 @@
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="dl"/>
 								</option>
-								<option id="xilinx.gnu.c.link.option.other.1452923604" superClass="xilinx.gnu.c.link.option.other" valueType="stringList">
+								<option id="xilinx.gnu.c.link.option.other.1452923604" name="Other options (-XLinker [option])" superClass="xilinx.gnu.c.link.option.other" valueType="stringList">
 									<listOptionValue builtIn="false" value="--allow-shlib-undefined"/>
 								</option>
 								<inputType id="xilinx.gnu.linker.input.1088231577" superClass="xilinx.gnu.linker.input">
