@@ -6,7 +6,8 @@
       <applications name="caer_npp_mmult_04" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
       <applications name="my_caer_bin" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
       <applications name="caer_my_filter" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
-      <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" genEmulationModel="false"/>
+      <applications name="caer_my_tcp_output" domainName="linux" domainPrettyName="linux" appBuildConfig="Debug"/>
+      <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" enableHwSwTrace="false" genEmulationModel="false" emuModelType="Debug"/>
     </configBuildOptions>
   </configuration>
   <configuration name="Release">
@@ -15,6 +16,7 @@
       <applications name="caer_npp_mmult_04" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <applications name="my_caer_bin" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <applications name="caer_my_filter" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
+      <applications name="caer_my_tcp_output" domainName="linux" domainPrettyName="linux" appBuildConfig="Release"/>
       <options xsi:type="sdsproject:Option" genbitstream="true" gensdcard="true" dmclkid="2" genEmulationModel="false"/>
     </configBuildOptions>
   </configuration>

@@ -28,19 +28,23 @@
 							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.cppcompiler.543534808" name="SDS++ Compiler" superClass="com.xilinx.sdsoc.managedbuild.toolchain.cppcompiler">
 								<option id="xilinx.gnu.compiler.dircategory.includes.1052783001" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\workspace\xfopencv\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\caer_include&quot;"/>
 								</option>
-								<option id="xilinx.sdspp.compiler.misc.verbose.1425225192" superClass="xilinx.sdspp.compiler.misc.verbose" value="true" valueType="boolean"/>
+								<option id="xilinx.sdspp.compiler.misc.verbose.1425225192" name="Verbose (-verbose)" superClass="xilinx.sdspp.compiler.misc.verbose" value="true" valueType="boolean"/>
 								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdspp.input.366742075" name="C++ source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdspp.input"/>
 							</tool>
 							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.linker.2124270543" name="SDS++ Linker" superClass="com.xilinx.sdsoc.managedbuild.toolchain.linker">
-								<option id="xilinx.gnu.c.link.option.ldflags.644860276" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi" valueType="string"/>
-								<option id="xilinx.gnu.c.link.option.paths.807054768" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
+								<option id="xilinx.gnu.c.link.option.ldflags.644860276" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.paths.807054768" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi\usr\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi\lib&quot;"/>
 								</option>
-								<option id="xilinx.gnu.c.link.option.libs.1232437445" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+								<option id="xilinx.gnu.c.link.option.libs.1232437445" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="opencv_imgproc"/>
 									<listOptionValue builtIn="false" value="caersdk"/>
+									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
+									<listOptionValue builtIn="false" value="opencv_core"/>
 								</option>
 								<inputType id="xilinx.gnu.linker.input.1439365028" superClass="xilinx.gnu.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

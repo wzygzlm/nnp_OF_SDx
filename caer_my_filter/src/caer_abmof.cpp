@@ -3,6 +3,8 @@
 #include <libcaer/events/polarity.h>
 #include <libcaer/filters/dvs_noise.h>
 
+#include <abmof_accel/abmof.h>
+
 static void caerABMOFConfigInit(sshsNode moduleNode);
 static bool caerABMOFInit(caerModuleData moduleData);
 static void caerABMOFRun(
@@ -28,7 +30,7 @@ static const struct caer_module_functions ABMOFFunctions = {
 static const struct caer_event_stream_in ABMOFInputs[]
 	= {{type : POLARITY_EVENT, number : 1, readOnly : false}};
 
-static const struct caer_module_info ABMOFrInfo = {
+static const struct caer_module_info ABMOFInfo = {
 	version           : 1,
 	name              : "ABMOF",
 	description       : "A hardwaer implementation of Adaptive Block-Matching Optical Flow algorithm.",
@@ -42,7 +44,7 @@ static const struct caer_module_info ABMOFrInfo = {
 };
 
 caerModuleInfo caerModuleGetInfo(void) {
-	return (&ABMOFrInfo);
+	return (&ABMOFInfo);
 }
 
 static void caerABMOFConfigInit(sshsNode moduleNode) {
@@ -114,6 +116,8 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 		return (false);
 	}
 
+	// init_socket(4097);
+
 	int16_t sizeX = sshsNodeGetShort(sourceInfo, "polaritySizeX");
 	int16_t sizeY = sshsNodeGetShort(sourceInfo, "polaritySizeY");
 
@@ -151,7 +155,22 @@ static void caerABMOFRun(
 	caerPolarityEventPacket polarity
 		= (caerPolarityEventPacket) caerEventPacketContainerFindEventPacketByType(in, POLARITY_EVENT);
 
-	caerFilterDVSNoiseApply((caerFilterDVSNoise)moduleData->moduleState, polarity);
+	// Nothing to process.
+	if ((polarity == NULL) || (caerEventPacketHeaderGetEventValid(&polarity->packetHeader) == 0)) {
+		return;
+	}
+
+	CAER_POLARITY_ITERATOR_VALID_START(polarity)
+	uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
+	uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
+	bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
+	int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
+
+	accumulate(x, y, pol, ts);
+	// caerModuleLog(moduleData, CAER_LOG_DEBUG, "Current polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
+	CAER_POLARITY_ITERATOR_VALID_END
+
+	// caerFilterDVSNoiseApply((caerFilterDVSNoise)moduleData->moduleState, polarity);
 }
 
 static void caerABMOFConfig(caerModuleData moduleData) {

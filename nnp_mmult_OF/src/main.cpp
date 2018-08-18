@@ -318,17 +318,11 @@ int main(int argc, char *argv[]){
 					= std::static_pointer_cast<libcaer::events::PolarityEventPacket>(packet);
 
 				// Get full timestamp and addresses of first event.
-				const libcaer::events::PolarityEvent &firstEvent = (*polarity)[0];
-				const libcaer::events::PolarityEvent &SecondEvent = (*polarity)[1];
-				int32_t ts = firstEvent.getTimestamp();
-				uint16_t x = firstEvent.getX();
-				uint16_t y = firstEvent.getY();
-				bool pol   = firstEvent.getPolarity();
-
-//				int size = polarity->getEventCapacity();
-//			    int *A = (int *) sds_alloc(size);
-//			    int *B = (int *) sds_alloc(size);
-//		         array_copy(A, B, size);
+				CAER_POLARITY_ITERATOR_VALID_START(polarity)
+				uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
+				uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
+				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
+				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
 				remoteSocket = abmof(polarity, socketPort);
 				printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
