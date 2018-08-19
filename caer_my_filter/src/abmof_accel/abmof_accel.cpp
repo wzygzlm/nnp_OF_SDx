@@ -125,7 +125,7 @@ void saveImg(char img[DVS_WIDTH][DVS_HEIGHT], long cnt)
 	cv::imwrite(out_string,frame_out);
 }
 
-void reset_slices()
+void resetSlices()
 {
 	// clear slices
 	for (uchar (&row)[240] : slice_1)
@@ -153,6 +153,21 @@ void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts)
 	}
 }
 
+
+void rotateSlices()
+{
+	uchar tmp[DVS_HEIGHT][DVS_WIDTH];
+}
+
+void calculateOF()
+{
+
+}
+
+void abmof_accel(uint16_t x, uint16_t y, bool pol, int64_t ts)
+{
+	accumulate(x, y, pol, ts);
+}
 
 
 

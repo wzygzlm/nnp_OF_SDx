@@ -17,9 +17,11 @@
 #define DVS_HEIGHT 180
 
 int init_socket(int port);
+void abmof_accel(uint16_t x, uint16_t y, bool pol, int64_t ts);
 void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts);
-void reset_slices();
-
+void resetSlices();
+void rotateSlices();
+void calculateOF();
 
 using namespace std;
 

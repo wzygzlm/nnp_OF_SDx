@@ -155,6 +155,8 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 	return (true);
 }
 
+int64_t lastPktFirstTs = 0, currentPktFirstTs = 0;
+
 static void caerABMOFRun(
 	caerModuleData moduleData, caerEventPacketContainer in, caerEventPacketContainer *out) {
 	UNUSED_ARGUMENT(out);
@@ -167,7 +169,19 @@ static void caerABMOFRun(
 		return;
 	}
 
-	reset_slices();
+	lastPktFirstTs = currentPktFirstTs;
+	caerPolarityEvent firstEvent      = caerPolarityEventPacketGetEvent(polarity, 0);
+
+	uint16_t x        = caerPolarityEventGetX(firstEvent);
+	uint16_t y        = caerPolarityEventGetY(firstEvent);
+	bool pol          = caerPolarityEventGetPolarity(firstEvent);
+	int64_t firstEventTs = caerPolarityEventGetTimestamp64(firstEvent, polarity);
+	currentPktFirstTs = firstEventTs;
+
+	// caerModuleLog(moduleData, CAER_LOG_DEBUG, "First polarity event - ts: %lld, x: %d, y: %d, pol: %d.\n", firstEventTs, x, y, pol);
+	caerModuleLog(moduleData, CAER_LOG_DEBUG, "Packet interval is %lld.", currentPktFirstTs - lastPktFirstTs);
+
+	resetSlices();
 
 	CAER_POLARITY_ITERATOR_VALID_START(polarity)
 	uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
@@ -176,6 +190,15 @@ static void caerABMOFRun(
 	int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
 	accumulate(x, y, pol, ts);
+
+	// Some condition is satisfied, so we rotate the slices;
+	if (currentPktFirstTs - lastPktFirstTs >= 20000)
+	{
+		rotateSlices();
+	}
+
+	calculateOF();
+
 	// caerModuleLog(moduleData, CAER_LOG_DEBUG, "Current polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 	CAER_POLARITY_ITERATOR_VALID_END
 
@@ -240,7 +263,7 @@ static void caerABMOFExit(caerModuleData moduleData) {
 	sshsNodeRemoveAllAttributeReadModifiers(moduleData->moduleNode);
 
 	close(remoteSocket);   // close socket;
-
+	caerModuleLog(moduleData, CAER_LOG_DEBUG, "Event slice TCP server socket is closed.");
 	caerFilterDVSNoiseDestroy((caerFilterDVSNoise)moduleData->moduleState);
 }
 
