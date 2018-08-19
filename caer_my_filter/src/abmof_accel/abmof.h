@@ -18,6 +18,7 @@
 
 int init_socket(int port);
 void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts);
+void reset_slices();
 
 
 using namespace std;

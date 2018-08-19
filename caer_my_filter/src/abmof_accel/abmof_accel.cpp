@@ -8,7 +8,7 @@
 
 // slice_1 is current slice, slice_2 is t-1 slice and slice_3 is t-2 slice.
 // TODO, hardcode now, should adapt to the real chip size.
-char slice_1[DVS_WIDTH][DVS_HEIGHT], slice_2[DVS_WIDTH][DVS_HEIGHT], slice_3[DVS_WIDTH][DVS_HEIGHT];
+uchar slice_1[DVS_HEIGHT][DVS_WIDTH], slice_2[DVS_HEIGHT][DVS_WIDTH], slice_3[DVS_HEIGHT][DVS_WIDTH];
 
 long imgNum = 0;
 bool initSocketFlg = false;
@@ -125,25 +125,32 @@ void saveImg(char img[DVS_WIDTH][DVS_HEIGHT], long cnt)
 	cv::imwrite(out_string,frame_out);
 }
 
-void reset()
+void reset_slices()
 {
 	// clear slices
-	for (char (&row)[180] : slice_1)
-	    for (char & cell : row)
+	for (uchar (&row)[240] : slice_1)
+	    for (uchar & cell : row)
 	        cell *= 0;
 
-	for (char (&row)[180] : slice_2)
-	    for (char & cell : row)
+	for (uchar (&row)[240] : slice_2)
+	    for (uchar & cell : row)
 	        cell *= 0;
 
-	for (char (&row)[180] : slice_3)
-	    for (char & cell : row)
+	for (uchar (&row)[240] : slice_3)
+	    for (uchar & cell : row)
 	        cell *= 0;
 }
 
 void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts)
 {
-	slice_1[x][y] += (int)pol;
+	if (pol == true)
+	{
+		slice_1[y][x] += (int)pol;
+	}
+	else
+	{
+		slice_1[y][x] -= (int)pol;
+	}
 }
 
 

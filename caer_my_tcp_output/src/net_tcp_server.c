@@ -2,9 +2,14 @@
 #include "output_common.h"
 
 static bool caerOutputNetTCPServerInit(caerModuleData moduleData);
+static void MyOutputRun(caerModuleData moduleData, caerEventPacketContainer in, caerEventPacketContainer *out);
+// static void MyOutputReset(caerModuleData moduleData, int16_t resetCallSourceID);
+// static void MyOutputExit(caerModuleData moduleData);
+
 
 static const struct caer_module_functions OutputNetTCPServerFunctions = {.moduleInit = &caerOutputNetTCPServerInit,
-	.moduleRun                                                                       = &caerOutputCommonRun,
+// 	.moduleRun                                                                       = &caerOutputCommonRun,
+	.moduleRun                                                                       = &MyOutputRun,
 	.moduleConfig                                                                    = NULL,
 	.moduleExit                                                                      = &caerOutputCommonExit,
 	.moduleReset                                                                     = &caerOutputCommonReset};
@@ -120,3 +125,9 @@ static bool caerOutputNetTCPServerInit(caerModuleData moduleData) {
 
 	return (true);
 }
+
+
+static void MyOutputRun(caerModuleData moduleData, caerEventPacketContainer in, caerEventPacketContainer *out) {
+
+}
+

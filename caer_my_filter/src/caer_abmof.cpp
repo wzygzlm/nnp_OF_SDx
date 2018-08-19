@@ -84,6 +84,9 @@ static void caerABMOFConfigInit(sshsNode moduleNode) {
 	sshsNodeCreateLong(moduleNode, "refractoryPeriodFiltered", 0, 0, INT64_MAX,
 		SSHS_FLAGS_READ_ONLY | SSHS_FLAGS_NO_EXPORT, "Number of events filtered out by the refractory period filter.");
 	sshsNodeCreateAttributePollTime(moduleNode, "refractoryPeriodFiltered", SSHS_LONG, 2);
+
+	sshsNodeCreateInt(moduleNode, "portNumber", 4097, 1, UINT16_MAX, SSHS_FLAGS_NORMAL,
+		"Port number to listen on (server mode).");
 }
 
 static void statisticsPassthrough(
@@ -116,7 +119,8 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 		return (false);
 	}
 
-	// init_socket(4097);
+	int port = sshsNodeGetInt(moduleData->moduleNode, "portNumber");
+	init_socket(port);
 
 	int16_t sizeX = sshsNodeGetShort(sourceInfo, "polaritySizeX");
 	int16_t sizeY = sshsNodeGetShort(sourceInfo, "polaritySizeY");
@@ -140,6 +144,7 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 	sshsNodeAddAttributeReadModifier(
 		moduleData->moduleNode, "refractoryPeriodFiltered", SSHS_LONG, moduleData->moduleState, &statisticsPassthrough);
 
+
 	// Add config listeners last, to avoid having them dangling if Init doesn't succeed.
 	sshsNodeAddAttributeListener(moduleData->moduleNode, moduleData, &caerModuleConfigDefaultListener);
 	sshsNodeAddAttributeListener(moduleData->moduleNode, moduleData->moduleState, &caerABMOFConfigCustom);
@@ -159,6 +164,8 @@ static void caerABMOFRun(
 	if ((polarity == NULL) || (caerEventPacketHeaderGetEventValid(&polarity->packetHeader) == 0)) {
 		return;
 	}
+
+	reset_slices();
 
 	CAER_POLARITY_ITERATOR_VALID_START(polarity)
 	uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
