@@ -110,6 +110,8 @@ static void statisticsPassthrough(
 	value->ilong = I64T(statisticValue);
 }
 
+static int remoteSocket;
+
 static bool caerABMOFInit(caerModuleData moduleData) {
 	// Wait for input to be ready. All inputs, once they are up and running, will
 	// have a valid sourceInfo node to query, especially if dealing with data.
@@ -120,7 +122,7 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 	}
 
 	int port = sshsNodeGetInt(moduleData->moduleNode, "portNumber");
-	init_socket(port);
+	remoteSocket = init_socket(port);
 
 	int16_t sizeX = sshsNodeGetShort(sourceInfo, "polaritySizeX");
 	int16_t sizeY = sshsNodeGetShort(sourceInfo, "polaritySizeY");
@@ -236,6 +238,8 @@ static void caerABMOFExit(caerModuleData moduleData) {
 	sshsNodeRemoveAttributeListener(moduleData->moduleNode, moduleData->moduleState, &caerABMOFConfigCustom);
 
 	sshsNodeRemoveAllAttributeReadModifiers(moduleData->moduleNode);
+
+	close(remoteSocket);   // close socket;
 
 	caerFilterDVSNoiseDestroy((caerFilterDVSNoise)moduleData->moduleState);
 }
