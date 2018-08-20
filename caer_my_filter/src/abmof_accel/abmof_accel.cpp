@@ -6,15 +6,17 @@
 
 
 
-// slice_1 is current slice, slice_2 is t-1 slice and slice_3 is t-2 slice.
 // TODO, hardcode now, should adapt to the real chip size.
-uchar slice_1[DVS_HEIGHT][DVS_WIDTH], slice_2[DVS_HEIGHT][DVS_WIDTH], slice_3[DVS_HEIGHT][DVS_WIDTH];
+uchar slices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
 
-long imgNum = 0;
-bool initSocketFlg = false;
-int retSocket;
+// Current slice index
+static int currentIdx = 0;
 
-void *display(void *);
+static long imgNum = 0;
+static bool initSocketFlg = false;
+static int retSocket;
+
+static void *display(void *);
 
 
 int init_socket(int port)
@@ -80,12 +82,13 @@ int init_socket(int port)
     return remoteSocket;
 }
 
-void *display(void *ptr){
+static void *display(void *ptr)
+{
     int socket = *(int *)ptr;
     //OpenCV Code
     //----------------------------------------------------------
 
-    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slice_1);
+    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slices[currentIdx]);
      //make it continuous
     if (!img.isContinuous()) {
         img = img.clone();
@@ -101,7 +104,10 @@ void *display(void *ptr){
     while(1) {
 
             /* get a frame from camera */
-    		    img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slice_1);
+    		    img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slices[currentIdx]);
+    		    double maxIntensity;
+    		    // cv::minMaxLoc(img, NULL, &maxIntensity);
+    		    // std::cout<<"max value is "<<maxIntensity<<std::endl;
                 //do video processing here
                 // cvtColor(img, imgGray, CV_BGR2GRAY);
 
@@ -128,35 +134,40 @@ void saveImg(char img[DVS_WIDTH][DVS_HEIGHT], long cnt)
 void resetSlices()
 {
 	// clear slices
-	for (uchar (&row)[240] : slice_1)
-	    for (uchar & cell : row)
-	        cell *= 0;
+	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
+		for (uchar (&row)[240] : slice)
+			for (uchar & cell : row)
+				cell *= 0;
+}
 
-	for (uchar (&row)[240] : slice_2)
-	    for (uchar & cell : row)
-	        cell *= 0;
-
-	for (uchar (&row)[240] : slice_3)
-	    for (uchar & cell : row)
-	        cell *= 0;
+void resetCurrentSlice()
+{
+	// clear current slice
+	for (uchar (&row)[240] : slices[currentIdx])
+		for (uchar & cell : row)
+			cell *= 0;
 }
 
 void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts)
 {
 	if (pol == true)
 	{
-		slice_1[y][x] += (int)pol;
-	}
-	else
-	{
-		slice_1[y][x] -= (int)pol;
+		slices[currentIdx][y][x] += 1;
 	}
 }
 
 
 void rotateSlices()
 {
-	uchar tmp[DVS_HEIGHT][DVS_WIDTH];
+	if(currentIdx == 2)
+	{
+		currentIdx = 0;
+	}
+	else
+	{
+		currentIdx++;
+	}
+	resetCurrentSlice();
 }
 
 void calculateOF()

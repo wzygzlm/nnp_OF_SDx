@@ -155,7 +155,7 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 	return (true);
 }
 
-int64_t lastPktFirstTs = 0, currentPktFirstTs = 0;
+static int64_t lastRotationTs = 0, currentRotationTs = 0;
 
 static void caerABMOFRun(
 	caerModuleData moduleData, caerEventPacketContainer in, caerEventPacketContainer *out) {
@@ -169,19 +169,17 @@ static void caerABMOFRun(
 		return;
 	}
 
-	lastPktFirstTs = currentPktFirstTs;
 	caerPolarityEvent firstEvent      = caerPolarityEventPacketGetEvent(polarity, 0);
 
 	uint16_t x        = caerPolarityEventGetX(firstEvent);
 	uint16_t y        = caerPolarityEventGetY(firstEvent);
 	bool pol          = caerPolarityEventGetPolarity(firstEvent);
 	int64_t firstEventTs = caerPolarityEventGetTimestamp64(firstEvent, polarity);
-	currentPktFirstTs = firstEventTs;
+	// currentPktFirstTs = firstEventTs;
 
 	// caerModuleLog(moduleData, CAER_LOG_DEBUG, "First polarity event - ts: %lld, x: %d, y: %d, pol: %d.\n", firstEventTs, x, y, pol);
-	caerModuleLog(moduleData, CAER_LOG_DEBUG, "Packet interval is %lld.", currentPktFirstTs - lastPktFirstTs);
 
-	resetSlices();
+	// resetSlices();
 
 	CAER_POLARITY_ITERATOR_VALID_START(polarity)
 	uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
@@ -192,9 +190,11 @@ static void caerABMOFRun(
 	accumulate(x, y, pol, ts);
 
 	// Some condition is satisfied, so we rotate the slices;
-	if (currentPktFirstTs - lastPktFirstTs >= 20000)
+	if (ts - lastRotationTs >= 20000)
 	{
 		rotateSlices();
+		caerModuleLog(moduleData, CAER_LOG_DEBUG, "Rotation packet interval is %lld.", ts - lastRotationTs);
+		lastRotationTs = ts;
 	}
 
 	calculateOF();
@@ -270,5 +270,6 @@ static void caerABMOFExit(caerModuleData moduleData) {
 static void caerABMOFReset(caerModuleData moduleData, int16_t resetCallSourceID) {
 	UNUSED_ARGUMENT(resetCallSourceID);
 
+	resetSlices();
 	caerFilterDVSNoiseConfigSet((caerFilterDVSNoise)moduleData->moduleState, CAER_FILTER_DVS_RESET, true);
 }
