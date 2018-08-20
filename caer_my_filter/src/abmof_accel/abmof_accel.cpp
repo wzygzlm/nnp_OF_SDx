@@ -4,17 +4,18 @@
 #include "xf_headers.h"
 #include "xf_dense_npyr_optical_flow_config.h"
 
+#include <math.h>
 
 
 // TODO, hardcode now, should adapt to the real chip size.
 uchar slices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
 
 // Current slice index
-static int currentIdx = 0;
+static int8_t currentIdx = 0;
 
-static long imgNum = 0;
+static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
-static int retSocket;
+static uint16_t retSocket;
 
 static void *display(void *);
 
@@ -148,7 +149,7 @@ void resetCurrentSlice()
 			cell *= 0;
 }
 
-void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts)
+void accumulate(int16_t x, int16_t y, bool pol, int64_t ts)
 {
 	if (pol == true)
 	{
@@ -170,9 +171,60 @@ void rotateSlices()
 	resetCurrentSlice();
 }
 
-void calculateOF()
+float sadDistance(int16_t x, int16_t y, int16_t dx, int16_t dy, int16_t blockRadius)
 {
+	uint64_t sumRet = 0;
+	int8_t sliceTminus1Idx = currentIdx - 1, sliceTminus2Idx = currentIdx - 2;
 
+	// If the index is negative, it means the currentIdx have gone back to 0 or 1.
+	if(sliceTminus1Idx < 0) sliceTminus1Idx += 3;
+	if(sliceTminus2Idx < 0) sliceTminus2Idx += 3;
+
+	for (int i = x + dx - blockRadius; i <=  x + dx + blockRadius; i++)
+	{
+		for (int j = y + dy - blockRadius; j <=  y + dy + blockRadius; j++)
+		{
+			int16_t tempDist = slices[sliceTminus1Idx][y][x] - slices[sliceTminus2Idx][j][i];
+			if(tempDist > 0) sumRet += tempDist;
+			else sumRet-= tempDist;
+		}
+	}
+	return sumRet;
+}
+
+SADResult calculateOF(int16_t x, int16_t y, int16_t searchDistance, int16_t blockSize)
+{
+	SADResult sadResult;
+	sadResult.sadValue = UINT64_MAX;
+	sadResult.validFlg = false;
+
+    uint64_t minSum = UINT64_MAX, sum;
+    uint64_t sumArray[2 * searchDistance + 1][2 * searchDistance + 1];
+
+	int16_t blockRadius = (blockSize - 1)/2;
+
+    // Make sure both ref block and past slice block are in bounds on all sides or there'll be arrayIndexOutOfBoundary exception.
+    // Also we don't want to match ref block only on inner sides or there will be a bias towards motion towards middle
+	if (x - blockRadius - searchDistance < 0 || x + blockRadius + searchDistance >= DVS_WIDTH
+			|| y - blockRadius - searchDistance < 0 || y + blockRadius + searchDistance >= DVS_HEIGHT)
+	{
+		return sadResult;
+	}
+
+    for (int16_t dx = -searchDistance; dx <= searchDistance; dx++) {
+        for (int16_t dy = -searchDistance; dy <= searchDistance; dy++) {
+            sum = sadDistance(x, y, dx, dy, blockRadius);
+            sumArray[dx + searchDistance][dy + searchDistance] = sum;
+            if (sum < minSum) {
+                minSum = sum;
+                sadResult.dx = -dx; // minus is because result points to the past slice and motion is in the other direction
+                sadResult.dy = -dy;
+                sadResult.sadValue = minSum;
+            }
+        }
+    }
+
+	return sadResult;
 }
 
 void abmof_accel(uint16_t x, uint16_t y, bool pol, int64_t ts)

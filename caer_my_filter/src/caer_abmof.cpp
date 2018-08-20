@@ -87,6 +87,10 @@ static void caerABMOFConfigInit(sshsNode moduleNode) {
 
 	sshsNodeCreateInt(moduleNode, "portNumber", 4097, 1, UINT16_MAX, SSHS_FLAGS_NORMAL,
 		"Port number to listen on (server mode).");
+	sshsNodeCreateInt(moduleNode, "blockSize", 23, 1, 50, SSHS_FLAGS_NORMAL,
+		"linear dimenion of patches to match, in pixels.");
+	sshsNodeCreateInt(moduleNode, "searchDistance", 3, 1, 12, SSHS_FLAGS_NORMAL,
+		"search distance for matching patches, in pixels.");
 }
 
 static void statisticsPassthrough(
@@ -121,7 +125,7 @@ static bool caerABMOFInit(caerModuleData moduleData) {
 		return (false);
 	}
 
-	int port = sshsNodeGetInt(moduleData->moduleNode, "portNumber");
+	int16_t port = sshsNodeGetInt(moduleData->moduleNode, "portNumber");
 	remoteSocket = init_socket(port);
 
 	int16_t sizeX = sshsNodeGetShort(sourceInfo, "polaritySizeX");
@@ -171,8 +175,8 @@ static void caerABMOFRun(
 
 	caerPolarityEvent firstEvent      = caerPolarityEventPacketGetEvent(polarity, 0);
 
-	uint16_t x        = caerPolarityEventGetX(firstEvent);
-	uint16_t y        = caerPolarityEventGetY(firstEvent);
+	int16_t x        = caerPolarityEventGetX(firstEvent);
+	int16_t y        = caerPolarityEventGetY(firstEvent);
 	bool pol          = caerPolarityEventGetPolarity(firstEvent);
 	int64_t firstEventTs = caerPolarityEventGetTimestamp64(firstEvent, polarity);
 	// currentPktFirstTs = firstEventTs;
@@ -182,8 +186,8 @@ static void caerABMOFRun(
 	// resetSlices();
 
 	CAER_POLARITY_ITERATOR_VALID_START(polarity)
-	uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
-	uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
+	int16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
+	int16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
 	bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
 	int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
@@ -197,7 +201,10 @@ static void caerABMOFRun(
 		lastRotationTs = ts;
 	}
 
-	calculateOF();
+	int16_t blockSize = sshsNodeGetInt(moduleData->moduleNode, "blockSize");
+	int16_t searchDistance = sshsNodeGetInt(moduleData->moduleNode, "searchDistance");
+
+	calculateOF(x, y, searchDistance, blockSize);
 
 	// caerModuleLog(moduleData, CAER_LOG_DEBUG, "Current polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 	CAER_POLARITY_ITERATOR_VALID_END

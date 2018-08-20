@@ -17,13 +17,20 @@
 #define DVS_WIDTH  240
 #define DVS_HEIGHT 180
 
+struct SADResult {
+	uint16_t dx;
+	uint16_t dy;
+	bool validFlg;
+	uint64_t sadValue;
+};
+
 int init_socket(int port);
-void abmof_accel(uint16_t x, uint16_t y, bool pol, int64_t ts);
-void accumulate(uint16_t x, uint16_t y, bool pol, int64_t ts);
+void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts);
+void accumulate(int16_t x, int16_t y, bool pol, int64_t ts);
 void resetSlices();
 void resetCurrentSlice();
 void rotateSlices();
-void calculateOF();
+SADResult calculateOF(int16_t x, int16_t y, int16_t searchDistance, int16_t blockSize);
 
 using namespace std;
 
