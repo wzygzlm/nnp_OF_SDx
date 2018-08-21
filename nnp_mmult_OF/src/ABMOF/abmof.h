@@ -2,7 +2,7 @@
 #define ABMOF
 
 // libcaer
-#include <libcaer/devices/davis.hpp>
+#include <libcaercpp/devices/davis.hpp>
 
 // socket
 #include <iostream>
@@ -13,13 +13,27 @@
 #include <unistd.h>
 #include <string.h>
 
+#define SLICES_NUMBER 3
 #define DVS_WIDTH  240
 #define DVS_HEIGHT 180
 
-using namespace std;
+struct SADResult {
+	uint16_t dx;
+	uint16_t dy;
+	bool validFlg;
+	uint64_t sadValue;
+};
 
 int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port);
-void accumulate(const libcaer::events::PolarityEvent currentEvt);
 
+int init_socket(int port);
+void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts);
+void accumulate(int16_t x, int16_t y, bool pol, int64_t ts);
+void resetSlices();
+void resetCurrentSlice();
+void rotateSlices();
+SADResult calculateOF(int16_t x, int16_t y, int16_t searchDistance, int16_t blockSize);
+
+using namespace std;
 
 #endif

@@ -4,17 +4,20 @@
 #include "xf_headers.h"
 #include "xf_dense_npyr_optical_flow_config.h"
 
+#include <math.h>
 
 
-// slice_1 is current slice, slice_2 is t-1 slice and slice_3 is t-2 slice.
 // TODO, hardcode now, should adapt to the real chip size.
-char slice_1[DVS_WIDTH][DVS_HEIGHT], slice_2[DVS_WIDTH][DVS_HEIGHT], slice_3[DVS_WIDTH][DVS_HEIGHT];
+uchar slices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
 
-long imgNum = 0;
-bool initSocketFlg = false;
-int retSocket;
+// Current slice index
+static int8_t currentIdx = 0;
 
-void *display(void *);
+static uint64_t imgNum = 0;
+static bool initSocketFlg = false;
+static uint16_t retSocket;
+
+static void *display(void *);
 
 
 int init_socket(int port)
@@ -80,12 +83,13 @@ int init_socket(int port)
     return remoteSocket;
 }
 
-void *display(void *ptr){
+static void *display(void *ptr)
+{
     int socket = *(int *)ptr;
     //OpenCV Code
     //----------------------------------------------------------
 
-    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slice_1);
+    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slices[currentIdx]);
      //make it continuous
     if (!img.isContinuous()) {
         img = img.clone();
@@ -101,7 +105,10 @@ void *display(void *ptr){
     while(1) {
 
             /* get a frame from camera */
-    		    img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slice_1);
+    		    img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slices[currentIdx]);
+    		    double maxIntensity;
+    		    // cv::minMaxLoc(img, NULL, &maxIntensity);
+    		    // std::cout<<"max value is "<<maxIntensity<<std::endl;
                 //do video processing here
                 // cvtColor(img, imgGray, CV_BGR2GRAY);
 
@@ -125,20 +132,104 @@ void saveImg(char img[DVS_WIDTH][DVS_HEIGHT], long cnt)
 	cv::imwrite(out_string,frame_out);
 }
 
-void reset()
+void resetSlices()
 {
 	// clear slices
-	for (char (&row)[180] : slice_1)
-	    for (char & cell : row)
-	        cell *= 0;
+	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
+		for (uchar (&row)[240] : slice)
+			for (uchar & cell : row)
+				cell *= 0;
+}
 
-	for (char (&row)[180] : slice_2)
-	    for (char & cell : row)
-	        cell *= 0;
+void resetCurrentSlice()
+{
+	// clear current slice
+	for (uchar (&row)[240] : slices[currentIdx])
+		for (uchar & cell : row)
+			cell *= 0;
+}
 
-	for (char (&row)[180] : slice_3)
-	    for (char & cell : row)
-	        cell *= 0;
+void accumulate(int16_t x, int16_t y, bool pol, int64_t ts)
+{
+	if (pol == true)
+	{
+		slices[currentIdx][y][x] += 1;
+	}
+}
+
+
+void rotateSlices()
+{
+	if(currentIdx == 2)
+	{
+		currentIdx = 0;
+	}
+	else
+	{
+		currentIdx++;
+	}
+	resetCurrentSlice();
+}
+
+float sadDistance(int16_t x, int16_t y, int16_t dx, int16_t dy, int16_t blockRadius)
+{
+	uint64_t sumRet = 0;
+	int8_t sliceTminus1Idx = currentIdx - 1, sliceTminus2Idx = currentIdx - 2;
+
+	// If the index is negative, it means the currentIdx have gone back to 0 or 1.
+	if(sliceTminus1Idx < 0) sliceTminus1Idx += 3;
+	if(sliceTminus2Idx < 0) sliceTminus2Idx += 3;
+
+	for (int i = x + dx - blockRadius; i <=  x + dx + blockRadius; i++)
+	{
+		for (int j = y + dy - blockRadius; j <=  y + dy + blockRadius; j++)
+		{
+			int16_t tempDist = slices[sliceTminus1Idx][y][x] - slices[sliceTminus2Idx][j][i];
+			if(tempDist > 0) sumRet += tempDist;
+			else sumRet-= tempDist;
+		}
+	}
+	return sumRet;
+}
+
+SADResult calculateOF(int16_t x, int16_t y, int16_t searchDistance, int16_t blockSize)
+{
+	SADResult sadResult;
+	sadResult.sadValue = UINT64_MAX;
+	sadResult.validFlg = false;
+
+    uint64_t minSum = UINT64_MAX, sum;
+    uint64_t sumArray[2 * searchDistance + 1][2 * searchDistance + 1];
+
+	int16_t blockRadius = (blockSize - 1)/2;
+
+    // Make sure both ref block and past slice block are in bounds on all sides or there'll be arrayIndexOutOfBoundary exception.
+    // Also we don't want to match ref block only on inner sides or there will be a bias towards motion towards middle
+	if (x - blockRadius - searchDistance < 0 || x + blockRadius + searchDistance >= DVS_WIDTH
+			|| y - blockRadius - searchDistance < 0 || y + blockRadius + searchDistance >= DVS_HEIGHT)
+	{
+		return sadResult;
+	}
+
+    for (int16_t dx = -searchDistance; dx <= searchDistance; dx++) {
+        for (int16_t dy = -searchDistance; dy <= searchDistance; dy++) {
+            sum = sadDistance(x, y, dx, dy, blockRadius);
+            sumArray[dx + searchDistance][dy + searchDistance] = sum;
+            if (sum < minSum) {
+                minSum = sum;
+                sadResult.dx = -dx; // minus is because result points to the past slice and motion is in the other direction
+                sadResult.dy = -dy;
+                sadResult.sadValue = minSum;
+            }
+        }
+    }
+
+	return sadResult;
+}
+
+void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
+{
+	accumulate(x, y, pol, ts);
 }
 
 int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port)
@@ -149,10 +240,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		initSocketFlg = true;
 	}
 
-	if (imgNum % port == 0)
-	{
-		reset();   // Clear slices before a new packet come in
-	}
+	resetSlices();   // Clear slices before a new packet come in
 
 	imgNum++;
 	const libcaer::events::PolarityEventPacket *polarity = polarityPkt.get();
@@ -165,22 +253,13 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		uint16_t y = tmpEvent.getY();
 		bool pol   = tmpEvent.getPolarity();
 
-		accumulate(tmpEvent);
+		accumulate(x, y, pol, ts);
 
 		// printf("Current event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 	}
 	printf("eventSize is %d, eventCap is %d, i is %d", polarity->getEventNumber(), polarity->getEventCapacity(), i);
 
 	return retSocket;
-}
-
-void accumulate(const libcaer::events::PolarityEvent currentEvt)
-{
-	int32_t ts = currentEvt.getTimestamp();
-	uint16_t x = currentEvt.getX();
-	uint16_t y = currentEvt.getY();
-	bool pol   = currentEvt.getPolarity();
-	slice_1[x][y] += (int)pol;
 }
 
 

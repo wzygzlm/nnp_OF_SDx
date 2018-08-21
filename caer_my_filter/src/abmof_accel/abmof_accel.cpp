@@ -227,7 +227,7 @@ SADResult calculateOF(int16_t x, int16_t y, int16_t searchDistance, int16_t bloc
 	return sadResult;
 }
 
-void abmof_accel(uint16_t x, uint16_t y, bool pol, int64_t ts)
+void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
 {
 	accumulate(x, y, pol, ts);
 }

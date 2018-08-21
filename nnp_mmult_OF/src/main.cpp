@@ -1,4 +1,4 @@
-#include <libcaer/devices/davis.hpp>
+#include <libcaercpp/devices/davis.hpp>
 #include <atomic>
 #include <csignal>
 #include "ABMOF/abmof.h"
@@ -318,14 +318,15 @@ int main(int argc, char *argv[]){
 					= std::static_pointer_cast<libcaer::events::PolarityEventPacket>(packet);
 
 				// Get full timestamp and addresses of first event.
-				CAER_POLARITY_ITERATOR_VALID_START(polarity)
-				uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
-				uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
-				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
-				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
+//				CAER_POLARITY_ITERATOR_VALID_START(polarity)
+//				uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
+//				uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
+//				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
+//				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
 				remoteSocket = abmof(polarity, socketPort);
-				printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
+				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
+//				CAER_POLARITY_ITERATOR_VALID_END
 			}
 
 			if (packet->getEventType() == FRAME_EVENT) {

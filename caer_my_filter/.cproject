@@ -33,6 +33,7 @@
 								</option>
 								<option id="xilinx.sdspp.compiler.misc.verbose.1425225192" name="Verbose (-verbose)" superClass="xilinx.sdspp.compiler.misc.verbose" value="true" valueType="boolean"/>
 								<option id="xilinx.gnu.compiler.misc.other.96515110" name="Other flags" superClass="xilinx.gnu.compiler.misc.other" value="-c -fmessage-length=0 -MT&quot;$@&quot;" valueType="string"/>
+								<option id="xilinx.gnu.compiler.symbols.defined.575726110" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols"/>
 								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdspp.input.366742075" name="C++ source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdspp.input"/>
 							</tool>
 							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.linker.2124270543" name="SDS++ Linker" superClass="com.xilinx.sdsoc.managedbuild.toolchain.linker">
@@ -42,9 +43,9 @@
 									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi\lib&quot;"/>
 								</option>
 								<option id="xilinx.gnu.c.link.option.libs.1232437445" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="opencv_imgproc"/>
 									<listOptionValue builtIn="false" value="caersdk"/>
 									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
+									<listOptionValue builtIn="false" value="opencv_imgproc"/>
 									<listOptionValue builtIn="false" value="opencv_core"/>
 								</option>
 								<inputType id="xilinx.gnu.linker.input.1439365028" superClass="xilinx.gnu.linker.input">
