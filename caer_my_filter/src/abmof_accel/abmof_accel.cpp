@@ -1,14 +1,22 @@
 #include "abmof.h"
+#include "abmof_hw_accel.h"
+
+#include <libcaer/events/polarity.h>
+
 
 // xfopencv
+// only used in SDx environment
 #include "xf_headers.h"
 #include "xf_dense_npyr_optical_flow_config.h"
+
+
+// standard opencv, used in standard opencv environment
+// #include "opencv2/opencv.hpp"
 
 #include <math.h>
 
 
-// TODO, hardcode now, should adapt to the real chip size.
-uchar slices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
+int8_t slices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
 
 // Current slice index
 static int8_t currentIdx = 0;
@@ -16,6 +24,9 @@ static int8_t currentIdx = 0;
 static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
 static uint16_t retSocket;
+
+// To trigger the tcp to send event slice
+static bool sendFlg = false;
 
 static void *display(void *);
 
@@ -72,6 +83,7 @@ int init_socket(int port)
     }
     std::cout << "Connection accepted" << std::endl;
      pthread_create(&thread_id,NULL,display,&remoteSocket);
+     pthread_setname_np(thread_id, "SliceDisplay");
      sleep(5);
 
      //pthread_join(thread_id,NULL);
@@ -89,7 +101,7 @@ static void *display(void *ptr)
     //OpenCV Code
     //----------------------------------------------------------
 
-    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slices[currentIdx]);
+    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, slices[currentIdx]);
      //make it continuous
     if (!img.isContinuous()) {
         img = img.clone();
@@ -103,20 +115,23 @@ static void *display(void *ptr)
     std::cout << "Image Size:" << imgSize << std::endl;
 
     while(1) {
-
+        if(sendFlg)
+        {
             /* get a frame from camera */
-    		    img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, XF_8UC1, slices[currentIdx]);
-    		    double maxIntensity;
-    		    // cv::minMaxLoc(img, NULL, &maxIntensity);
-    		    // std::cout<<"max value is "<<maxIntensity<<std::endl;
-                //do video processing here
-                // cvtColor(img, imgGray, CV_BGR2GRAY);
+            img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, slices[currentIdx]);
+            double maxIntensity;
+            // cv::minMaxLoc(img, NULL, &maxIntensity);
+            // std::cout<<"max value is "<<maxIntensity<<std::endl;
+            //do video processing here
+            // cvtColor(img, imgGray, CV_BGR2GRAY);
 
-                //send processed image
-                if ((bytes = send(socket, img.data, imgSize, 0)) < 0){
-                     std::cerr << "bytes = " << bytes << std::endl;
-                     break;
-                }
+            //send processed image
+            if ((bytes = send(socket, img.data, imgSize, 0)) < 0){
+                std::cerr << "bytes = " << bytes << std::endl;
+                break;
+            }
+            sendFlg = false;
+        }
     }
 
 }
@@ -124,7 +139,7 @@ static void *display(void *ptr)
 
 void saveImg(char img[DVS_WIDTH][DVS_HEIGHT], long cnt)
 {
-	cv::Mat frame_out = cv::Mat(DVS_WIDTH, DVS_HEIGHT, XF_8UC1, img);
+	cv::Mat frame_out = cv::Mat(DVS_WIDTH, DVS_HEIGHT, CV_8UC1, img);
 
 	char out_string[200];
 	sprintf(out_string,"out_%ld.png", cnt);
@@ -132,20 +147,25 @@ void saveImg(char img[DVS_WIDTH][DVS_HEIGHT], long cnt)
 	cv::imwrite(out_string,frame_out);
 }
 
+void sendEventSlice()
+{
+    sendFlg = true;
+}
+
 void resetSlices()
 {
 	// clear slices
-	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
-		for (uchar (&row)[240] : slice)
-			for (uchar & cell : row)
+	for (int8_t (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
+		for (int8_t (&row)[240] : slice)
+			for (int8_t & cell : row)
 				cell *= 0;
 }
 
 void resetCurrentSlice()
 {
 	// clear current slice
-	for (uchar (&row)[240] : slices[currentIdx])
-		for (uchar & cell : row)
+	for (int8_t (&row)[240] : slices[currentIdx])
+		for (int8_t & cell : row)
 			cell *= 0;
 }
 
@@ -227,9 +247,17 @@ SADResult calculateOF(int16_t x, int16_t y, int16_t searchDistance, int16_t bloc
 	return sadResult;
 }
 
-void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
+void abmof_accel(caerPolarityEventPacket eventPkt)
 {
-	accumulate(x, y, pol, ts);
+	caerPolarityEvent eventsArrayPtr = caerPolarityEventPacketGetEvent(eventPkt, 0);
+	int32_t eventsArraySize = eventPkt->packetHeader.eventNumber;
+	int32_t eventPerSize = eventPkt->packetHeader.eventSize;
+
+	// int32_t arraySize = eventsArraySize * eventPerSize;
+
+	parseEvents((int32_t *)eventsArrayPtr, eventsArraySize, slices[currentIdx]);
+
+	sendEventSlice();
 }
 
 

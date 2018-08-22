@@ -8,4 +8,5 @@
 //showInclude\:D\:/Xilinx/SDx/2018.1/target/aarch32-linux/include=false
 //showInclude\:D\:/Xilinx/Vivado/2018.1/include=false
 //showInclude\:E\:/sdk_petalinux_2018_2_roofs/caer_include=false
+//showInclude\:E\:/workspace/xfopencv/include=false
 eclipse.preferences.version=1
