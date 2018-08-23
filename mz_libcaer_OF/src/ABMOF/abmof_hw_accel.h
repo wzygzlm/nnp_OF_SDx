@@ -14,7 +14,9 @@
 #define DVS_WIDTH  240
 #define DVS_HEIGHT 180
 
-#pragma SDS data zero_copy(data[0:eventsArraySize * 2], eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
-void parseEvents(int32_t * data, int32_t eventsArraySize, int8_t * eventSlice[DVS_HEIGHT]);
+#pragma SDS data access_pattern(data:SEQUENTIAL)
+#pragma SDS data copy(data[0:eventsArraySize * 2])
+#pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
+void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSlice);
 
 #endif

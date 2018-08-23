@@ -18,7 +18,7 @@ static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
 static uint16_t retSocket;
 
-static int8_t *eventSlice[DVS_WIDTH];
+static int8_t *eventSlice = (int8_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -113,7 +113,7 @@ static void *display(void *ptr)
         if(sendFlg)
         {
             /* get a frame from camera */
-            img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, slices[currentIdx]);
+            img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, eventSlice);
             double maxIntensity;
             // cv::minMaxLoc(img, NULL, &maxIntensity);
             // std::cout<<"max value is "<<maxIntensity<<std::endl;
@@ -258,18 +258,26 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	// resetSlices();   // Clear slices before a new packet come in
 
 	imgNum++;
-	const libcaer::events::PolarityEventPacket *polarity = polarityPkt.get();
 
-	int32_t eventsArraySize = polarity->getEventNumber();
+	// Get full timestamp and addresses of first event.
+	const libcaer::events::PolarityEvent &firstEvent = (*polarityPkt)[0];
 
-    //Allocate memory:
-	int32_t *data = (int32_t *) sds_alloc(eventsArraySize * 2);
+	int32_t ts = firstEvent.getTimestamp();
+	uint16_t x = firstEvent.getX();
+	uint16_t y = firstEvent.getY();
+	bool pol   = firstEvent.getPolarity();
 
-	for (int i = 0; i < DVS_HEIGHT; i++)
+	int32_t eventsArraySize = (*polarityPkt).getEventNumber();
+	int32_t eventPerSize = (*polarityPkt).getEventSize();
+
+    // Make suer sds_alloc allocate a right memory for eventSlice.
+	if(eventSlice == NULL)
 	{
-		eventSlice[i] = (int8_t *) sds_alloc(DVS_WIDTH);
+		eventSlice = (int8_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+		return retSocket;
 	}
-	parseEvents(data, eventsArraySize, eventSlice);
+
+	parseEvents(&(firstEvent.data), eventsArraySize, eventSlice);
 
 	sendEventSlice();
 

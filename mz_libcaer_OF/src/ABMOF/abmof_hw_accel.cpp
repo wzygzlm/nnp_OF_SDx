@@ -11,14 +11,14 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 	}
 }
 
-#pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
-void copyToPS(int8_t * eventSlice[DVS_HEIGHT])
+// #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
+void copyToPS(int8_t *eventSlice)
 {
 	copyToPSLoop: for(int16_t i = 0; i < DVS_HEIGHT; i++)
 	{
 		for(int16_t j = 0; j < DVS_WIDTH; j++)
 		{
-			eventSlice[i][j] = glPLSlices[glPLSliceIdx][i][j];
+			eventSlice[i * DVS_WIDTH + j] = glPLSlices[glPLSliceIdx][i][j];
 		}
 	}
 }
@@ -35,7 +35,7 @@ void resetCurrentSliceHW()
 	}
 }
 
-void parseEvents(int32_t * data, int32_t eventsArraySize, int8_t * eventSlice[DVS_HEIGHT])
+void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSlice)
 {
 	resetCurrentSliceHW();
 
