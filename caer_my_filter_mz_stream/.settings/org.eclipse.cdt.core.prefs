@@ -1,0 +1,12 @@
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include=false
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1=false
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1/arm-linux-gnueabihf=false
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1/backward=false
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/usr/include=false
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/lib/gcc/arm-linux-gnueabihf/7.2.1/include=false
+//showInclude\:D\:/Xilinx/SDK/2018.1/gnu/aarch32/nt/gcc-arm-linux-gnueabi/lib/gcc/arm-linux-gnueabihf/7.2.1/include-fixed=false
+//showInclude\:D\:/Xilinx/SDx/2018.1/target/aarch32-linux/include=false
+//showInclude\:D\:/Xilinx/Vivado/2018.1/include=false
+//showInclude\:E\:/sdk_petalinux_2018_2_roofs/caer_include=false
+//showInclude\:E\:/workspace/xfopencv/include=false
+eclipse.preferences.version=1

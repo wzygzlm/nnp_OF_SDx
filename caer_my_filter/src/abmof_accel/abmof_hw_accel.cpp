@@ -23,8 +23,22 @@ void copyToPS(int8_t eventSlice[DVS_HEIGHT][DVS_WIDTH])
 	}
 }
 
+void resetCurrentSliceHW()
+{
+	// clear current slice
+	resetSliceLoop: for(int16_t i = 0; i < DVS_HEIGHT; i++)
+	{
+		for(int16_t j = 0; j < DVS_WIDTH; j++)
+		{
+			glPLSlices[glPLSliceIdx][i][j] = 0;
+		}
+	}
+}
+
 void parseEvents(int32_t * data, int32_t eventsArraySize, int8_t eventSlice[DVS_HEIGHT][DVS_WIDTH])
 {
+	resetCurrentSliceHW();
+
 	// Every event always consists of 2 int32_t which is 8bytes.
 	loop_1:for(int32_t i = 0; i < eventsArraySize * 2; i = i + 2)
 	{

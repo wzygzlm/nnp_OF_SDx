@@ -1,0 +1,8 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]E:\xfOpenCV\wksp_2018_1\caer_my_filter_mz_stream\fsbl.elf
+	E:\xfOpenCV\wksp_2018_1\caer_my_filter_mz_stream\Debug\libcaer_my_filter_mz_stream.so.bit
+	E:\xfOpenCV\wksp_2018_1\caer_my_filter_mz_stream\u-boot.elf
+    [offset=0x270000]<linux/linux/image/image_noxlnk.ub>
+}
