@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <synLog/>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <synLog>
+        <logs message="WARNING: [SCHED 204-71] Latency directive discarded for region parseEvents since it contains subloops." projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:17.263+0200" type="Warning"/>
+        <logs message="WARNING: [SCHED 204-21] The critical path consists of the following:&#xD;&#xA;&#x9;'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) on array 'glPLSlices_0' (3.25 ns)&#xD;&#xA;&#x9;'mux' operation ('tmp', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) (2.06 ns)&#xD;&#xA;&#x9;'add' operation ('tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) (1.92 ns)&#xD;&#xA;&#x9;'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) of variable 'tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10 on array 'glPLSlices_3' (3.25 ns)" projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:16.346+0200" type="Warning"/>
+        <logs message="WARNING: [SCHED 204-21] Estimated clock period (10.487ns) exceeds the target (target clock period: 10ns, clock uncertainty: 2.7ns, effective delay budget: 7.3ns)." projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:16.333+0200" type="Warning"/>
+        <logs message="WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)&#xD;&#xA;   between 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) of variable 'tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10 on array 'glPLSlices_0' and 'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) on array 'glPLSlices_0'." projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:16.292+0200" type="Warning"/>
+        <logs message="WARNING: [SCHED 204-69] Unable to schedule 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:33) of constant 0 on array 'glPLSlices_0' due to limited memory ports. Please consider using a memory core with more ports or partitioning the array 'glPLSlices_0'." projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:15.413+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'resetSliceLoop2' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:32) because its parent loop or function is pipelined." projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:13.051+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] No E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution/solution.aps file found." projectName="parseEvents" solutionName="solution1" date="2018-08-23T23:48:05.157+0200" type="Warning"/>
+      </synLog>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>

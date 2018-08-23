@@ -1,0 +1,50 @@
+<AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
+    <sourceFile name="">
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="m_axi" value="" positionalBoolean="mode"/>
+                <option name="port" value="eventSlice" positionalBoolean="4"/>
+                <option name="offset" value="direct"/>
+                <option name="bundle" value="eventSlice"/>
+            </pragma>
+        </directive>
+        <directive functionName="copyToPS" label="copyToPS_label2" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="resetCurrentSliceHW" label="resetSliceLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="resetCurrentSliceHW" label="resetSliceLoop2" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="glPLSlices" positionalBoolean="4"/>
+                <option name="block" value="" positionalBoolean="type"/>
+                <option name="factor" value="16"/>
+                <option name="dim" value="3"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="LATENCY">
+                <option name="min" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="data" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="loop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="loop_1" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="0"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
+    </sourceFile>
+</AutoPilot:ProjectResources>
+

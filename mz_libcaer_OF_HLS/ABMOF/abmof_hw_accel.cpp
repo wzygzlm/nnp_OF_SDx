@@ -18,7 +18,6 @@ void copyToPS(int8_t *eventSlice)
 	{
 		copyToPS_label2:for(int16_t j = 0; j < DVS_WIDTH; j++)
 		{
-#pragma HLS PIPELINE
 			eventSlice[i * DVS_WIDTH + j] = glPLSlices[glPLSliceIdx][i][j];
 		}
 	}
@@ -29,10 +28,8 @@ void resetCurrentSliceHW()
 	// clear current slice
 	resetSliceLoop: for(int16_t i = 0; i < DVS_HEIGHT; i++)
 	{
-#pragma HLS PIPELINE
 		resetSliceLoop2:for(int16_t j = 0; j < DVS_WIDTH; j++)
 		{
-#pragma HLS PIPELINE
 			glPLSlices[glPLSliceIdx][i][j] = 0;
 		}
 	}
@@ -40,16 +37,12 @@ void resetCurrentSliceHW()
 
 void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSlice)
 {
-// #pragma HLS INTERFACE ap_fifo port=data
-#pragma HLS ARRAY_PARTITION variable=glPLSlices block factor=16 dim=3
-#pragma HLS LATENCY min=1
 	resetCurrentSliceHW();
 
 	// Every event always consists of 2 int32_t which is 8bytes.
 	loop_1:for(int32_t i = 0; i < eventsArraySize * 2; i = i + 2)
 	{
-#pragma HLS PIPELINE
-		#pragma HLS loop_tripcount min=0 max=10000
+
 		int16_t x = ((data[i]) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
 		int16_t y = ((data[i]) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((data[i]) >> POLARITY_SHIFT) & POLARITY_MASK;;

@@ -1,0 +1,256 @@
+<profile>
+
+<section name = "Vivado HLS Report for 'accumulateHW'" level="0">
+<item name = "Date">Thu Aug 23 23:48:19 2018
+</item>
+<item name = "Version">2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)</item>
+<item name = "Project">parseEvents</item>
+<item name = "Solution">solution1</item>
+<item name = "Product family">zynq</item>
+<item name = "Target device">xc7z007sclg225-1</item>
+</section>
+
+<section name = "Performance Estimates" level="0">
+<item name = "Timing (ns)">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="4">Clock, Target, Estimated, Uncertainty</keys>
+<column name="ap_clk">10.00, 10.49, 2.70</column>
+</table>
+</item>
+</section>
+</item>
+<item name = "Latency (clock cycles)">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">, min, max, min, max, Type</keys>
+<column name="">20, 20, 2, 2, function</column>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="0">
+<keys size="7">Instance, Module, min, max, min, max, Type</keys>
+</table>
+</item>
+<item name = "Loop"><table name="" hasTotal="0">
+<keys size="8">Loop Name, min, max, Latency, achieved, target, Count, Pipelined</keys>
+</table>
+</item>
+</section>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Utilization Estimates" level="0">
+<item name = "Summary"><table name="" hasTotal="1">
+<keys size="5">Name, BRAM_18K, DSP48E, FF, LUT</keys>
+<column name="DSP">-, 1, -, -</column>
+<column name="Expression">-, -, 0, 49</column>
+<column name="FIFO">-, -, -, -</column>
+<column name="Instance">-, -, 577, 504</column>
+<column name="Memory">-, -, -, -</column>
+<column name="Multiplexer">-, -, -, 273</column>
+<column name="Register">0, -, 520, 96</column>
+<specialColumn name="Available">100, 66, 28800, 14400</specialColumn>
+<specialColumn name="Utilization (%)">0, 1, 3, 6</specialColumn>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="1">
+<keys size="6">Instance, Module, BRAM_18K, DSP48E, FF, LUT</keys>
+<column name="parseEvents_mux_1cud_U18">parseEvents_mux_1cud, 0, 0, 0, 65</column>
+<column name="parseEvents_urem_bkb_U17">parseEvents_urem_bkb, 0, 0, 577, 439</column>
+</table>
+</item>
+<item name = "DSP48"><table name="" hasTotal="0">
+<keys size="3">Instance, Module, Expression</keys>
+<column name="parseEvents_mul_mdEe_U19">parseEvents_mul_mdEe, i0 * i1</column>
+</table>
+</item>
+<item name = "Memory"><table name="" hasTotal="1">
+<keys size="9">Memory, Module, BRAM_18K, FF, LUT, Words, Bits, Banks, W*Bits*Banks</keys>
+</table>
+</item>
+<item name = "FIFO"><table name="" hasTotal="1">
+<keys size="7">Name, BRAM_18K, FF, LUT, Depth, Bits, Size:D*B</keys>
+</table>
+</item>
+<item name = "Expression"><table name="" hasTotal="1">
+<keys size="7">Variable Name, Operation, DSP48E, FF, LUT, Bitwidth P0, Bitwidth P1</keys>
+<column name="tmp_20_fu_351_p2">+, 0, 0, 14, 14, 14</column>
+<column name="tmp_3_fu_418_p2">+, 0, 0, 15, 1, 8</column>
+<column name="tmp_s_fu_339_p2">-, 0, 0, 14, 14, 14</column>
+<column name="ap_block_pp0_stage0_11001">and, 0, 0, 2, 1, 1</column>
+<column name="ap_block_pp0_stage0_subdone">or, 0, 0, 2, 1, 1</column>
+<column name="ap_enable_pp0">xor, 0, 0, 2, 1, 2</column>
+</table>
+</item>
+<item name = "Multiplexer"><table name="" hasTotal="1">
+<keys size="5">Name, LUT, Input Size, Bits, Total Bits</keys>
+<column name="ap_NS_fsm">15, 3, 1, 3</column>
+<column name="ap_enable_reg_pp0_iter0">9, 2, 1, 2</column>
+<column name="ap_enable_reg_pp0_iter10">9, 2, 1, 2</column>
+<column name="glPLSlices_0_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_10_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_11_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_12_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_13_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_14_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_15_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_1_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_2_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_3_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_4_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_5_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_6_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_7_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_8_address0">15, 3, 13, 39</column>
+<column name="glPLSlices_9_address0">15, 3, 13, 39</column>
+</table>
+</item>
+<item name = "Register"><table name="" hasTotal="1">
+<keys size="5">Name, FF, LUT, Bits, Const Bits</keys>
+<column name="ap_CS_fsm">2, 0, 2, 0</column>
+<column name="ap_enable_reg_pp0_iter0_reg">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter1">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter10">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter2">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter3">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter4">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter5">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter6">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter7">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter8">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter9">1, 0, 1, 0</column>
+<column name="ap_port_reg_y">16, 0, 16, 0</column>
+<column name="arrayNo_reg_476">15, 0, 15, 0</column>
+<column name="glPLSlices_0_addr_reg_481">13, 0, 13, 0</column>
+<column name="glPLSlices_10_addr_reg_491">13, 0, 13, 0</column>
+<column name="glPLSlices_11_addr_reg_496">13, 0, 13, 0</column>
+<column name="glPLSlices_12_addr_reg_501">13, 0, 13, 0</column>
+<column name="glPLSlices_13_addr_reg_506">13, 0, 13, 0</column>
+<column name="glPLSlices_14_addr_reg_511">13, 0, 13, 0</column>
+<column name="glPLSlices_15_addr_reg_516">13, 0, 13, 0</column>
+<column name="glPLSlices_1_addr_reg_486">13, 0, 13, 0</column>
+<column name="glPLSlices_2_addr_reg_521">13, 0, 13, 0</column>
+<column name="glPLSlices_3_addr_reg_526">13, 0, 13, 0</column>
+<column name="glPLSlices_4_addr_reg_531">13, 0, 13, 0</column>
+<column name="glPLSlices_5_addr_reg_536">13, 0, 13, 0</column>
+<column name="glPLSlices_6_addr_reg_541">13, 0, 13, 0</column>
+<column name="glPLSlices_7_addr_reg_546">13, 0, 13, 0</column>
+<column name="glPLSlices_8_addr_reg_551">13, 0, 13, 0</column>
+<column name="glPLSlices_9_addr_reg_556">13, 0, 13, 0</column>
+<column name="mul_reg_455">32, 0, 32, 0</column>
+<column name="newIndex_reg_471">14, 0, 14, 0</column>
+<column name="pol_read_reg_446">1, 0, 1, 0</column>
+<column name="tmp_18_reg_466">13, 0, 13, 0</column>
+<column name="y_read_reg_460">16, 0, 16, 0</column>
+<column name="pol_read_reg_446">64, 32, 1, 0</column>
+<column name="tmp_18_reg_466">64, 32, 13, 0</column>
+<column name="y_read_reg_460">64, 32, 16, 0</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Interface" level="0">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">RTL Ports, Dir, Bits, Protocol, Source Object, C Type</keys>
+<column name="ap_clk">in, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="ap_rst">in, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="ap_start">in, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="ap_done">out, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="ap_idle">out, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="ap_ready">out, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="ap_ce">in, 1, ap_ctrl_hs, accumulateHW, return value</column>
+<column name="x">in, 16, ap_none, x, scalar</column>
+<column name="y">in, 16, ap_none, y, scalar</column>
+<column name="pol">in, 1, ap_none, pol, scalar</column>
+<column name="glPLSlices_0_address0">out, 13, ap_memory, glPLSlices_0, array</column>
+<column name="glPLSlices_0_ce0">out, 1, ap_memory, glPLSlices_0, array</column>
+<column name="glPLSlices_0_we0">out, 1, ap_memory, glPLSlices_0, array</column>
+<column name="glPLSlices_0_d0">out, 8, ap_memory, glPLSlices_0, array</column>
+<column name="glPLSlices_0_q0">in, 8, ap_memory, glPLSlices_0, array</column>
+<column name="glPLSlices_1_address0">out, 13, ap_memory, glPLSlices_1, array</column>
+<column name="glPLSlices_1_ce0">out, 1, ap_memory, glPLSlices_1, array</column>
+<column name="glPLSlices_1_we0">out, 1, ap_memory, glPLSlices_1, array</column>
+<column name="glPLSlices_1_d0">out, 8, ap_memory, glPLSlices_1, array</column>
+<column name="glPLSlices_1_q0">in, 8, ap_memory, glPLSlices_1, array</column>
+<column name="glPLSlices_2_address0">out, 13, ap_memory, glPLSlices_2, array</column>
+<column name="glPLSlices_2_ce0">out, 1, ap_memory, glPLSlices_2, array</column>
+<column name="glPLSlices_2_we0">out, 1, ap_memory, glPLSlices_2, array</column>
+<column name="glPLSlices_2_d0">out, 8, ap_memory, glPLSlices_2, array</column>
+<column name="glPLSlices_2_q0">in, 8, ap_memory, glPLSlices_2, array</column>
+<column name="glPLSlices_3_address0">out, 13, ap_memory, glPLSlices_3, array</column>
+<column name="glPLSlices_3_ce0">out, 1, ap_memory, glPLSlices_3, array</column>
+<column name="glPLSlices_3_we0">out, 1, ap_memory, glPLSlices_3, array</column>
+<column name="glPLSlices_3_d0">out, 8, ap_memory, glPLSlices_3, array</column>
+<column name="glPLSlices_3_q0">in, 8, ap_memory, glPLSlices_3, array</column>
+<column name="glPLSlices_4_address0">out, 13, ap_memory, glPLSlices_4, array</column>
+<column name="glPLSlices_4_ce0">out, 1, ap_memory, glPLSlices_4, array</column>
+<column name="glPLSlices_4_we0">out, 1, ap_memory, glPLSlices_4, array</column>
+<column name="glPLSlices_4_d0">out, 8, ap_memory, glPLSlices_4, array</column>
+<column name="glPLSlices_4_q0">in, 8, ap_memory, glPLSlices_4, array</column>
+<column name="glPLSlices_5_address0">out, 13, ap_memory, glPLSlices_5, array</column>
+<column name="glPLSlices_5_ce0">out, 1, ap_memory, glPLSlices_5, array</column>
+<column name="glPLSlices_5_we0">out, 1, ap_memory, glPLSlices_5, array</column>
+<column name="glPLSlices_5_d0">out, 8, ap_memory, glPLSlices_5, array</column>
+<column name="glPLSlices_5_q0">in, 8, ap_memory, glPLSlices_5, array</column>
+<column name="glPLSlices_6_address0">out, 13, ap_memory, glPLSlices_6, array</column>
+<column name="glPLSlices_6_ce0">out, 1, ap_memory, glPLSlices_6, array</column>
+<column name="glPLSlices_6_we0">out, 1, ap_memory, glPLSlices_6, array</column>
+<column name="glPLSlices_6_d0">out, 8, ap_memory, glPLSlices_6, array</column>
+<column name="glPLSlices_6_q0">in, 8, ap_memory, glPLSlices_6, array</column>
+<column name="glPLSlices_7_address0">out, 13, ap_memory, glPLSlices_7, array</column>
+<column name="glPLSlices_7_ce0">out, 1, ap_memory, glPLSlices_7, array</column>
+<column name="glPLSlices_7_we0">out, 1, ap_memory, glPLSlices_7, array</column>
+<column name="glPLSlices_7_d0">out, 8, ap_memory, glPLSlices_7, array</column>
+<column name="glPLSlices_7_q0">in, 8, ap_memory, glPLSlices_7, array</column>
+<column name="glPLSlices_8_address0">out, 13, ap_memory, glPLSlices_8, array</column>
+<column name="glPLSlices_8_ce0">out, 1, ap_memory, glPLSlices_8, array</column>
+<column name="glPLSlices_8_we0">out, 1, ap_memory, glPLSlices_8, array</column>
+<column name="glPLSlices_8_d0">out, 8, ap_memory, glPLSlices_8, array</column>
+<column name="glPLSlices_8_q0">in, 8, ap_memory, glPLSlices_8, array</column>
+<column name="glPLSlices_9_address0">out, 13, ap_memory, glPLSlices_9, array</column>
+<column name="glPLSlices_9_ce0">out, 1, ap_memory, glPLSlices_9, array</column>
+<column name="glPLSlices_9_we0">out, 1, ap_memory, glPLSlices_9, array</column>
+<column name="glPLSlices_9_d0">out, 8, ap_memory, glPLSlices_9, array</column>
+<column name="glPLSlices_9_q0">in, 8, ap_memory, glPLSlices_9, array</column>
+<column name="glPLSlices_10_address0">out, 13, ap_memory, glPLSlices_10, array</column>
+<column name="glPLSlices_10_ce0">out, 1, ap_memory, glPLSlices_10, array</column>
+<column name="glPLSlices_10_we0">out, 1, ap_memory, glPLSlices_10, array</column>
+<column name="glPLSlices_10_d0">out, 8, ap_memory, glPLSlices_10, array</column>
+<column name="glPLSlices_10_q0">in, 8, ap_memory, glPLSlices_10, array</column>
+<column name="glPLSlices_11_address0">out, 13, ap_memory, glPLSlices_11, array</column>
+<column name="glPLSlices_11_ce0">out, 1, ap_memory, glPLSlices_11, array</column>
+<column name="glPLSlices_11_we0">out, 1, ap_memory, glPLSlices_11, array</column>
+<column name="glPLSlices_11_d0">out, 8, ap_memory, glPLSlices_11, array</column>
+<column name="glPLSlices_11_q0">in, 8, ap_memory, glPLSlices_11, array</column>
+<column name="glPLSlices_12_address0">out, 13, ap_memory, glPLSlices_12, array</column>
+<column name="glPLSlices_12_ce0">out, 1, ap_memory, glPLSlices_12, array</column>
+<column name="glPLSlices_12_we0">out, 1, ap_memory, glPLSlices_12, array</column>
+<column name="glPLSlices_12_d0">out, 8, ap_memory, glPLSlices_12, array</column>
+<column name="glPLSlices_12_q0">in, 8, ap_memory, glPLSlices_12, array</column>
+<column name="glPLSlices_13_address0">out, 13, ap_memory, glPLSlices_13, array</column>
+<column name="glPLSlices_13_ce0">out, 1, ap_memory, glPLSlices_13, array</column>
+<column name="glPLSlices_13_we0">out, 1, ap_memory, glPLSlices_13, array</column>
+<column name="glPLSlices_13_d0">out, 8, ap_memory, glPLSlices_13, array</column>
+<column name="glPLSlices_13_q0">in, 8, ap_memory, glPLSlices_13, array</column>
+<column name="glPLSlices_14_address0">out, 13, ap_memory, glPLSlices_14, array</column>
+<column name="glPLSlices_14_ce0">out, 1, ap_memory, glPLSlices_14, array</column>
+<column name="glPLSlices_14_we0">out, 1, ap_memory, glPLSlices_14, array</column>
+<column name="glPLSlices_14_d0">out, 8, ap_memory, glPLSlices_14, array</column>
+<column name="glPLSlices_14_q0">in, 8, ap_memory, glPLSlices_14, array</column>
+<column name="glPLSlices_15_address0">out, 13, ap_memory, glPLSlices_15, array</column>
+<column name="glPLSlices_15_ce0">out, 1, ap_memory, glPLSlices_15, array</column>
+<column name="glPLSlices_15_we0">out, 1, ap_memory, glPLSlices_15, array</column>
+<column name="glPLSlices_15_d0">out, 8, ap_memory, glPLSlices_15, array</column>
+<column name="glPLSlices_15_q0">in, 8, ap_memory, glPLSlices_15, array</column>
+</table>
+</item>
+</section>
+</profile>

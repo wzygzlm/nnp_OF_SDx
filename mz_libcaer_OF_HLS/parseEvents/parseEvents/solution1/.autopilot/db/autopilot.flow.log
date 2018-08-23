@@ -1,0 +1,1101 @@
+INFO: [HLS 200-0] Workspace E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1 opened at Thu Aug 23 23:48:05 +0200 2018
+Execute     config_clock -quiet -name default -period 10.000000 -default=false 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+Command     config_clock returned 0; 0.001 sec.
+Execute     config_clock -quiet -name default -uncertainty 2.7 -unit % 
+INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 2.7ns.
+Command     config_clock returned 0; 0 sec.
+Execute     open_platform DefaultPlatform 
+Command     open_platform returned 0; 0 sec.
+Execute     import_lib D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq 
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.lib 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/xilinx_interface.lib 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/plb46.lib 
+Command           ap_source returned 0; 0 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/fsl.lib 
+Command           ap_source returned 0; 0.001 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/axi4.lib 
+Command           ap_source returned 0; 0 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.lib 
+Command           ap_source returned 0; 0 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.lib 
+Command           ap_source returned 0; 0.001 sec.
+Command         ap_source returned 0; 0.002 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.lib 
+Command         ap_source returned 0; 0 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/dds_compiler.lib 
+Command         ap_source returned 0; 0 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfft.lib 
+Command         ap_source returned 0; 0 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfir.lib 
+Command         ap_source returned 0; 0 sec.
+Command       ap_source returned 0; 0.005 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_old.lib 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_vivado.lib 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.hlp 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/target_info.tcl 
+Command         ap_source returned 0; 0.001 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/xilinx_interface.hlp 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.hlp 
+Command           ap_source returned 0; 0.001 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.hlp 
+Command           ap_source returned 0; 0 sec.
+Command         ap_source returned 0; 0.001 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.hlp 
+Command         ap_source returned 0; 0.001 sec.
+Command       ap_source returned 0; 0.006 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/dsp48e1.hlp 
+Command       ap_source returned 0; 0 sec.
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+Execute       config_chip_info -quiet -resource  {SLICE 13300}  {LUT 53200}     {FF 106400} {DSP48E 220}   {BRAM 280}  
+Command       config_chip_info returned 0; 0 sec.
+Execute       config_chip_info -quiet -speed medium 
+Command       config_chip_info returned 0; 0 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.hlp 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/target_info.tcl 
+Command         ap_source returned 0; 0 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/xilinx_interface.hlp 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.hlp 
+Command           ap_source returned 0; 0 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.hlp 
+Command           ap_source returned 0; 0 sec.
+Command         ap_source returned 0; 0.001 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.hlp 
+Command         ap_source returned 0; 0.001 sec.
+Command       ap_source returned 0; 0.004 sec.
+Command     import_lib returned 0; 0.022 sec.
+Execute     source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq.gen 
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/virtex.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.gen 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/plb46.gen 
+Command           ap_source returned 0; 0.001 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/fsl.gen 
+Command           ap_source returned 0; 0.001 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/axi4.gen 
+Command           ap_source returned 0; 0.004 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/nativeAXI4.gen 
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.gen 
+Command             ap_source returned 0; 0.003 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.gen 
+Command             ap_source returned 0; 0.007 sec.
+Command           ap_source returned 0; 0.011 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/scripts/xilinxcoregen.gen 
+Command           ap_source returned 0; 0.011 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/XilEDKCoreGen.gen 
+Command           ap_source returned 0; 0.007 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/dds_compiler.gen 
+Command           ap_source returned 0; 0.003 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/util.gen 
+Command           ap_source returned 0; 0 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfft.gen 
+Command           ap_source returned 0; 0.086 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfir.gen 
+Command           ap_source returned 0; 0.001 sec.
+Command         ap_source returned 0; 0.127 sec.
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.gen 
+Command         ap_source returned 0; 0 sec.
+Command       ap_source returned 0; 0.13 sec.
+Command     ap_source returned 0; 0.13 sec.
+Execute     open_platform DefaultPlatform 
+Command     open_platform returned 0; 0 sec.
+Execute     import_lib D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq_fpv6 
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_fpv7.lib 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_hp.lib 
+Command         ap_source returned 0; 0.001 sec.
+Command       ap_source returned 0; 0.004 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_fpv.hlp 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.hlp 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/target_info.tcl 
+Command           ap_source returned 0; 0.018 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/xilinx_interface.hlp 
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.hlp 
+Command             ap_source returned 0; 0 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.hlp 
+Command             ap_source returned 0; 0.001 sec.
+Command           ap_source returned 0; 0.001 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.hlp 
+Command           ap_source returned 0; 0.001 sec.
+Command         ap_source returned 0; 0.022 sec.
+Command       ap_source returned 0; 0.022 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq_hp.hlp 
+Command       ap_source returned 0; 0.002 sec.
+Command     import_lib returned 0; 0.039 sec.
+Execute     source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq_fpv6.gen 
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_fpv6.gen 
+Command       ap_source returned 0; 0.002 sec.
+Command     ap_source returned 0; 0.003 sec.
+Execute     set_part xc7z007sclg225-1 
+Execute       add_library xilinx/zynq/zynq:xc7z007s:clg225:-1 
+Execute         get_default_platform 
+Command         get_default_platform returned 0; 0.001 sec.
+Execute         license_isbetapart xc7z007s 
+Command         license_isbetapart returned 1; 0.011 sec.
+Execute         get_default_platform 
+Command         get_default_platform returned 0; 0 sec.
+Execute         config_chip_info -quiet -resource  {SLICE 3600}   {LUT 14400}     {FF 28800}  {DSP48E 66}    {BRAM 100}  
+Command         config_chip_info returned 0; 0 sec.
+Execute         config_chip_info -quiet -speed slow 
+Command         config_chip_info returned 0; 0 sec.
+Command       add_library returned 0; 0.016 sec.
+Execute       add_library xilinx/zynq/zynq_fpv6 
+Execute         get_default_platform 
+Command         get_default_platform returned 0; 0 sec.
+Command       add_library returned 0; 0.005 sec.
+INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+Command     set_part returned 0; 0.075 sec.
+Execute     get_default_platform 
+Command     get_default_platform returned 0; 0 sec.
+Execute     config_chip_info -quiet -resource  {SLICE 3600}   {LUT 14400}     {FF 28800}  {DSP48E 66}    {BRAM 100}  
+Command     config_chip_info returned 0; 0 sec.
+Execute     config_chip_info -quiet -speed slow 
+Command     config_chip_info returned 0; 0 sec.
+Execute     config_rtl -prefix=a0_ -reset_level=low 
+Command     config_rtl returned 0; 0.002 sec.
+Command   open_solution returned 0; 0.33 sec.
+Execute   set_part xc7z007sclg225-1 
+Execute     add_library xilinx/zynq/zynq:xc7z007s:clg225:-1 
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+Execute       license_isbetapart xc7z007s 
+Command       license_isbetapart returned 1; 0 sec.
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+Execute       config_chip_info -quiet -resource  {SLICE 3600}   {LUT 14400}     {FF 28800}  {DSP48E 66}    {BRAM 100}  
+Command       config_chip_info returned 0; 0 sec.
+Execute       config_chip_info -quiet -speed slow 
+Command       config_chip_info returned 0; 0 sec.
+Command     add_library returned 0; 0.006 sec.
+Execute     add_library xilinx/zynq/zynq_fpv6 
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+Command     add_library returned 0; 0.003 sec.
+Execute     get_default_platform 
+Command     get_default_platform returned 0; 0 sec.
+Command   set_part returned 0; 0.039 sec.
+Execute   create_clock -period 10.000000 -name default 
+Command   create_clock returned 0; 0.003 sec.
+Execute   set_clock_uncertainty 27.0% 
+Command   set_clock_uncertainty returned 0; 0.003 sec.
+Execute   config_rtl -prefix a0_ -reset_level low 
+Command   config_rtl returned 0; 0.001 sec.
+Execute   source ./parseEvents/solution1/directives.tcl 
+Execute     set_directive_interface -mode m_axi -offset direct -bundle eventSlice parseEvents eventSlice 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+Command     set_directive_interface returned 0; 0.004 sec.
+Execute     set_directive_pipeline copyToPS/copyToPS_label2 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+Command     set_directive_pipeline returned 0; 0.028 sec.
+Execute     set_directive_pipeline resetCurrentSliceHW/resetSliceLoop 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+Command     set_directive_pipeline returned 0; 0.02 sec.
+Execute     set_directive_pipeline resetCurrentSliceHW/resetSliceLoop2 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+Command     set_directive_pipeline returned 0; 0.018 sec.
+Execute     set_directive_array_partition -type block -factor 16 -dim 3 parseEvents glPLSlices 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'ARRAY_PARTITION' partition=positionBooleanCmd variable=positionBooleanTextRequiredglPLSlices block=positionBoolean0type factor=16 dim=3 
+Command     set_directive_array_partition returned 0; 0.016 sec.
+Execute     set_directive_latency -min 1 parseEvents 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'ARRAY_PARTITION' partition=positionBooleanCmd variable=positionBooleanTextRequiredglPLSlices block=positionBoolean0type factor=16 dim=3 
+INFO: [HLS 200-0] Setting directive 'LATENCY' min=1 
+Command     set_directive_latency returned 0; 0.019 sec.
+Execute     set_directive_interface -mode ap_fifo parseEvents data 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'ARRAY_PARTITION' partition=positionBooleanCmd variable=positionBooleanTextRequiredglPLSlices block=positionBoolean0type factor=16 dim=3 
+INFO: [HLS 200-0] Setting directive 'LATENCY' min=1 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' ap_fifo=positionBoolean0mode port=positionBooleanTextRequireddata 
+Command     set_directive_interface returned 0; 0.056 sec.
+Execute     set_directive_pipeline parseEvents/loop_1 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'ARRAY_PARTITION' partition=positionBooleanCmd variable=positionBooleanTextRequiredglPLSlices block=positionBoolean0type factor=16 dim=3 
+INFO: [HLS 200-0] Setting directive 'LATENCY' min=1 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' ap_fifo=positionBoolean0mode port=positionBooleanTextRequireddata 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+Command     set_directive_pipeline returned 0; 0.033 sec.
+Execute     set_directive_loop_tripcount -min 0 -max 10000 parseEvents/loop_1 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'ARRAY_PARTITION' partition=positionBooleanCmd variable=positionBooleanTextRequiredglPLSlices block=positionBoolean0type factor=16 dim=3 
+INFO: [HLS 200-0] Setting directive 'LATENCY' min=1 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' ap_fifo=positionBoolean0mode port=positionBooleanTextRequireddata 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'LOOP_TRIPCOUNT' tripcount=positionBooleanCmd min=0 max=10000 
+Command     set_directive_loop_tripcount returned 0; 0.075 sec.
+Command   ap_source returned 0; 0.27 sec.
+Execute   csynth_design 
+Execute     elaborate -effort=medium -skip_syncheck=0 -keep_printf=0 -lm=0 -skip_cdt=0 -skip_transform=0 -ng=0 -g=0 -opt_fp=0 -enable_clang39=0 
+INFO: [HLS 200-10] Analyzing design file '../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp' ...
+INFO: [HLS 200-0] Compiling one TU...
+Execute       is_m_axi_addr64 
+Command       is_m_axi_addr64 returned 0; 0 sec.
+INFO: [HLS 200-0] Handling ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp as C++
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+Execute       is_encrypted ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp 
+Command       is_encrypted returned 0; 0.001 sec.
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+INFO: [HLS 200-0] Source preprocessing
+Execute       clang  -fno-limit-debug-info -gcc-toolchain "D:/Xilinx/Vivado/2018.1/msys" -hls  -fno-exceptions  -D__llvm__  -E "../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp"   -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w  -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -fno-threadsafe-statics  -fno-use-cxa-atexit  -fno-threadsafe-statics -fno-use-cxa-atexit -D__CLANG_3_1__ -D__cdecl= -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot" -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h -D__DSP48E1__  -o "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp" 
+INFO: [HLS 200-0] exec clang -fno-limit-debug-info -gcc-toolchain D:/Xilinx/Vivado/2018.1/msys -hls -fno-exceptions -D__llvm__ -E ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w -fno-math-errno -c -emit-llvm -O0 -mllvm -disable-llvm-optzns -fno-threadsafe-statics -fno-use-cxa-atexit -fno-threadsafe-statics -fno-use-cxa-atexit -D__CLANG_3_1__ -D__cdecl= -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E1__ -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp
+Command       clang returned 0; 0.823 sec.
+INFO: [HLS 200-0] Syntax Checking before pre-processing...
+Execute       clang  -fno-limit-debug-info -gcc-toolchain "D:/Xilinx/Vivado/2018.1/msys" -hls  -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w  -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -fno-threadsafe-statics  -fno-use-cxa-atexit  -fno-threadsafe-statics -fno-use-cxa-atexit -D__CLANG_3_1__ -D__cdecl= -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot" -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h -D__DSP48E1__  "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp"  -o "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/useless.bc"  
+INFO: [HLS 200-0] exec clang -fno-limit-debug-info -gcc-toolchain D:/Xilinx/Vivado/2018.1/msys -hls -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w -fno-math-errno -c -emit-llvm -O0 -mllvm -disable-llvm-optzns -fno-threadsafe-statics -fno-use-cxa-atexit -fno-threadsafe-statics -fno-use-cxa-atexit -D__CLANG_3_1__ -D__cdecl= -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E1__ E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/useless.bc
+Command       clang returned 0; 0.806 sec.
+INFO: [HLS 200-0] GCC PP time: 1 seconds per iteration
+INFO: [HLS 200-0] Setting directive 'INTERFACE' m_axi=positionBoolean0mode port=positionBooleanTextRequiredeventSlice offset=direct bundle=eventSlice 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'ARRAY_PARTITION' partition=positionBooleanCmd variable=positionBooleanTextRequiredglPLSlices block=positionBoolean0type factor=16 dim=3 
+INFO: [HLS 200-0] Setting directive 'LATENCY' min=1 
+INFO: [HLS 200-0] Setting directive 'INTERFACE' ap_fifo=positionBoolean0mode port=positionBooleanTextRequireddata 
+INFO: [HLS 200-0] Setting directive 'PIPELINE' 
+INFO: [HLS 200-0] Setting directive 'LOOP_TRIPCOUNT' tripcount=positionBooleanCmd min=0 max=10000 
+Execute       list_core -type functional_unit 
+Command       list_core returned 0; 0 sec.
+INFO: [HLS 200-0] CDT Preprocessing...
+INFO: [HLS 200-0] Marker-Pragma convertor: E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp.ap-line.cpp E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp.ap-line.cpp.CXX 1
+INFO: [HLS 200-0] Converting Markers to Pragmas...
+Execute       cdt  "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp.ap-line.cpp"  -m "parseEvents" -o "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp.ap-cdt.cpp" --pp --directive E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/solution1.directive --source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp --error E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db --funcunit "AddSub AddSub_DSP AddSubnS DAddSub_fulldsp DAddSub_nodsp DDiv DExp_fulldsp DExp_meddsp DExp_nodsp DLog_fulldsp DLog_meddsp DLog_nodsp DMul_fulldsp DMul_maxdsp DMul_meddsp DMul_nodsp DRSqrt DRecip DSP_Macro DSqrt DivnS FAddSub_fulldsp FAddSub_nodsp FDiv FExp_fulldsp FExp_meddsp FExp_nodsp FLog_fulldsp FLog_meddsp FLog_nodsp FMul_fulldsp FMul_maxdsp FMul_meddsp FMul_nodsp FRSqrt_fulldsp FRSqrt_nodsp FRecip_fulldsp FRecip_nodsp FSqrt HAddSub_fulldsp HAddSub_meddsp HAddSub_nodsp HDiv HMul_fulldsp HMul_maxdsp HMul_nodsp HSqrt Mul Mul2S Mul3S Mul4S Mul5S Mul6S Mul_LUT MulnS MuxnS" --ve --vetcl E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db --ca --es --gf --pd --p2d E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db --sd --scff E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/.systemc_flag --ad 
+Command       cdt returned 0; 0.955 sec.
+INFO: [HLS 200-0] Marker-Pragma convertor: E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pp.0.cpp.ap-cdt.cpp E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.0.cpp E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.0.cpp.ap-line.CXX 0
+INFO: [HLS 200-0] Converting Pragmas to Markers...
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/pragma.status.tcl 
+Command       ap_source returned 0; 0.002 sec.
+INFO: [HLS 200-0] Pragma Handling...
+INFO: [HLS 200-0] Source preprocessing
+Execute       clang  -fno-limit-debug-info -gcc-toolchain "D:/Xilinx/Vivado/2018.1/msys" -hls  -fno-exceptions  -D__llvm__  -E "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.1.cpp"   -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w  -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -fno-threadsafe-statics  -fno-use-cxa-atexit  -fno-threadsafe-statics -fno-use-cxa-atexit -D__CLANG_3_1__ -D__cdecl= -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot" -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h -D__DSP48E1__  -o "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.2.cpp" 
+INFO: [HLS 200-0] exec clang -fno-limit-debug-info -gcc-toolchain D:/Xilinx/Vivado/2018.1/msys -hls -fno-exceptions -D__llvm__ -E E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.1.cpp -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w -fno-math-errno -c -emit-llvm -O0 -mllvm -disable-llvm-optzns -fno-threadsafe-statics -fno-use-cxa-atexit -fno-threadsafe-statics -fno-use-cxa-atexit -D__CLANG_3_1__ -D__cdecl= -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E1__ -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.2.cpp
+Command       clang returned 0; 0.774 sec.
+Execute       get_default_platform 
+Command       get_default_platform returned 0; 0 sec.
+INFO: [HLS 200-0] Processing labels
+Execute       clang  -fno-limit-debug-info -gcc-toolchain D:/Xilinx/Vivado/2018.1/msys -hls -hls-analyze-label -hls-analyze-pragma -fno-exceptions  -D__llvm__  -w  "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.2.cpp"  -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w  -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -fno-threadsafe-statics  -fno-use-cxa-atexit -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot" -I "D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h -D__DSP48E1__ -g -o "E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.g.bc" 
+INFO: [HLS 200-0] exec clang -fno-limit-debug-info -gcc-toolchain D:/Xilinx/Vivado/2018.1/msys -hls -hls-analyze-label -hls-analyze-pragma -fno-exceptions -D__llvm__ -w E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.pragma.2.cpp -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src -IE:/sdk_petalinux_2018_2_roofs/caer_include -IC:/Users/minliu/.Xilinx/SDx/2018.1/xfopencv/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils -Wall -O0 -g -fmessage-length=0 -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare -Wno-unused-label -D__SDSCC__ -m32 -DHLS_NO_XIL_FPO_LIB -ID:/Xilinx/SDx/2018.1/target/aarch32-linux/include -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF -D__SDSVHLS__ -D__SDSVHLS_SYNTHESIS__ -IE:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/Debug -w -fno-math-errno -c -emit-llvm -O0 -mllvm -disable-llvm-optzns -fno-threadsafe-statics -fno-use-cxa-atexit -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot -I D:/Xilinx/Vivado/2018.1/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E1__ -g -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.g.bc
+Command       clang returned 0; 0.798 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/ve_warning.tcl 
+Command       ap_source returned 0; 0.001 sec.
+INFO: [HLS 200-10] Validating synthesis directives ...
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/pragma.status.tcl 
+Command       ap_source returned 0; 0.001 sec.
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 103.129 ; gain = 45.391
+INFO: [HLS 200-0] Linking Release ...
+Execute       llvm-ld E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.bc -hls-opt -except-internalize parseEvents -LD:/Xilinx/Vivado/2018.1/win64/lib -lm_basic -lhlsmc++ -lhlsm -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o 
+Command       llvm-ld returned 0; 0.908 sec.
+Execute       disassemble E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o 
+Execute         is_encrypted E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.bc 
+Command         is_encrypted returned 0; 0 sec.
+Command       disassemble returned 0; 0.065 sec.
+INFO: [HLS 200-0] Disassemble time: 0 seconds per iteration
+INFO: [HLS 200-0] Linking Debug ...
+Execute       llvm-ld E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/abmof_hw_accel.g.bc -hls-opt -except-internalize parseEvents -LD:/Xilinx/Vivado/2018.1/win64/lib -lm_basic -lhlsmc++ -lhlsm -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g 
+Command       llvm-ld returned 0; 0.906 sec.
+INFO: [HLS 200-0] Disassemble time: 0 seconds per iteration
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 103.152 ; gain = 45.414
+Execute       ::config_rtl 
+Command       config_rtl returned 0; 0.001 sec.
+Execute       opt_and_import_c a -opt_level=2 -skip_syncheck=0 -ng=0 -keep_printf=0 -enable_clang39=0 
+Execute         cleanup_all_models 
+Command         cleanup_all_models returned 0; 0 sec.
+INFO: [HLS 200-10] Starting code transformations ...
+Execute         transform -promote-dbg-pointer E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.pp.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.pp.0.bc -f 
+Command         transform returned 0; 0.004 sec.
+Execute         llvm-ld E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.pp.0.bc -disable-opt -LD:/Xilinx/Vivado/2018.1/win64/lib -lfloatconversion -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.0 
+Command         llvm-ld returned 0; 0.423 sec.
+INFO: [HLS 200-0] Running Standard Transforms...
+Execute         transform -hls -share-std-xform -demangle-name -inline-byval-memcpy -always-inline -promote-dbg-pointer -interface-preproc -scalarrepl -mem2reg -keep-read-access -instcombine -dce -promote-dbg-pointer -bitop-raise -loop-simplify -indvarspre -indvars -loop-simplify -xunroll -constprop -instcombine -simplifycfg -indvars -simplifycfg -dce -globaldce -basicaa -simplifycfg -mem2reg -globalopt -global-constprop -deadargelim -instcombine -simplifycfg -prune-eh -simplifycfg -scalarrepl -instcombine -reassociate -licm -simplifycfg -loop-simplify -indvars -instcombine -simplifycfg -mem2reg -loop-simplify -indvars -instcombine -gvn -gvn -instcombine -adce -break-crit-edges -simplifycfg -loop-delete -global-array-opt -dce -dse -adce -find-syn-modules -top parseEvents -deadargelim -mem2reg -instcombine -dce -presyn-prepare -auto-rom-infer -interface-preproc -syn-check -check-rec-only -find-region -simplifycfg -func-extr -function-inline -globaldce -mem2reg -instcombine -dce -gvn -globaldce -adce -adse -constprop -instcombine -bit-constprop -instcombine -dce -simplifycfg -bitop-raise -simplifycfg -dce -loop-delete -reassociate -globalopt -global-privatize -mem2reg -dce -global-constprop -pointer-simplify -constprop -dce -func-inst -deadargelim -auto-shift-reg-idiom -promote-dbg-pointer -norm-name E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.0.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.1.bc -f -phase std-opt 
+Command         transform returned 0; 0.023 sec.
+Execute         disassemble E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.1 E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.1 
+Execute           is_encrypted E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.1.bc 
+Command           is_encrypted returned 0; 0.001 sec.
+Command         disassemble returned 0; 0.062 sec.
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 104.809 ; gain = 47.070
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-0] Checking Synthesizability 1/2..
+Execute         transform -hls -syn-check -check-rec-only -disaggr -scalarrepl -norm-name -dce -mem2reg -instcombine -function-uniquify -directive-preproc -mem2reg -dse -dce -auto-rom-infer -dce -array-normalize -instcombine -dce -warn-fifo-pointer -array-seg-normalize -instcombine -dce -array-flatten -instcombine -dce -array-burst -dce -deadargelim -promote-global-argument -simplifycfg -mem2reg -globaldce -resolve-double-ptr -dce -deadargelim -dce -instcombine -function-inline -globaldce -dce -doublePtrSimplify -doublePtrElim -dce -doublePtrSimplify -promote-dbg-pointer -dce -scalarrepl -dse -adse -instcombine -ptrLegalization -simplifycfg -dce -instcombine -pointer-simplify -ptrArgReplace -dce -instcombine -disaggr -scalarrepl -norm-name -dce -mem2reg -instcombine -ptrLegalization -simplifycfg -deadargelim -instcombine -dce -inst-simplify -function-uniquify -directive-preproc -mem2reg -dse -dce -globaldce E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.1.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.2.prechk.bc -f 
+INFO: [XFORM 203-602] Inlining function 'resetCurrentSliceHW' into 'parseEvents' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40) automatically.
+INFO: [XFORM 203-602] Inlining function 'accumulateHW' into 'parseEvents' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) automatically.
+Command         transform returned 0; 0.038 sec.
+INFO: [HLS 200-0] Checking Synthesizability 2/2..
+Execute         transform -syn-check E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.2.prechk.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.2.bc -f -phase syn-check 
+Command         transform returned 0; 0.006 sec.
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 105.039 ; gain = 47.301
+INFO: [HLS 200-0] Compiler optimizing ...
+INFO: [HLS 200-0] Share syncheck's 1.bc for syn flow: copy E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.g.1.bc to E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.bc
+INFO: [HLS 200-0] Presyn 1...
+Execute         transform -hls -tmp E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db -interface-port-rename -type-info -function-uniquify -directive-preproc -mem2reg -dse -dce -disaggr -scalarrepl -norm-name -deadargelim -mem2reg -instcombine -dce -simplifycfg -auto-rom-infer -dce -function-uniquify -resource-proc -simplifycfg -mem2reg -globaldce -resolve-double-ptr -dce -deadargelim -dce -instcombine -clib-intrinsic-prepare -dce -func-buffer -dce -array-normalize -func-legal -instcombine -gvn -constprop -dce -ptrArgReplace -mem2reg -instcombine -dce -array-seg-normalize -deadargelim -instcombine -dce -pointer-simplify -dce -port-alignment -dce -interface-preproc -data-pack -instcombine -dce -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -gvn -gvn -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -dse -adse -adce -loop-simplify -indvars -instcombine -gvn -loop-simplify -mem2reg -dce -find-region -instcombine -auto-loop-pipeline -inst-simplify -interface-preproc -cfgopt -instcombine -indvars -auto-loop-unroll -loop-simplify -loop-bound -xunroll -constprop -instcombine -simplifycfg -indvars -simplifycfg -dce -globaldce -clean-region -attach-range -gvn -inst-simplify -constprop -simplifycfg -dce -pointer-simplify -dce -globalopt -constprop -dce -array-promote -constprop -instcombine -dce -ptrArgReplace -mem2reg -instcombine -simplifycfg -dce -auto-par -instcombine -dce -array-transform-check -array-reshape -instcombine -simplifycfg -dce -ptrArgReplace -deadargelim -mem2reg -instcombine -simplifycfg -dce -indvars -loop-simplify -loop-bound -xunroll -constprop -instcombine -simplifycfg -indvars -simplifycfg -dce -globaldce -duplicate-dataflow-processes -globaldce -instcombine -array-partition -instcombine -simplifycfg -dce -ptrArgReplace -global-constprop -deadargelim -mem2reg -func-legal -instcombine -dce -global-constprop -deadargelim -mem2reg -instcombine -simplifycfg -dce -merge-param -deadargelim -globalopt -constprop -dce -array-promote -constprop -instcombine -dce -ptrArgReplace -mem2reg -instcombine -simplifycfg -dce -mem-intrinsic-preproc -dce -global-privatize -mem2reg -globaldce -promote-global-argument -ptrArgReplace -mem2reg -instcombine -dce -globalopt -mergereturn -simplify-global-access -mem2reg -dce -pointer-simplify -dce -functionattrs -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -gvn -gvn -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -dse -adse -adce -inst-simplify -dce -norm-name -function-inline -globaldce -func-inst -constprop -instcombine -simplifycfg -dce -func-legal -dce -loop-bound -arraycheck -bitwidthmin -on-by-dataflow -loop-delete -instcombine -simplifycfg -globaldce -dce -gvn -deadargelim -dce -loop-simplify -clean-region -simplifycfg -propagate-stable-arguments -loop-stream -instcombine -simplifycfg -dce -globaldce -duplicate-dataflow-processes -stream-intrinsic-preproc -dce -check-ap-stream -loop-simplify -eliminate-keepreads -extract-dataflow-in-loop -loop-simplify -dce -gvn -deadargelim -dse -check-dataflow-syntax -legalize-stream-variable -legalize-global -extract-subproc -dce -dead-channel-elimination -canonicalize-gep -globaldce -dce -gvn -deadargelim -annotate-dataflow-channels -scalar-propagation -deadargelim -globaldce -mem2reg -check-dataflow-channels -function-stream -dce -globaldce -prop-fifo-spec -internal-stream-gen -canonicalize-gep -globaldce -dce -gvn -deadargelim -mergereturn -indvars -loop-simplify -instcombine -array-stream -array-seg-normalize -array-partition -func-legal -instcombine -simplifycfg -dce -bundle-memfifo-ops -deadargelim -function-uniquify -directive-preproc -mem2reg -dse -dce -group-axi-access -licm -simplifycfg -dce -loop-delete -norm-name E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.tmp.bc -f 
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'resetSliceLoop' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:30) in function 'resetCurrentSliceHW' for pipelining.
+WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'resetSliceLoop2' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:32) because its parent loop or function is pipelined.
+INFO: [XFORM 203-501] Unrolling loop 'resetSliceLoop2' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:32) in function 'resetCurrentSliceHW' completely.
+INFO: [XFORM 203-101] Partitioning array 'glPLSlices'  in dimension 3 with a block factor 16.
+Command         transform returned 0; 0.762 sec.
+Execute         disassemble E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.tmp E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.tmp 
+Execute           is_encrypted E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.tmp.bc 
+Command           is_encrypted returned 0; 0.001 sec.
+Command         disassemble returned 0; 0.069 sec.
+INFO: [HLS 200-0] Presyn 2...
+Execute         transform -hls -keep-callgraph -scalarrepl -mem2reg -port-alignment -attach-range -dce -pipe-mux-gen -indvars -loop-bound -inst-simplify -instcombine -dce -merge-array-access -mem2reg -dce -clean-region -mergereturn -if-conv -instcombine -dce -constprop -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -gvn -gvn -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -dse -adse -adce -scalarrepl -mem2reg -global-constprop -deadargelim -deadargelim -instcombine -dce -simplifycfg -ptrArgReplace -mem2reg -function-inline -globaldce -mem2reg -instcombine -dce -expr-balance -instcombine -dce -bitwidthmin -interface-preproc -directive-preproc -inst-rectify -instcombine -dce -functionattrs -constprop -instcombine -bit-constprop -simplify-global-access -globalopt -globaldce -inst-simplify -instcombine -elimdeaddata -dce -loop-delete -simplifycfg -loop-simplify -auto-burst -norm-name E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.1.tmp.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.2.bc -f -phase presyn 
+Command         transform returned 0; 0.154 sec.
+Execute         disassemble E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.2 E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.2 
+Execute           is_encrypted E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.2.bc 
+Command           is_encrypted returned 0; 0.001 sec.
+Command         disassemble returned 0; 0.069 sec.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 127.012 ; gain = 69.273
+INFO: [HLS 200-0] Building ssdm...
+Execute         transform -hls -function-uniquify -auto-function-inline -globaldce -ptrArgReplace -mem2reg -instcombine -dce -reset-lda -loop-simplify -indvars -licm -loop-dep -loop-bound -licm -loop-simplify -flattenloopnest -array-flatten -gvn -instcombine -dce -array-map -dce -func-legal -gvn -adce -instcombine -cfgopt -simplifycfg -loop-simplify -array-burst -promote-global-argument -dce -axi4-lower -array-seg-normalize -basicaa -aggrmodref-aa -globalsmodref-aa -aggr-aa -gvn -gvn -basicaa -aggrmodref-aa -globalsmodref-aa -aggr-aa -dse -adse -adce -licm -inst-simplify -dce -globaldce -instcombine -array-stream -eliminate-keepreads -instcombine -dce -deadargelim -doublePtrSimplify -doublePtrElim -dce -doublePtrSimplify -promote-dbg-pointer -dce -scalarrepl -mem2reg -disaggr -norm-name -mem2reg -instcombine -dse -adse -adce -ptrLegalization -dce -auto-rom-infer -array-flatten -dce -instcombine -check-doubleptr -loop-rot -constprop -cfgopt -simplifycfg -loop-simplify -indvars -pointer-simplify -dce -loop-bound -loop-simplify -loop-preproc -constprop -global-constprop -gvn -mem2reg -instcombine -dce -loop-bound -loop-merge -dce -bitwidthmin -deadargelim -dce -canonicalize-dataflow -dce -scalar-propagation -deadargelim -globaldce -mem2reg -licm -interface-preproc -directive-preproc -interface-gen -bram-byte-enable -deadargelim -inst-simplify -dce -gvn -mem2reg -instcombine -dce -adse -loop-bound -instcombine -cfgopt -simplifycfg -loop-simplify -clean-region -io-protocol -find-region -mem2reg -bitop-raise -inst-simplify -inst-rectify -instcombine -adce -deadargelim -loop-simplify -phi-opt -bitop-raise -cfgopt -simplifycfg -strip-dead-prototypes -interface-lower -bitop-lower -intrinsic-lower -auto-function-inline -basicaa -aggrmodref-aa -globalsmodref-aa -aggr-aa -inst-simplify -simplifycfg -loop-simplify -mergereturn -inst-simplify -inst-rectify -dce -bitop-lower -loop-rewind -pointer-simplify -dce -cfgopt -read-loop-dep -dce -bitwidth -loop-dep -check-stream -norm-name -legalize -validate-dataflow -cdfg-build E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.2.bc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.3.bc -f -phase build-ssdm 
+INFO: [XFORM 203-541] Flattening a loop nest 'copyToPSLoop' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:18:3) in function 'copyToPS'.
+WARNING: [XFORM 203-803] Argument name  'eventSlice' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40:1) is equal to bundle name 'eventSlice.
+' INFO: [XFORM 203-811] Inferring multiple bus burst write of a total cumulative length 240 on port 'eventSlice' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:21:4). These data requests might be further partitioned to multiple requests during RTL generation, based on max_read_burst_length or max_write_burst_length settings.
+Command         transform returned 0; 0.443 sec.
+Execute         disassemble E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.3 E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.3 
+Execute           is_encrypted E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.o.3.bc 
+Command           is_encrypted returned 0; 0.001 sec.
+Command         disassemble returned 0; 0.069 sec.
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 151.566 ; gain = 93.828
+INFO: [HLS 200-0] Finish building internal data model.
+Command       opt_and_import_c returned 0; 2.346 sec.
+Command     elaborate returned 0; 8.847 sec.
+Execute     autosyn 
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-0] Synthesizing C/C++ design ...
+INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
+Execute       ap_set_top_model parseEvents 
+Command       ap_set_top_model returned 0; 0 sec.
+Execute       get_model_list parseEvents -filter all-wo-channel -topdown 
+Command       get_model_list returned 0; 0 sec.
+Execute       preproc_iomode -model parseEvents 
+Command       preproc_iomode returned 0; 0 sec.
+Execute       preproc_iomode -model copyToPS 
+Command       preproc_iomode returned 0; 0 sec.
+Execute       preproc_iomode -model accumulateHW 
+Command       preproc_iomode returned 0; 0 sec.
+Execute       preproc_iomode -model resetCurrentSliceHW 
+Command       preproc_iomode returned 0; 0 sec.
+Execute       get_model_list parseEvents -filter all-wo-channel 
+Command       get_model_list returned 0; 0 sec.
+INFO: [HLS 200-0] Model list for configure: resetCurrentSliceHW accumulateHW copyToPS parseEvents
+INFO: [HLS 200-0] Configuring Module : resetCurrentSliceHW ...
+Execute       set_default_model resetCurrentSliceHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       apply_spec_resource_limit resetCurrentSliceHW 
+Command       apply_spec_resource_limit returned 0; 0 sec.
+INFO: [HLS 200-0] Configuring Module : accumulateHW ...
+Execute       set_default_model accumulateHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       apply_spec_resource_limit accumulateHW 
+Command       apply_spec_resource_limit returned 0; 0 sec.
+INFO: [HLS 200-0] Configuring Module : copyToPS ...
+Execute       set_default_model copyToPS 
+Command       set_default_model returned 0; 0 sec.
+Execute       apply_spec_resource_limit copyToPS 
+Command       apply_spec_resource_limit returned 0; 0 sec.
+INFO: [HLS 200-0] Configuring Module : parseEvents ...
+Execute       set_default_model parseEvents 
+Command       set_default_model returned 0; 0 sec.
+Execute       apply_spec_resource_limit parseEvents 
+Command       apply_spec_resource_limit returned 0; 0 sec.
+INFO: [HLS 200-0] Model list for preprocess: resetCurrentSliceHW accumulateHW copyToPS parseEvents
+INFO: [HLS 200-0] Preprocessing Module: resetCurrentSliceHW ...
+Execute       set_default_model resetCurrentSliceHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       cdfg_preprocess -model resetCurrentSliceHW 
+Command       cdfg_preprocess returned 0; 0.016 sec.
+Execute       rtl_gen_preprocess resetCurrentSliceHW 
+Command       rtl_gen_preprocess returned 0; 0 sec.
+INFO: [HLS 200-0] Preprocessing Module: accumulateHW ...
+Execute       set_default_model accumulateHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       cdfg_preprocess -model accumulateHW 
+Command       cdfg_preprocess returned 0; 0.001 sec.
+Execute       rtl_gen_preprocess accumulateHW 
+Command       rtl_gen_preprocess returned 0; 0.001 sec.
+INFO: [HLS 200-0] Preprocessing Module: copyToPS ...
+Execute       set_default_model copyToPS 
+Command       set_default_model returned 0; 0 sec.
+Execute       cdfg_preprocess -model copyToPS 
+Command       cdfg_preprocess returned 0; 0 sec.
+Execute       rtl_gen_preprocess copyToPS 
+Command       rtl_gen_preprocess returned 0; 0 sec.
+INFO: [HLS 200-0] Preprocessing Module: parseEvents ...
+Execute       set_default_model parseEvents 
+Command       set_default_model returned 0; 0 sec.
+Execute       cdfg_preprocess -model parseEvents 
+Command       cdfg_preprocess returned 0; 0 sec.
+Execute       rtl_gen_preprocess parseEvents 
+Command       rtl_gen_preprocess returned 0; 0.001 sec.
+INFO: [HLS 200-0] Model list for synthesis: resetCurrentSliceHW accumulateHW copyToPS parseEvents
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'resetCurrentSliceHW'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       set_default_model resetCurrentSliceHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       schedule -model resetCurrentSliceHW 
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'resetSliceLoop'.
+WARNING: [SCHED 204-69] Unable to schedule 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:33) of constant 0 on array 'glPLSlices_0' due to limited memory ports. Please consider using a memory core with more ports or partitioning the array 'glPLSlices_0'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 8, Depth = 8.
+INFO: [SCHED 204-11] Finished scheduling.
+Command       schedule returned 0; 0.778 sec.
+INFO: [HLS 200-111]  Elapsed time: 10.974 seconds; current allocated memory: 109.262 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.verbose.sched.rpt -verbose -f 
+Command       report returned 0; 0.139 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.sched.adb -f 
+Command       db_write returned 0; 0.084 sec.
+INFO: [HLS 200-0] Finish scheduling resetCurrentSliceHW.
+Execute       set_default_model resetCurrentSliceHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       bind -model resetCurrentSliceHW 
+INFO: [BIND 205-110] clear=
+INFO: [BIND 205-110] debug=
+INFO: [BIND 205-110] drf=
+INFO: [BIND 205-110] effort=
+INFO: [BIND 205-110] fast_refine=
+INFO: [BIND 205-110] fu_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] global_opt=
+INFO: [BIND 205-110] gsearch=
+INFO: [BIND 205-110] help=
+INFO: [BIND 205-110] help-hidden=
+INFO: [BIND 205-110] min_mem_port=
+INFO: [BIND 205-110] min_op=
+INFO: [BIND 205-110] minreg=
+INFO: [BIND 205-110] ml=
+INFO: [BIND 205-110] model=resetCurrentSliceHW
+INFO: [BIND 205-110] no_false_path=
+INFO: [BIND 205-110] no_min_op=
+INFO: [BIND 205-110] normalize=
+INFO: [BIND 205-110] quiet=
+INFO: [BIND 205-110] refine=
+INFO: [BIND 205-110] reg_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] search=
+INFO: [BIND 205-110] tight_delay=
+INFO: [BIND 205-110] verbose=
+INFO: [BIND 205-110] wFF=
+INFO: [BIND 205-110] wFU=
+INFO: [BIND 205-110] wMUX=
+INFO: [BIND 205-110] wNET=
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+Command       bind returned 0; 0.1 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.382 seconds; current allocated memory: 110.508 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.verbose.bind.rpt -verbose -f 
+Command       report returned 0; 0.168 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.bind.adb -f 
+Command       db_write returned 0; 0.102 sec.
+INFO: [HLS 200-0] Finish binding resetCurrentSliceHW.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'accumulateHW'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       set_default_model accumulateHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       schedule -model accumulateHW 
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'accumulateHW'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
+   between 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) of variable 'tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10 on array 'glPLSlices_0' and 'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) on array 'glPLSlices_0'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 21.
+WARNING: [SCHED 204-21] Estimated clock period (10.487ns) exceeds the target (target clock period: 10ns, clock uncertainty: 2.7ns, effective delay budget: 7.3ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) on array 'glPLSlices_0' (3.25 ns)
+	'mux' operation ('tmp', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) (2.06 ns)
+	'add' operation ('tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) (1.92 ns)
+	'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) of variable 'tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10 on array 'glPLSlices_3' (3.25 ns)
+INFO: [SCHED 204-11] Finished scheduling.
+Command       schedule returned 0; 0.106 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.44 seconds; current allocated memory: 111.355 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.verbose.sched.rpt -verbose -f 
+Command       report returned 0; 0.036 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.sched.adb -f 
+Command       db_write returned 0; 0.028 sec.
+INFO: [HLS 200-0] Finish scheduling accumulateHW.
+Execute       set_default_model accumulateHW 
+Command       set_default_model returned 0; 0 sec.
+Execute       bind -model accumulateHW 
+INFO: [BIND 205-110] clear=
+INFO: [BIND 205-110] debug=
+INFO: [BIND 205-110] drf=
+INFO: [BIND 205-110] effort=
+INFO: [BIND 205-110] fast_refine=
+INFO: [BIND 205-110] fu_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] global_opt=
+INFO: [BIND 205-110] gsearch=
+INFO: [BIND 205-110] help=
+INFO: [BIND 205-110] help-hidden=
+INFO: [BIND 205-110] min_mem_port=
+INFO: [BIND 205-110] min_op=
+INFO: [BIND 205-110] minreg=
+INFO: [BIND 205-110] ml=
+INFO: [BIND 205-110] model=accumulateHW
+INFO: [BIND 205-110] no_false_path=
+INFO: [BIND 205-110] no_min_op=
+INFO: [BIND 205-110] normalize=
+INFO: [BIND 205-110] quiet=
+INFO: [BIND 205-110] refine=
+INFO: [BIND 205-110] reg_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] search=
+INFO: [BIND 205-110] tight_delay=
+INFO: [BIND 205-110] verbose=
+INFO: [BIND 205-110] wFF=
+INFO: [BIND 205-110] wFU=
+INFO: [BIND 205-110] wMUX=
+INFO: [BIND 205-110] wNET=
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+Command       bind returned 0; 0.025 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.155 seconds; current allocated memory: 111.642 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.verbose.bind.rpt -verbose -f 
+Command       report returned 0; 0.122 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.bind.adb -f 
+Command       db_write returned 0; 0.03 sec.
+INFO: [HLS 200-0] Finish binding accumulateHW.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'copyToPS'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       set_default_model copyToPS 
+Command       set_default_model returned 0; 0 sec.
+Execute       schedule -model copyToPS 
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'copyToPSLoop_copyToPS_label2'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 27.
+INFO: [SCHED 204-11] Finished scheduling.
+Command       schedule returned 0; 0.078 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.25 seconds; current allocated memory: 112.107 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.verbose.sched.rpt -verbose -f 
+Command       report returned 0; 0.059 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.sched.adb -f 
+Command       db_write returned 0; 0.025 sec.
+INFO: [HLS 200-0] Finish scheduling copyToPS.
+Execute       set_default_model copyToPS 
+Command       set_default_model returned 0; 0 sec.
+Execute       bind -model copyToPS 
+INFO: [BIND 205-110] clear=
+INFO: [BIND 205-110] debug=
+INFO: [BIND 205-110] drf=
+INFO: [BIND 205-110] effort=
+INFO: [BIND 205-110] fast_refine=
+INFO: [BIND 205-110] fu_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] global_opt=
+INFO: [BIND 205-110] gsearch=
+INFO: [BIND 205-110] help=
+INFO: [BIND 205-110] help-hidden=
+INFO: [BIND 205-110] min_mem_port=
+INFO: [BIND 205-110] min_op=
+INFO: [BIND 205-110] minreg=
+INFO: [BIND 205-110] ml=
+INFO: [BIND 205-110] model=copyToPS
+INFO: [BIND 205-110] no_false_path=
+INFO: [BIND 205-110] no_min_op=
+INFO: [BIND 205-110] normalize=
+INFO: [BIND 205-110] quiet=
+INFO: [BIND 205-110] refine=
+INFO: [BIND 205-110] reg_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] search=
+INFO: [BIND 205-110] tight_delay=
+INFO: [BIND 205-110] verbose=
+INFO: [BIND 205-110] wFF=
+INFO: [BIND 205-110] wFU=
+INFO: [BIND 205-110] wMUX=
+INFO: [BIND 205-110] wNET=
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+Command       bind returned 0; 0.04 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.317 seconds; current allocated memory: 112.576 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.verbose.bind.rpt -verbose -f 
+Command       report returned 0; 0.063 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.bind.adb -f 
+Command       db_write returned 0; 0.031 sec.
+INFO: [HLS 200-0] Finish binding copyToPS.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'parseEvents'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       set_default_model parseEvents 
+Command       set_default_model returned 0; 0 sec.
+Execute       schedule -model parseEvents 
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'loop_1'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 23.
+WARNING: [SCHED 204-71] Latency directive discarded for region parseEvents since it contains subloops.
+INFO: [SCHED 204-11] Finished scheduling.
+Command       schedule returned 0; 0.072 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.189 seconds; current allocated memory: 112.982 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.verbose.sched.rpt -verbose -f 
+Command       report returned 0; 0.025 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.sched.adb -f 
+Command       db_write returned 0; 0.016 sec.
+INFO: [HLS 200-0] Finish scheduling parseEvents.
+Execute       set_default_model parseEvents 
+Command       set_default_model returned 0; 0 sec.
+Execute       bind -model parseEvents 
+INFO: [BIND 205-110] clear=
+INFO: [BIND 205-110] debug=
+INFO: [BIND 205-110] drf=
+INFO: [BIND 205-110] effort=
+INFO: [BIND 205-110] fast_refine=
+INFO: [BIND 205-110] fu_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] global_opt=
+INFO: [BIND 205-110] gsearch=
+INFO: [BIND 205-110] help=
+INFO: [BIND 205-110] help-hidden=
+INFO: [BIND 205-110] min_mem_port=
+INFO: [BIND 205-110] min_op=
+INFO: [BIND 205-110] minreg=
+INFO: [BIND 205-110] ml=
+INFO: [BIND 205-110] model=parseEvents
+INFO: [BIND 205-110] no_false_path=
+INFO: [BIND 205-110] no_min_op=
+INFO: [BIND 205-110] normalize=
+INFO: [BIND 205-110] quiet=
+INFO: [BIND 205-110] refine=
+INFO: [BIND 205-110] reg_weight=[ 0.0 -- 1.0 ]
+INFO: [BIND 205-110] search=
+INFO: [BIND 205-110] tight_delay=
+INFO: [BIND 205-110] verbose=
+INFO: [BIND 205-110] wFF=
+INFO: [BIND 205-110] wFU=
+INFO: [BIND 205-110] wMUX=
+INFO: [BIND 205-110] wNET=
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+Command       bind returned 0; 0.189 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.302 seconds; current allocated memory: 113.389 MB.
+Execute       report -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.verbose.bind.rpt -verbose -f 
+Command       report returned 0; 0.091 sec.
+Execute       db_write -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.bind.adb -f 
+Command       db_write returned 0; 0.021 sec.
+INFO: [HLS 200-0] Finish binding parseEvents.
+Execute       get_model_list parseEvents -filter all-wo-channel 
+Command       get_model_list returned 0; 0 sec.
+INFO: [HLS 200-0] Preprocessing for RTLGen ...
+Execute       rtl_gen_preprocess resetCurrentSliceHW 
+Command       rtl_gen_preprocess returned 0; 0 sec.
+Execute       rtl_gen_preprocess accumulateHW 
+Command       rtl_gen_preprocess returned 0; 0.001 sec.
+Execute       rtl_gen_preprocess copyToPS 
+Command       rtl_gen_preprocess returned 0; 0 sec.
+Execute       rtl_gen_preprocess parseEvents 
+Command       rtl_gen_preprocess returned 0; 0.001 sec.
+INFO: [HLS 200-0] Model list for RTL generation: resetCurrentSliceHW accumulateHW copyToPS parseEvents
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'resetCurrentSliceHW'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       create_rtl_model resetCurrentSliceHW -vendor xilinx -mg_file E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.compgen.tcl 
+INFO: [RTGEN 206-100] Finished creating RTL model for 'resetCurrentSliceHW'.
+Command       create_rtl_model returned 0; 0.089 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.276 seconds; current allocated memory: 114.401 MB.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       gen_rtl resetCurrentSliceHW -style xilinx -tracefl mytrace -tracefmt vcd -traceopt all -f -lang sc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/systemc/a0_resetCurrentSliceHW -synmodules resetCurrentSliceHW accumulateHW copyToPS parseEvents 
+Command       gen_rtl returned 0; 0.009 sec.
+Execute       gen_rtl resetCurrentSliceHW -style xilinx -f -lang vhdl -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/vhdl/a0_resetCurrentSliceHW 
+Command       gen_rtl returned 0; 0.005 sec.
+Execute       gen_rtl resetCurrentSliceHW -style xilinx -f -lang vlog -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/verilog/a0_resetCurrentSliceHW 
+Command       gen_rtl returned 0; 0.006 sec.
+Execute       gen_tb_info resetCurrentSliceHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW -p E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db 
+Command       gen_tb_info returned 0; 0.017 sec.
+Execute       report -model resetCurrentSliceHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/resetCurrentSliceHW_csynth.rpt -f 
+Command       report returned 0; 0.017 sec.
+Execute       report -model resetCurrentSliceHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/resetCurrentSliceHW_csynth.xml -f -x 
+Command       report returned 0; 0.015 sec.
+Execute       report -model resetCurrentSliceHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.verbose.rpt -verbose -f 
+Command       report returned 0; 0.174 sec.
+Execute       db_write -model resetCurrentSliceHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.adb -f 
+Command       db_write returned 0; 0.115 sec.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'accumulateHW'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       create_rtl_model accumulateHW -vendor xilinx -mg_file E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.compgen.tcl 
+INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_15ns_5ns_14_19_1' to 'parseEvents_urem_bkb' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_1616_8_1_1' to 'parseEvents_mux_1cud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mul_mul_17ns_15ns_32_1_1' to 'parseEvents_mul_mdEe' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mdEe': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_1cud': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_bkb': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'accumulateHW'.
+Command       create_rtl_model returned 0; 0.054 sec.
+INFO: [HLS 200-111]  Elapsed time: 1.463 seconds; current allocated memory: 115.733 MB.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       gen_rtl accumulateHW -style xilinx -tracefl mytrace -tracefmt vcd -traceopt all -f -lang sc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/systemc/a0_accumulateHW -synmodules resetCurrentSliceHW accumulateHW copyToPS parseEvents 
+Command       gen_rtl returned 0; 0.008 sec.
+Execute       gen_rtl accumulateHW -style xilinx -f -lang vhdl -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/vhdl/a0_accumulateHW 
+Command       gen_rtl returned 0; 0.005 sec.
+Execute       gen_rtl accumulateHW -style xilinx -f -lang vlog -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/verilog/a0_accumulateHW 
+Command       gen_rtl returned 0; 0.006 sec.
+Execute       gen_tb_info accumulateHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW -p E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db 
+Command       gen_tb_info returned 0; 0.015 sec.
+Execute       report -model accumulateHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/accumulateHW_csynth.rpt -f 
+Command       report returned 0; 0.015 sec.
+Execute       report -model accumulateHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/accumulateHW_csynth.xml -f -x 
+Command       report returned 0; 0.012 sec.
+Execute       report -model accumulateHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.verbose.rpt -verbose -f 
+Command       report returned 0; 0.07 sec.
+Execute       db_write -model accumulateHW -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.adb -f 
+Command       db_write returned 0; 0.044 sec.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'copyToPS'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       create_rtl_model copyToPS -vendor xilinx -mg_file E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.compgen.tcl 
+INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_8ns_5ns_8_12_1' to 'parseEvents_urem_eOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_16ns_9ns_16_20_1' to 'parseEvents_urem_fYi' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_1cud': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_eOg': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_fYi': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'copyToPS'.
+Command       create_rtl_model returned 0; 0.078 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.503 seconds; current allocated memory: 117.012 MB.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.003 sec.
+Execute       gen_rtl copyToPS -style xilinx -tracefl mytrace -tracefmt vcd -traceopt all -f -lang sc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/systemc/a0_copyToPS -synmodules resetCurrentSliceHW accumulateHW copyToPS parseEvents 
+Command       gen_rtl returned 0; 0.009 sec.
+Execute       gen_rtl copyToPS -style xilinx -f -lang vhdl -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/vhdl/a0_copyToPS 
+Command       gen_rtl returned 0; 0.008 sec.
+Execute       gen_rtl copyToPS -style xilinx -f -lang vlog -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/verilog/a0_copyToPS 
+Command       gen_rtl returned 0; 0.005 sec.
+Execute       gen_tb_info copyToPS -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS -p E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db 
+Command       gen_tb_info returned 0; 0.021 sec.
+Execute       report -model copyToPS -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/copyToPS_csynth.rpt -f 
+Command       report returned 0; 0.021 sec.
+Execute       report -model copyToPS -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/copyToPS_csynth.xml -f -x 
+Command       report returned 0; 0.017 sec.
+Execute       report -model copyToPS -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.verbose.rpt -verbose -f 
+Command       report returned 0; 0.078 sec.
+Execute       db_write -model copyToPS -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.adb -f 
+Command       db_write returned 0; 0.056 sec.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+Execute       create_rtl_model parseEvents -vendor xilinx -mg_file E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.compgen.tcl 
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice' to 'm_axi'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/data' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventsArraySize' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice_offset' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'parseEvents' to 'ap_ctrl_hs'.
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_0' to 'parseEvents_glPLSg8j' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_1' to 'parseEvents_glPLShbi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_2' to 'parseEvents_glPLSibs' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_3' to 'parseEvents_glPLSjbC' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_4' to 'parseEvents_glPLSkbM' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_5' to 'parseEvents_glPLSlbW' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_6' to 'parseEvents_glPLSmb6' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_7' to 'parseEvents_glPLSncg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_8' to 'parseEvents_glPLSocq' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_9' to 'parseEvents_glPLSpcA' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_10' to 'parseEvents_glPLSqcK' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_11' to 'parseEvents_glPLSrcU' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_12' to 'parseEvents_glPLSsc4' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_13' to 'parseEvents_glPLStde' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_14' to 'parseEvents_glPLSudo' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_15' to 'parseEvents_glPLSvdy' due to the length limit 20
+INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
+Command       create_rtl_model returned 0; 0.225 sec.
+INFO: [HLS 200-111]  Elapsed time: 0.682 seconds; current allocated memory: 119.383 MB.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.003 sec.
+Execute       gen_rtl parseEvents -istop -style xilinx -tracefl mytrace -tracefmt vcd -traceopt all -f -lang sc -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/systemc/a0_parseEvents -synmodules resetCurrentSliceHW accumulateHW copyToPS parseEvents 
+Command       gen_rtl returned 0; 0.011 sec.
+Execute       gen_rtl parseEvents -istop -style xilinx -f -lang vhdl -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/vhdl/a0_parseEvents 
+Command       gen_rtl returned 0; 0.062 sec.
+Execute       gen_rtl parseEvents -istop -style xilinx -f -lang vlog -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/verilog/a0_parseEvents 
+Command       gen_rtl returned 0; 0.037 sec.
+Execute       export_constraint_db -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.constraint.tcl -f -tool general 
+Command       export_constraint_db returned 0; 0.002 sec.
+Execute       report -model parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.design.xml -verbose -f -dv 
+Command       report returned 0; 0.129 sec.
+Execute       report -model parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.sdaccel.xml -verbose -f -sdaccel 
+Command       report returned 0; 0.087 sec.
+Execute       gen_tb_info parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents -p E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db 
+Command       gen_tb_info returned 0; 0.011 sec.
+Execute       report -model parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/parseEvents_csynth.rpt -f 
+Command       report returned 0; 0.033 sec.
+Execute       report -model parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/syn/report/parseEvents_csynth.xml -f -x 
+Command       report returned 0; 0.029 sec.
+Execute       report -model parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.verbose.rpt -verbose -f 
+Command       report returned 0; 0.121 sec.
+Execute       db_write -model parseEvents -o E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.adb -f 
+Command       db_write returned 0; 0.059 sec.
+Execute       sc_get_clocks parseEvents 
+Command       sc_get_clocks returned 0; 0 sec.
+Execute       sc_get_portdomain parseEvents 
+Command       sc_get_portdomain returned 0; 0 sec.
+INFO: [HLS 200-0] Model list for RTL component generation: resetCurrentSliceHW accumulateHW copyToPS parseEvents
+INFO: [HLS 200-0] Handling components in module [resetCurrentSliceHW] ... 
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.compgen.tcl 
+Command       ap_source returned 0; 0.016 sec.
+INFO: [HLS 200-0] Handling components in module [accumulateHW] ... 
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.compgen.tcl 
+INFO: [HLS 200-0] Found component a0_parseEvents_urem_bkb.
+INFO: [HLS 200-0] Append model a0_parseEvents_urem_bkb
+INFO: [HLS 200-0] Found component a0_parseEvents_mux_1cud.
+INFO: [HLS 200-0] Append model a0_parseEvents_mux_1cud
+INFO: [HLS 200-0] Found component a0_parseEvents_mul_mdEe.
+INFO: [HLS 200-0] Append model a0_parseEvents_mul_mdEe
+Command       ap_source returned 0; 0.014 sec.
+INFO: [HLS 200-0] Handling components in module [copyToPS] ... 
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.compgen.tcl 
+INFO: [HLS 200-0] Found component a0_parseEvents_urem_eOg.
+INFO: [HLS 200-0] Append model a0_parseEvents_urem_eOg
+INFO: [HLS 200-0] Found component a0_parseEvents_urem_fYi.
+INFO: [HLS 200-0] Append model a0_parseEvents_urem_fYi
+Command       ap_source returned 0; 0.016 sec.
+INFO: [HLS 200-0] Handling components in module [parseEvents] ... 
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.compgen.tcl 
+INFO: [HLS 200-0] Found component a0_parseEvents_glPLSg8j.
+INFO: [HLS 200-0] Append model a0_parseEvents_glPLSg8j
+INFO: [HLS 200-0] Found component a0_parseEvents_eventSlice_m_axi.
+INFO: [HLS 200-0] Append model a0_parseEvents_eventSlice_m_axi
+Command       ap_source returned 0; 0.014 sec.
+INFO: [HLS 200-0] Append model resetCurrentSliceHW
+INFO: [HLS 200-0] Append model accumulateHW
+INFO: [HLS 200-0] Append model copyToPS
+INFO: [HLS 200-0] Append model parseEvents
+INFO: [HLS 200-0] Generating RTL model list ...
+INFO: [HLS 200-0] All models in this session: a0_parseEvents_urem_bkb a0_parseEvents_mux_1cud a0_parseEvents_mul_mdEe a0_parseEvents_urem_eOg a0_parseEvents_urem_fYi a0_parseEvents_glPLSg8j a0_parseEvents_eventSlice_m_axi resetCurrentSliceHW accumulateHW copyToPS parseEvents
+INFO: [HLS 200-0] To file: write model a0_parseEvents_urem_bkb
+INFO: [HLS 200-0] To file: write model a0_parseEvents_mux_1cud
+INFO: [HLS 200-0] To file: write model a0_parseEvents_mul_mdEe
+INFO: [HLS 200-0] To file: write model a0_parseEvents_urem_eOg
+INFO: [HLS 200-0] To file: write model a0_parseEvents_urem_fYi
+INFO: [HLS 200-0] To file: write model a0_parseEvents_glPLSg8j
+INFO: [HLS 200-0] To file: write model a0_parseEvents_eventSlice_m_axi
+INFO: [HLS 200-0] To file: write model resetCurrentSliceHW
+INFO: [HLS 200-0] To file: write model accumulateHW
+INFO: [HLS 200-0] To file: write model copyToPS
+INFO: [HLS 200-0] To file: write model parseEvents
+INFO: [HLS 200-0] Finished generating RTL model list.
+
+
+INFO: [HLS 200-0] RTL Generation done.
+INFO: [HLS 200-0] CAS Generation done.
+INFO: [HLS 200-0] CBC Generation done.
+Execute       export_ssdm E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/a.export.ll 
+Command       export_ssdm returned 0; 0.003 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/common.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/APCoreGen.gen 
+Command         ap_source returned 0; 0.001 sec.
+Command       ap_source returned 0; 0.001 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/op.gen 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/op_simcore.gen 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/interface.gen 
+Command       ap_source returned 0; 0 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/virtex.gen 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.gen 
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/plb46.gen 
+Command             ap_source returned 0; 0.002 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/fsl.gen 
+Command             ap_source returned 0; 0 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/axi4.gen 
+Command             ap_source returned 0; 0.002 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/nativeAXI4.gen 
+Execute               source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.gen 
+Command               ap_source returned 0; 0.004 sec.
+Execute               source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.gen 
+Command               ap_source returned 0; 0.006 sec.
+Command             ap_source returned 0; 0.01 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/scripts/xilinxcoregen.gen 
+Command             ap_source returned 0; 0.011 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/XilEDKCoreGen.gen 
+Command             ap_source returned 0; 0.008 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/dds_compiler.gen 
+Command             ap_source returned 0; 0.004 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/util.gen 
+Command             ap_source returned 0; 0 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfft.gen 
+Command             ap_source returned 0; 0.079 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfir.gen 
+Command             ap_source returned 0; 0.001 sec.
+Command           ap_source returned 0; 0.118 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.gen 
+Command           ap_source returned 0; 0.001 sec.
+Command         ap_source returned 0; 0.121 sec.
+Command       ap_source returned 0; 0.121 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq_fpv6.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_fpv6.gen 
+Command         ap_source returned 0; 0.002 sec.
+Command       ap_source returned 0; 0.003 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.compgen.tcl 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.compgen.tcl 
+INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_bkb_div'
+Command       ap_source returned 0; 0.125 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.compgen.tcl 
+INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_eOg_div'
+INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_fYi_div'
+Command       ap_source returned 0; 0.072 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.compgen.tcl 
+INFO: [RTMG 210-278] Implementing memory 'a0_parseEvents_glPLSg8j_ram (RAM)' using block RAMs with power-on initialization.
+Command       ap_source returned 0; 0.088 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/common.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/APCoreGen.gen 
+Command         ap_source returned 0; 0 sec.
+Command       ap_source returned 0; 0.002 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/op.gen 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/op_simcore.gen 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/generic/autopilot/interface.gen 
+Command       ap_source returned 0; 0 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.003 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/virtex.gen 
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx.gen 
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/plb46.gen 
+Command             ap_source returned 0; 0.002 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/fsl.gen 
+Command             ap_source returned 0; 0.001 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/axi4.gen 
+Command             ap_source returned 0; 0.003 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/nativeAXI4.gen 
+Execute               source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/saxilite.gen 
+Command               ap_source returned 0; 0.006 sec.
+Execute               source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/maxi.gen 
+Command               ap_source returned 0; 0.011 sec.
+Command             ap_source returned 0; 0.018 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/scripts/xilinxcoregen.gen 
+Command             ap_source returned 0; 0.012 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/interface/XilEDKCoreGen.gen 
+Command             ap_source returned 0; 0.008 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/dds_compiler.gen 
+Command             ap_source returned 0; 0.004 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/util.gen 
+Command             ap_source returned 0; 0 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfft.gen 
+Command             ap_source returned 0; 0.087 sec.
+Execute             source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/ip/xfir.gen 
+Command             ap_source returned 0; 0.001 sec.
+Command           ap_source returned 0; 0.138 sec.
+Execute           source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/dsp48.gen 
+Command           ap_source returned 0; 0 sec.
+Command         ap_source returned 0; 0.143 sec.
+Command       ap_source returned 0; 0.144 sec.
+Execute       source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/zynq/zynq_fpv6.gen 
+Execute         source D:/Xilinx/Vivado/2018.1/common/technology/xilinx/common/xilinx_fpv6.gen 
+Command         ap_source returned 0; 0.003 sec.
+Command       ap_source returned 0; 0.003 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.rtl_wrap.cfg.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.tbgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.tbgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.compgen.tcl 
+Command       ap_source returned 0; 0.003 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.compgen.tcl 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.compgen.tcl 
+Command       ap_source returned 0; 0.019 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/resetCurrentSliceHW.compgen.tcl 
+Command       ap_source returned 0; 0.024 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/accumulateHW.compgen.tcl 
+Command       ap_source returned 0; 0.003 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/copyToPS.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.compgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.constraint.tcl 
+Command       ap_source returned 0; 0.001 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.tbgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.tbgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.tbgen.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/parseEvents.constraint.tcl 
+Command       ap_source returned 0; 0.002 sec.
+Execute       sc_get_clocks parseEvents 
+Command       sc_get_clocks returned 0; 0 sec.
+Execute       source E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.autopilot/db/global.setting.tcl 
+Command       ap_source returned 0; 0.002 sec.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:07 ; elapsed = 00:00:19 . Memory (MB): peak = 183.926 ; gain = 126.188
+INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents with prefix a0_.
+INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents with prefix a0_.
+INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents with prefix a0_.
+Command     autosyn returned 0; 8.565 sec.
+Command   csynth_design returned 0; 17.435 sec.
+Command ap_source returned 0; 18.103 sec.
+Execute cleanup_all 
+Command cleanup_all returned 0; 0.024 sec.
