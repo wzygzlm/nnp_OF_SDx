@@ -1,0 +1,233 @@
+
+
+================================================================
+== Vivado HLS Report for 'resetCurrentSliceHW'
+================================================================
+* Date:           Fri Aug 24 00:03:14 2018
+
+* Version:        2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)
+* Project:        parseEvents
+* Solution:       solution3
+* Product family: zynq
+* Target device:  xc7z007sclg225-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|      5.20|        2.70|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +------+------+------+------+---------+
+    |   Latency   |   Interval  | Pipeline|
+    |  min |  max |  min |  max |   Type  |
+    +------+------+------+------+---------+
+    |  5402|  5402|  5402|  5402|   none  |
+    +------+------+------+------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +------------------+------+------+----------+-----------+-----------+------+----------+
+        |                  |   Latency   | Iteration|  Initiation Interval  | Trip |          |
+        |     Loop Name    |  min |  max |  Latency |  achieved |   target  | Count| Pipelined|
+        +------------------+------+------+----------+-----------+-----------+------+----------+
+        |- resetSliceLoop  |  5400|  5400|        30|         30|          1|   180|    yes   |
+        +------------------+------+------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-------+-------+-------+
+|       Name      | BRAM_18K| DSP48E|   FF  |  LUT  |
++-----------------+---------+-------+-------+-------+
+|DSP              |        -|      -|      -|      -|
+|Expression       |        -|      -|      0|   1381|
+|FIFO             |        -|      -|      -|      -|
+|Instance         |        -|      -|      -|      -|
+|Memory           |        -|      -|      -|      -|
+|Multiplexer      |        -|      -|      -|   1286|
+|Register         |        -|      -|     75|      -|
++-----------------+---------+-------+-------+-------+
+|Total            |        0|      0|     75|   2667|
++-----------------+---------+-------+-------+-------+
+|Available        |      100|     66|  28800|  14400|
++-----------------+---------+-------+-------+-------+
+|Utilization (%)  |        0|      0|   ~0  |     18|
++-----------------+---------+-------+-------+-------+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP48: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------+----------+-------+---+----+------------+------------+
+    |     Variable Name    | Operation| DSP48E| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------+----------+-------+---+----+------------+------------+
+    |i_1_fu_2135_p2        |     +    |      0|  0|  15|           8|           1|
+    |tmp_10_fu_2275_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_11_fu_2288_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_12_fu_2301_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_13_fu_2314_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_14_fu_2327_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_15_fu_2340_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_16_fu_2353_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_17_fu_2366_p2     |     +    |      0|  0|  23|          16|           4|
+    |tmp_18_fu_2379_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_19_fu_2392_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_20_fu_2405_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_21_fu_2418_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_22_fu_2431_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_23_fu_2444_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_24_fu_2457_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_25_fu_2470_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_26_fu_2483_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_27_fu_2496_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_28_fu_2509_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_29_fu_2522_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_30_fu_2535_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_31_fu_2548_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_32_fu_2561_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_33_fu_2574_p2     |     +    |      0|  0|  23|          16|           5|
+    |tmp_34_fu_2587_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_35_fu_2600_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_36_fu_2613_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_37_fu_2626_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_38_fu_2639_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_39_fu_2652_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_40_fu_2665_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_41_fu_2678_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_42_fu_2691_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_43_fu_2704_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_44_fu_2717_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_45_fu_2730_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_46_fu_2743_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_47_fu_2756_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_48_fu_2769_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_49_fu_2782_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_50_fu_2795_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_51_fu_2808_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_52_fu_2821_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_53_fu_2834_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_54_fu_2847_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_55_fu_2860_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_56_fu_2873_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_57_fu_2886_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_58_fu_2899_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_59_fu_2912_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_60_fu_2925_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_61_fu_2938_p2     |     +    |      0|  0|  23|          16|           6|
+    |tmp_7_fu_2223_p2      |     +    |      0|  0|  23|          16|           3|
+    |tmp_8_fu_2236_p2      |     +    |      0|  0|  23|          16|           3|
+    |tmp_9_fu_2249_p2      |     +    |      0|  0|  23|          16|           3|
+    |tmp_s_fu_2262_p2      |     +    |      0|  0|  23|          16|           3|
+    |tmp_3_fu_2165_p2      |     -    |      0|  0|  21|          15|          15|
+    |exitcond1_fu_2129_p2  |   icmp   |      0|  0|  11|           8|           8|
+    |tmp_4_fu_2183_p2      |    or    |      0|  0|  16|          16|           1|
+    |tmp_5_fu_2197_p2      |    or    |      0|  0|  15|          15|           2|
+    |tmp_6_fu_2210_p2      |    or    |      0|  0|  15|          15|           2|
+    +----------------------+----------+-------+---+----+------------+------------+
+    |Total                 |          |      0|  0|1381|         973|         321|
+    +----------------------+----------+-------+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------------+-----+-----------+-----+-----------+
+    |          Name         | LUT | Input Size| Bits| Total Bits|
+    +-----------------------+-----+-----------+-----+-----------+
+    |ap_NS_fsm              |  149|         33|    1|         33|
+    |glPLSlices_0_address0  |  141|         31|   15|        465|
+    |glPLSlices_0_address1  |  141|         31|   15|        465|
+    |glPLSlices_1_address0  |  141|         31|   15|        465|
+    |glPLSlices_1_address1  |  141|         31|   15|        465|
+    |glPLSlices_2_address0  |  141|         31|   15|        465|
+    |glPLSlices_2_address1  |  141|         31|   15|        465|
+    |glPLSlices_3_address0  |  141|         31|   15|        465|
+    |glPLSlices_3_address1  |  141|         31|   15|        465|
+    |i_reg_2118             |    9|          2|    8|         16|
+    +-----------------------+-----+-----------+-----+-----------+
+    |Total                  | 1286|        283|  129|       3769|
+    +-----------------------+-----+-----------+-----+-----------+
+
+    * Register: 
+    +----------------------+----+----+-----+-----------+
+    |         Name         | FF | LUT| Bits| Const Bits|
+    +----------------------+----+----+-----+-----------+
+    |ap_CS_fsm             |  32|   0|   32|          0|
+    |i_1_reg_2954          |   8|   0|    8|          0|
+    |i_reg_2118            |   8|   0|    8|          0|
+    |tmp_3_cast1_reg_2965  |  14|   0|   16|          2|
+    |tmp_3_reg_2959        |  13|   0|   15|          2|
+    +----------------------+----+----+-----+-----------+
+    |Total                 |  75|   0|   79|          4|
+    +----------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-----------------------+-----+-----+------------+---------------------+--------------+
+|       RTL Ports       | Dir | Bits|  Protocol  |    Source Object    |    C Type    |
++-----------------------+-----+-----+------------+---------------------+--------------+
+|ap_clk                 |  in |    1| ap_ctrl_hs | resetCurrentSliceHW | return value |
+|ap_rst                 |  in |    1| ap_ctrl_hs | resetCurrentSliceHW | return value |
+|ap_start               |  in |    1| ap_ctrl_hs | resetCurrentSliceHW | return value |
+|ap_done                | out |    1| ap_ctrl_hs | resetCurrentSliceHW | return value |
+|ap_idle                | out |    1| ap_ctrl_hs | resetCurrentSliceHW | return value |
+|ap_ready               | out |    1| ap_ctrl_hs | resetCurrentSliceHW | return value |
+|glPLSlices_0_address0  | out |   15|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_ce0       | out |    1|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_we0       | out |    1|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_d0        | out |    8|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_address1  | out |   15|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_ce1       | out |    1|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_we1       | out |    1|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_0_d1        | out |    8|  ap_memory |     glPLSlices_0    |     array    |
+|glPLSlices_1_address0  | out |   15|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_ce0       | out |    1|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_we0       | out |    1|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_d0        | out |    8|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_address1  | out |   15|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_ce1       | out |    1|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_we1       | out |    1|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_1_d1        | out |    8|  ap_memory |     glPLSlices_1    |     array    |
+|glPLSlices_2_address0  | out |   15|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_ce0       | out |    1|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_we0       | out |    1|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_d0        | out |    8|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_address1  | out |   15|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_ce1       | out |    1|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_we1       | out |    1|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_2_d1        | out |    8|  ap_memory |     glPLSlices_2    |     array    |
+|glPLSlices_3_address0  | out |   15|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_ce0       | out |    1|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_we0       | out |    1|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_d0        | out |    8|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_address1  | out |   15|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_ce1       | out |    1|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_we1       | out |    1|  ap_memory |     glPLSlices_3    |     array    |
+|glPLSlices_3_d1        | out |    8|  ap_memory |     glPLSlices_3    |     array    |
++-----------------------+-----+-----+------------+---------------------+--------------+
+

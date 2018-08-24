@@ -47,6 +47,16 @@
 			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/.tcls</location>
 		</link>
 		<link>
+			<name>solution2/constraints</name>
+			<type>2</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution2/.tcls</location>
+		</link>
+		<link>
+			<name>solution3/constraints</name>
+			<type>2</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution3/.tcls</location>
+		</link>
+		<link>
 			<name>source/abmof_hw_accel.cpp</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp</location>
@@ -75,6 +85,36 @@
 			<name>solution1/constraints/script.tcl</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1/script.tcl</location>
+		</link>
+		<link>
+			<name>solution2/constraints/.xml.directive</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution2/solution2.directive</location>
+		</link>
+		<link>
+			<name>solution2/constraints/directives.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution2/directives.tcl</location>
+		</link>
+		<link>
+			<name>solution2/constraints/script.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution2/script.tcl</location>
+		</link>
+		<link>
+			<name>solution3/constraints/.xml.directive</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution3/solution3.directive</location>
+		</link>
+		<link>
+			<name>solution3/constraints/directives.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution3/directives.tcl</location>
+		</link>
+		<link>
+			<name>solution3/constraints/script.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution3/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>

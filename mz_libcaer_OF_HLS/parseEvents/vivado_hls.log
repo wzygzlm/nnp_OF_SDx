@@ -1,31 +1,32 @@
 INFO: [HLS 200-10] Running 'D:/Xilinx/Vivado/2018.1/bin/unwrapped/win64.o/vivado_hls.exe'
-INFO: [HLS 200-10] For user 'minliu' on host 'desktop-3tnsmfc' (Windows NT_amd64 version 6.2) on Thu Aug 23 23:48:04 +0200 2018
+INFO: [HLS 200-10] For user 'minliu' on host 'desktop-3tnsmfc' (Windows NT_amd64 version 6.2) on Fri Aug 24 00:02:59 +0200 2018
 INFO: [HLS 200-10] In directory 'E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents'
 INFO: [HLS 200-10] Opening project 'E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents'.
 WARNING: [HLS 200-40] No E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution/solution.aps file found.
 INFO: [HLS 200-10] Adding design file '../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp' to the project
-INFO: [HLS 200-10] Opening solution 'E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution1'.
+INFO: [HLS 200-10] Opening solution 'E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF_HLS/parseEvents/parseEvents/solution3'.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 2.7ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file '../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 103.129 ; gain = 45.391
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 103.152 ; gain = 45.414
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 103.262 ; gain = 45.715
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 103.285 ; gain = 45.738
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 104.809 ; gain = 47.070
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:01 ; elapsed = 00:00:09 . Memory (MB): peak = 104.867 ; gain = 47.320
 INFO: [HLS 200-10] Checking synthesizability ...
 INFO: [XFORM 203-602] Inlining function 'resetCurrentSliceHW' into 'parseEvents' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40) automatically.
 INFO: [XFORM 203-602] Inlining function 'accumulateHW' into 'parseEvents' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) automatically.
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 105.039 ; gain = 47.301
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:01 ; elapsed = 00:00:09 . Memory (MB): peak = 105.098 ; gain = 47.551
 INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'resetSliceLoop' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:30) in function 'resetCurrentSliceHW' for pipelining.
 WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'resetSliceLoop2' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:32) because its parent loop or function is pipelined.
 INFO: [XFORM 203-501] Unrolling loop 'resetSliceLoop2' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:32) in function 'resetCurrentSliceHW' completely.
-INFO: [XFORM 203-101] Partitioning array 'glPLSlices'  in dimension 3 with a block factor 16.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 127.012 ; gain = 69.273
+INFO: [XFORM 203-101] Partitioning array 'glPLSlices'  in dimension 3 with a block factor 4.
+INFO: [XFORM 203-602] Inlining function 'accumulateHW' into 'parseEvents' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) automatically.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 126.113 ; gain = 68.566
 INFO: [XFORM 203-541] Flattening a loop nest 'copyToPSLoop' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:18:3) in function 'copyToPS'.
 INFO: [XFORM 203-811] Inferring multiple bus burst write of a total cumulative length 240 on port 'eventSlice' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:21:4). These data requests might be further partitioned to multiple requests during RTL generation, based on max_read_burst_length or max_write_burst_length settings.
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 151.566 ; gain = 93.828
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:11 . Memory (MB): peak = 144.777 ; gain = 87.230
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -34,37 +35,15 @@ INFO: [HLS 200-10] -------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'resetSliceLoop'.
 WARNING: [SCHED 204-69] Unable to schedule 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:33) of constant 0 on array 'glPLSlices_0' due to limited memory ports. Please consider using a memory core with more ports or partitioning the array 'glPLSlices_0'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 8, Depth = 8.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 30, Depth = 30.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 10.974 seconds; current allocated memory: 109.262 MB.
+INFO: [HLS 200-111]  Elapsed time: 13.062 seconds; current allocated memory: 102.044 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.382 seconds; current allocated memory: 110.508 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'accumulateHW'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining function 'accumulateHW'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
-   between 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) of variable 'tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10 on array 'glPLSlices_0' and 'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) on array 'glPLSlices_0'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 21.
-WARNING: [SCHED 204-21] Estimated clock period (10.487ns) exceeds the target (target clock period: 10ns, clock uncertainty: 2.7ns, effective delay budget: 7.3ns).
-WARNING: [SCHED 204-21] The critical path consists of the following:
-	'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) on array 'glPLSlices_0' (3.25 ns)
-	'mux' operation ('tmp', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) (2.06 ns)
-	'add' operation ('tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) (1.92 ns)
-	'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10) of variable 'tmp_3', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10 on array 'glPLSlices_3' (3.25 ns)
-INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.44 seconds; current allocated memory: 111.355 MB.
-INFO: [BIND 205-100] Starting micro-architecture generation ...
-INFO: [BIND 205-101] Performing variable lifetime analysis.
-INFO: [BIND 205-101] Exploring resource sharing.
-INFO: [BIND 205-101] Binding ...
-INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.155 seconds; current allocated memory: 111.642 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.455 seconds; current allocated memory: 103.449 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'copyToPS'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -72,54 +51,52 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'copyToPSLoop_copyToPS_label2'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 27.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.25 seconds; current allocated memory: 112.107 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.42 seconds; current allocated memory: 104.050 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.317 seconds; current allocated memory: 112.576 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.179 seconds; current allocated memory: 104.427 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'loop_1'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
+   between 'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) of variable 'tmp_3_i', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52 on array 'glPLSlices_0' and 'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) on array 'glPLSlices_0'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 23.
 WARNING: [SCHED 204-71] Latency directive discarded for region parseEvents since it contains subloops.
+WARNING: [SCHED 204-21] Estimated clock period (10.381ns) exceeds the target (target clock period: 10ns, clock uncertainty: 2.7ns, effective delay budget: 7.3ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'load' operation ('glPLSlices_0_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) on array 'glPLSlices_0' (3.25 ns)
+	'mux' operation ('tmp_1', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) (1.96 ns)
+	'add' operation ('tmp_3_i', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) (1.92 ns)
+	'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) of variable 'tmp_3_i', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52 on array 'glPLSlices_3' (3.25 ns)
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.189 seconds; current allocated memory: 112.982 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.205 seconds; current allocated memory: 104.949 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.302 seconds; current allocated memory: 113.389 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.29 seconds; current allocated memory: 105.350 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'resetCurrentSliceHW'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'resetCurrentSliceHW'.
-INFO: [HLS 200-111]  Elapsed time: 0.276 seconds; current allocated memory: 114.401 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'accumulateHW'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_15ns_5ns_14_19_1' to 'parseEvents_urem_bkb' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_1616_8_1_1' to 'parseEvents_mux_1cud' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_mul_mul_17ns_15ns_32_1_1' to 'parseEvents_mul_mdEe' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mdEe': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_1cud': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_bkb': 1 instance(s).
-INFO: [RTGEN 206-100] Finished creating RTL model for 'accumulateHW'.
-INFO: [HLS 200-111]  Elapsed time: 1.463 seconds; current allocated memory: 115.733 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.385 seconds; current allocated memory: 106.803 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'copyToPS'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_8ns_5ns_8_12_1' to 'parseEvents_urem_eOg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_16ns_9ns_16_20_1' to 'parseEvents_urem_fYi' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_1cud': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_eOg': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_fYi': 2 instance(s).
+INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_8ns_7ns_8_12_1' to 'parseEvents_urem_bkb' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_16ns_9ns_16_20_1' to 'parseEvents_urem_cud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_416_8_1_1' to 'parseEvents_mux_4dEe' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4dEe': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_bkb': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_cud': 2 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'copyToPS'.
-INFO: [HLS 200-111]  Elapsed time: 0.503 seconds; current allocated memory: 117.012 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.771 seconds; current allocated memory: 108.499 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -128,30 +105,23 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/data' to 'ap_f
 INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventsArraySize' to 'ap_none'.
 INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice_offset' to 'ap_none'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'parseEvents' to 'ap_ctrl_hs'.
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_0' to 'parseEvents_glPLSg8j' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_1' to 'parseEvents_glPLShbi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_2' to 'parseEvents_glPLSibs' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_3' to 'parseEvents_glPLSjbC' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_4' to 'parseEvents_glPLSkbM' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_5' to 'parseEvents_glPLSlbW' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_6' to 'parseEvents_glPLSmb6' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_7' to 'parseEvents_glPLSncg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_8' to 'parseEvents_glPLSocq' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_9' to 'parseEvents_glPLSpcA' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_10' to 'parseEvents_glPLSqcK' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_11' to 'parseEvents_glPLSrcU' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_12' to 'parseEvents_glPLSsc4' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_13' to 'parseEvents_glPLStde' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_14' to 'parseEvents_glPLSudo' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_15' to 'parseEvents_glPLSvdy' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_0' to 'parseEvents_glPLSeOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_1' to 'parseEvents_glPLSfYi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_2' to 'parseEvents_glPLSg8j' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_3' to 'parseEvents_glPLShbi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_urem_15ns_7ns_15_19_1' to 'parseEvents_urem_ibs' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mul_mul_15ns_17ns_32_1_1' to 'parseEvents_mul_mjbC' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mjbC': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4dEe': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_urem_ibs': 1 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
-INFO: [HLS 200-111]  Elapsed time: 0.682 seconds; current allocated memory: 119.383 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.545 seconds; current allocated memory: 109.994 MB.
 INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_bkb_div'
-INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_eOg_div'
-INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_fYi_div'
-INFO: [RTMG 210-278] Implementing memory 'a0_parseEvents_glPLSg8j_ram (RAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:07 ; elapsed = 00:00:19 . Memory (MB): peak = 183.926 ; gain = 126.188
+INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_cud_div'
+INFO: [RTMG 210-282] Generating pipelined core: 'a0_parseEvents_urem_ibs_div'
+INFO: [RTMG 210-278] Implementing memory 'a0_parseEvents_glPLSeOg_ram (RAM)' using block RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 225.883 ; gain = 168.336
 INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents with prefix a0_.
 INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents with prefix a0_.
 INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents with prefix a0_.
-INFO: [HLS 200-112] Total elapsed time: 18.731 seconds; peak allocated memory: 119.383 MB.
+INFO: [HLS 200-112] Total elapsed time: 20.019 seconds; peak allocated memory: 109.994 MB.

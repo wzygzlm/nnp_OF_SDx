@@ -1,0 +1,238 @@
+
+
+================================================================
+== Vivado HLS Report for 'parseEvents'
+================================================================
+* Date:           Thu Aug 23 23:59:09 2018
+
+* Version:        2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)
+* Project:        parseEvents
+* Solution:       solution2
+* Product family: zynq
+* Target device:  xc7z007sclg225-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|      8.42|        2.70|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +-------+-------+-------+-------+---------+
+    |    Latency    |    Interval   | Pipeline|
+    |  min  |  max  |  min  |  max  |   Type  |
+    +-------+-------+-------+-------+---------+
+    |  64833|  84834|  64833|  84834|   none  |
+    +-------+-------+-------+-------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +----------+-----+-------+----------+-----------+-----------+-----------+----------+
+        |          |   Latency   | Iteration|  Initiation Interval  |    Trip   |          |
+        | Loop Name| min |  max  |  Latency |  achieved |   target  |   Count   | Pipelined|
+        +----------+-----+-------+----------+-----------+-----------+-----------+----------+
+        |- loop_1  |    0|  20001|         4|          2|          1| 0 ~ 10000 |    yes   |
+        +----------+-----+-------+----------+-----------+-----------+-----------+----------+
+
+============================================================
++ Verbose Summary: Synthesis Manager
+============================================================
+InlineROM: 1
+ExposeGlobal: 0
+============================================================
++ Verbose Summary: CDFG Model
+============================================================
+IsTopModel: 1
+ResetActiveHigh: 1
+IsCombinational: 0
+IsDatapathOnly: 0
+HasWiredReturn: 1
+HasMFsm: 0
+HasVarLatency: 1
+IsPipeline: 0
+IsRtlPipelined: 0
+IsInstanceOverlapped: 0
+IsDontTouch: 0
+HasImplIP: 0
+IsGatedGlobalClock: 0
+
++ Individual pipeline summary: 
+  * Pipeline-0: initiation interval (II) = 2, depth = 4
+
+
+============================================================
++ Verbose Summary: Schedule
+============================================================
+* Number of FSM states : 8
+* Pipeline : 1
+  Pipeline-0 : II = 2, D = 4, States = { 3 4 5 6 }
+* Dataflow Pipeline: 0
+
+* FSM state transitions: 
+1 --> 
+	2  / true
+2 --> 
+	3  / true
+3 --> 
+	7  / (tmp_8)
+	4  / (!tmp_8)
+4 --> 
+	5  / true
+5 --> 
+	6  / true
+6 --> 
+	3  / true
+7 --> 
+	8  / true
+8 --> 
+
+* FSM state operations: 
+
+ <State 1> : 0.00ns
+ST_1 : Operation 9 [2/2] (0.00ns)   --->   "call fastcc void @resetCurrentSliceHW()" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 2> : 3.26ns
+ST_2 : Operation 10 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i8* %eventSlice), !map !26"
+ST_2 : Operation 11 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32* %data) nounwind, !map !32"
+ST_2 : Operation 12 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32 %eventsArraySize) nounwind, !map !36"
+ST_2 : Operation 13 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecTopModule([12 x i8]* @parseEvents_str) nounwind"
+ST_2 : Operation 14 [1/1] (0.00ns)   --->   "%eventSlice_offset_re = call i32 @_ssdm_op_Read.ap_auto.i32(i32 %eventSlice_offset)"
+ST_2 : Operation 15 [1/1] (0.00ns)   --->   "%eventsArraySize_read = call i32 @_ssdm_op_Read.ap_auto.i32(i32 %eventsArraySize)"
+ST_2 : Operation 16 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecInterface(i32* %data, [8 x i8]* @p_str6, i32 0, i32 0, [1 x i8]* @p_str2, i32 0, i32 0, [1 x i8]* @p_str2, [1 x i8]* @p_str2, [1 x i8]* @p_str2, i32 0, i32 0, i32 0, i32 0, [1 x i8]* @p_str2, [1 x i8]* @p_str2) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40]
+ST_2 : Operation 17 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLatency(i32 1, i32 65535, [1 x i8]* @p_str2) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40]
+ST_2 : Operation 18 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecInterface(i8* %eventSlice, [6 x i8]* @p_str7, i32 0, i32 0, [1 x i8]* @p_str2, i32 0, i32 0, [11 x i8]* @p_str8, [7 x i8]* @p_str9, [1 x i8]* @p_str2, i32 16, i32 16, i32 16, i32 16, [1 x i8]* @p_str2, [1 x i8]* @p_str2) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40]
+ST_2 : Operation 19 [1/2] (0.00ns)   --->   "call fastcc void @resetCurrentSliceHW()" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:40]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+ST_2 : Operation 20 [1/1] (0.00ns)   --->   "%tmp = shl i32 %eventsArraySize_read, 1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+ST_2 : Operation 21 [1/1] (0.00ns) (grouped into LUT with out node tmp_6)   --->   "%tmp_1 = call i1 @_ssdm_op_BitSelect.i1.i32.i32(i32 %eventsArraySize_read, i32 30)"
+ST_2 : Operation 22 [1/1] (0.00ns)   --->   "%tmp_op_op9 = or i32 %tmp, 1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+ST_2 : Operation 23 [1/1] (0.00ns) (grouped into LUT with out node tmp_6)   --->   "%tmp_3 = call i1 @_ssdm_op_BitSelect.i1.i32.i32(i32 %tmp_op_op9, i32 31)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+ST_2 : Operation 24 [1/1] (0.00ns) (grouped into LUT with out node p_neg_t)   --->   "%p_neg = xor i32 %tmp, -1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]   --->   Core 27 'LogicGate' <Latency = 0> <II = 1> <Delay = 0.99> <FuncUnit> <Opcode : 'and' 'or' 'xor'> <InPorts = 2> <OutPorts = 1>
+ST_2 : Operation 25 [1/1] (0.00ns) (grouped into LUT with out node p_neg_t)   --->   "%p_lshr = call i31 @_ssdm_op_PartSelect.i31.i32.i32.i32(i32 %p_neg, i32 1, i32 31)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+ST_2 : Operation 26 [1/1] (2.52ns) (out node of the LUT)   --->   "%p_neg_t = sub i31 0, %p_lshr" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.52> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_2 : Operation 27 [1/1] (0.00ns) (grouped into LUT with out node tmp_6)   --->   "%tmp_4 = call i31 @_ssdm_op_PartSelect.i31.i32.i32.i32(i32 %tmp_op_op9, i32 1, i32 31)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+ST_2 : Operation 28 [1/1] (0.00ns) (grouped into LUT with out node tmp_6)   --->   "%tmp_5 = select i1 %tmp_3, i31 %p_neg_t, i31 %tmp_4" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]   --->   Core 26 'Sel' <Latency = 0> <II = 1> <Delay = 0.73> <FuncUnit> <Opcode : 'select'> <InPorts = 3> <OutPorts = 1>
+ST_2 : Operation 29 [1/1] (0.73ns) (out node of the LUT)   --->   "%tmp_6 = select i1 %tmp_1, i31 0, i31 %tmp_5" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]   --->   Core 26 'Sel' <Latency = 0> <II = 1> <Delay = 0.73> <FuncUnit> <Opcode : 'select'> <InPorts = 3> <OutPorts = 1>
+ST_2 : Operation 30 [1/1] (0.00ns)   --->   "%tmp_7 = call i32 @_ssdm_op_BitConcatenate.i32.i31.i1(i31 %tmp_6, i1 false)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+ST_2 : Operation 31 [1/1] (1.76ns)   --->   "br label %1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+
+ <State 3> : 2.47ns
+ST_3 : Operation 32 [1/1] (0.00ns)   --->   "%i = phi i32 [ 0, %0 ], [ %i_2, %accumulateHW.exit ]"
+ST_3 : Operation 33 [1/1] (2.47ns)   --->   "%tmp_8 = icmp eq i32 %i, %tmp_7" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_3 : Operation 34 [1/1] (0.00ns)   --->   "br i1 %tmp_8, label %4, label %2" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+
+ <State 4> : 3.63ns
+ST_4 : Operation 35 [1/1] (3.63ns)   --->   "%data_read = call i32 @_ssdm_op_Read.ap_fifo.volatile.i32P(i32* %data)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46]   --->   Core 32 'FIFO' <Latency = 0> <II = 1> <Delay = 3.63> <Storage> <Opcode : 'read' 'write' 'nbread' 'nbwrite'> <Ports = 0> <Width = 32> <Depth = 0> <FIFO>
+ST_4 : Operation 36 [1/1] (0.00ns)   --->   "%tmp_9 = call i1 @_ssdm_op_BitSelect.i1.i32.i32(i32 %data_read, i32 1)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:48]
+ST_4 : Operation 37 [1/1] (0.00ns)   --->   "br i1 %tmp_9, label %3, label %accumulateHW.exit" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:8->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]
+ST_4 : Operation 38 [1/1] (2.55ns)   --->   "%i_2 = add nsw i32 %i, 2" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.52> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+
+ <State 5> : 7.22ns
+ST_5 : Operation 39 [1/1] (0.00ns)   --->   "%tmp_10 = call i15 @_ssdm_op_PartSelect.i15.i32.i32.i32(i32 %data_read, i32 17, i32 31)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46]
+ST_5 : Operation 40 [1/1] (0.00ns)   --->   "%tmp_i1_cast = zext i15 %tmp_10 to i18" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46]
+ST_5 : Operation 41 [1/1] (0.00ns)   --->   "%tmp_11 = call i10 @_ssdm_op_PartSelect.i10.i32.i32.i32(i32 %data_read, i32 2, i32 11)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46]
+ST_5 : Operation 42 [1/1] (0.00ns)   --->   "%p_shl_cast = call i18 @_ssdm_op_BitConcatenate.i18.i10.i8(i10 %tmp_11, i8 0)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46]
+ST_5 : Operation 43 [1/1] (0.00ns)   --->   "%tmp_12 = call i14 @_ssdm_op_PartSelect.i14.i32.i32.i32(i32 %data_read, i32 2, i32 15)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46]
+ST_5 : Operation 44 [1/1] (0.00ns)   --->   "%p_shl3_cast = call i18 @_ssdm_op_BitConcatenate.i18.i14.i4(i14 %tmp_12, i4 0)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]
+ST_5 : Operation 45 [1/1] (0.00ns) (grouped into TernaryAdder)   --->   "%tmp_s = sub i18 %p_shl_cast, %p_shl3_cast" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]   --->   Core 80 'TAddSub' <Latency = 0> <II = 1> <Delay = 1.98> <IPBlock> <Opcode : 'add' 'sub'> <InPorts = 3> <OutPorts = 1> <Sync> <CReg>
+ST_5 : Operation 46 [1/1] (3.96ns) (root node of TernaryAdder)   --->   "%tmp_242 = add i18 %tmp_i1_cast, %tmp_s" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]   --->   Core 80 'TAddSub' <Latency = 0> <II = 1> <Delay = 1.98> <IPBlock> <Opcode : 'add' 'sub'> <InPorts = 3> <OutPorts = 1> <Sync> <CReg>
+ST_5 : Operation 47 [1/1] (0.00ns)   --->   "%tmp_250_cast = sext i18 %tmp_242 to i32" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]
+ST_5 : Operation 48 [1/1] (0.00ns)   --->   "%glPLSlices_addr = getelementptr [129600 x i8]* @glPLSlices, i32 0, i32 %tmp_250_cast" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]
+ST_5 : Operation 49 [2/2] (3.25ns)   --->   "%glPLSlices_load = load i8* %glPLSlices_addr, align 1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 8> <Depth = 129600> <RAM>
+
+ <State 6> : 8.42ns
+ST_6 : Operation 50 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLoopName([7 x i8]* @p_str10) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:44]
+ST_6 : Operation 51 [1/1] (0.00ns)   --->   "%tmp_2 = call i32 (...)* @_ssdm_op_SpecRegionBegin([7 x i8]* @p_str10) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:44]
+ST_6 : Operation 52 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLoopTripCount(i32 0, i32 10000, i32 5000, [1 x i8]* @p_str2) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:45]
+ST_6 : Operation 53 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecPipeline(i32 -1, i32 1, i32 1, i32 0, [1 x i8]* @p_str2) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:45]
+ST_6 : Operation 54 [1/2] (3.25ns)   --->   "%glPLSlices_load = load i8* %glPLSlices_addr, align 1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 8> <Depth = 129600> <RAM>
+ST_6 : Operation 55 [1/1] (1.91ns)   --->   "%tmp_3_i = add i8 %glPLSlices_load, 1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.52> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_6 : Operation 56 [1/1] (3.25ns)   --->   "store i8 %tmp_3_i, i8* %glPLSlices_addr, align 1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 8> <Depth = 129600> <RAM>
+ST_6 : Operation 57 [1/1] (0.00ns)   --->   "br label %accumulateHW.exit" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:11->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52]
+ST_6 : Operation 58 [1/1] (0.00ns)   --->   "%empty = call i32 (...)* @_ssdm_op_SpecRegionEnd([7 x i8]* @p_str10, i32 %tmp_2) nounwind" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:53]
+ST_6 : Operation 59 [1/1] (0.00ns)   --->   "br label %1" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43]
+
+ <State 7> : 0.00ns
+ST_7 : Operation 60 [2/2] (0.00ns)   --->   "call fastcc void @copyToPS(i8* %eventSlice, i32 %eventSlice_offset_re)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:55]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 8> : 0.00ns
+ST_8 : Operation 61 [1/2] (0.00ns)   --->   "call fastcc void @copyToPS(i8* %eventSlice, i32 %eventSlice_offset_re)" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:55]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+ST_8 : Operation 62 [1/1] (0.00ns)   --->   "ret void" [../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:56]
+
+
+============================================================
++ Verbose Summary: Timing violations
+============================================================
+Target clock period: 10ns, clock uncertainty: 2.7ns.
+
+ <State 1>: 0ns
+The critical path consists of the following:
+
+ <State 2>: 3.26ns
+The critical path consists of the following:
+	wire read on port 'eventsArraySize' [11]  (0 ns)
+	'shl' operation ('tmp', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [16]  (0 ns)
+	'xor' operation ('p_neg', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [20]  (0 ns)
+	'sub' operation ('p_neg_t', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [22]  (2.52 ns)
+	'select' operation ('tmp_5', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [24]  (0 ns)
+	'select' operation ('tmp_6', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [25]  (0.733 ns)
+
+ <State 3>: 2.47ns
+The critical path consists of the following:
+	'phi' operation ('i') with incoming values : ('i', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [29]  (0 ns)
+	'icmp' operation ('tmp_8', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:43) [30]  (2.47 ns)
+
+ <State 4>: 3.63ns
+The critical path consists of the following:
+	fifo read on port 'data' (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:46) [37]  (3.63 ns)
+
+ <State 5>: 7.22ns
+The critical path consists of the following:
+	'add' operation ('tmp_242', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) [48]  (3.96 ns)
+	'getelementptr' operation ('glPLSlices_addr', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) [50]  (0 ns)
+	'load' operation ('glPLSlices_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) on array 'glPLSlices' [51]  (3.25 ns)
+
+ <State 6>: 8.42ns
+The critical path consists of the following:
+	'load' operation ('glPLSlices_load', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) on array 'glPLSlices' [51]  (3.25 ns)
+	'add' operation ('tmp_3_i', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) [52]  (1.92 ns)
+	'store' operation (../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52) of variable 'tmp_3_i', ../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:10->../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp:52 on array 'glPLSlices' [53]  (3.25 ns)
+
+ <State 7>: 0ns
+The critical path consists of the following:
+
+ <State 8>: 0ns
+The critical path consists of the following:
+
+
+============================================================
++ Verbose Summary: Binding
+============================================================
+N/A
+* FSMD analyzer results:
+  - Output states:
+ - Input state : 
+  - Chain level:
+	State 1
+	State 2
+	State 3
+	State 4
+	State 5
+	State 6
+	State 7
+	State 8
+
+
+============================================================
++ Verbose Summary: Datapath Resource usage 
+============================================================
+N/A

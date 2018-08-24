@@ -1,0 +1,1610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdfg:DBCdfg xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cdfg="http://www.autoesl.com/DBCdfg" timeStamp="1535060899724">
+  <ports id="1" name="x" type="PortType" originalName="x" bitwidth="16">
+    <dataOutputObjs>read</dataOutputObjs>
+  </ports>
+  <ports id="2" name="y" type="PortType" originalName="y" bitwidth="16">
+    <dataOutputObjs>read</dataOutputObjs>
+  </ports>
+  <ports id="3" name="pol" type="PortType" originalName="pol" bitwidth="1">
+    <dataOutputObjs>read</dataOutputObjs>
+  </ports>
+  <ports id="4" name="glPLSlices_0" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="5" name="glPLSlices_1" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="6" name="glPLSlices_2" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="7" name="glPLSlices_3" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="8" name="glPLSlices_4" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="9" name="glPLSlices_5" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="10" name="glPLSlices_6" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="11" name="glPLSlices_7" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="12" name="glPLSlices_8" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="13" name="glPLSlices_9" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="14" name="glPLSlices_10" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="15" name="glPLSlices_11" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="16" name="glPLSlices_12" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="17" name="glPLSlices_13" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="18" name="glPLSlices_14" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <ports id="19" name="glPLSlices_15" type="PortType" coreName="RAM" bitwidth="8" direction="DirInOut" iftype="IfTypeRegister" arraysize="8100">
+    <dataInputObjs>load</dataInputObjs>
+    <dataInputObjs>store</dataInputObjs>
+    <dataOutputObjs>load</dataOutputObjs>
+    <dataOutputObjs>store</dataOutputObjs>
+  </ports>
+  <edges id="129" source_obj="//@ports.2" sink_obj="//@regions.0/@basic_blocks.0/@node_objs.0"/>
+  <edges id="132" source_obj="//@ports.1" sink_obj="//@regions.0/@basic_blocks.0/@node_objs.1"/>
+  <edges id="134" source_obj="//@ports.0" sink_obj="//@regions.0/@basic_blocks.0/@node_objs.2"/>
+  <edges id="135" source_obj="//@regions.0/@basic_blocks.0/@node_objs.0" sink_obj="//@regions.0/@basic_blocks.0/@node_objs.3"/>
+  <edges id="136" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.19" sink_obj="//@regions.0/@basic_blocks.0/@node_objs.3"/>
+  <edges id="137" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.0/@node_objs.3"/>
+  <edges id="166" source_obj="//@regions.0/@basic_blocks.1/@node_objs.0" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.3"/>
+  <edges id="235" source_obj="//@regions.0/@basic_blocks.1/@node_objs.4" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="236" source_obj="//@regions.0/@basic_blocks.1/@node_objs.5" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="237" source_obj="//@regions.0/@basic_blocks.1/@node_objs.6" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="238" source_obj="//@regions.0/@basic_blocks.1/@node_objs.7" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="239" source_obj="//@regions.0/@basic_blocks.1/@node_objs.8" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="240" source_obj="//@regions.0/@basic_blocks.1/@node_objs.9" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="241" source_obj="//@regions.0/@basic_blocks.1/@node_objs.10" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="242" source_obj="//@regions.0/@basic_blocks.1/@node_objs.11" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="243" source_obj="//@regions.0/@basic_blocks.1/@node_objs.12" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="244" source_obj="//@regions.0/@basic_blocks.1/@node_objs.13" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="245" source_obj="//@regions.0/@basic_blocks.1/@node_objs.14" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="246" source_obj="//@regions.0/@basic_blocks.1/@node_objs.15" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="247" source_obj="//@regions.0/@basic_blocks.1/@node_objs.16" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="248" source_obj="//@regions.0/@basic_blocks.1/@node_objs.17" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="249" source_obj="//@regions.0/@basic_blocks.1/@node_objs.18" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="250" source_obj="//@regions.0/@basic_blocks.1/@node_objs.19" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="254" source_obj="//@regions.0/@basic_blocks.1/@node_objs.20" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.21"/>
+  <edges id="256" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.17" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="259" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.16" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="262" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.15" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="265" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.14" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="268" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.13" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="271" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.12" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="274" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.11" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="277" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.10" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="280" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.9" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="283" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.8" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="286" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.7" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="289" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.6" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="292" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.5" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="295" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.4" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="298" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="301" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.2" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="302" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.19" sink_obj="//@regions.0/@basic_blocks.18/@node_objs.0"/>
+  <edges id="303" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.16/@node_objs.0"/>
+  <edges id="305" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.16/@node_objs.1"/>
+  <edges id="306" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.15/@node_objs.0"/>
+  <edges id="308" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.15/@node_objs.1"/>
+  <edges id="309" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.14/@node_objs.0"/>
+  <edges id="311" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.14/@node_objs.1"/>
+  <edges id="312" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.13/@node_objs.0"/>
+  <edges id="314" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.13/@node_objs.1"/>
+  <edges id="315" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.12/@node_objs.0"/>
+  <edges id="317" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.12/@node_objs.1"/>
+  <edges id="318" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.11/@node_objs.0"/>
+  <edges id="320" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.11/@node_objs.1"/>
+  <edges id="321" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.10/@node_objs.0"/>
+  <edges id="323" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.10/@node_objs.1"/>
+  <edges id="324" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.9/@node_objs.0"/>
+  <edges id="326" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.9/@node_objs.1"/>
+  <edges id="327" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.8/@node_objs.0"/>
+  <edges id="329" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.8/@node_objs.1"/>
+  <edges id="330" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.7/@node_objs.0"/>
+  <edges id="332" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.7/@node_objs.1"/>
+  <edges id="333" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.6/@node_objs.0"/>
+  <edges id="335" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.6/@node_objs.1"/>
+  <edges id="336" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.5/@node_objs.0"/>
+  <edges id="338" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.5/@node_objs.1"/>
+  <edges id="339" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.4/@node_objs.0"/>
+  <edges id="341" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.4/@node_objs.1"/>
+  <edges id="342" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.3/@node_objs.0"/>
+  <edges id="344" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.3/@node_objs.1"/>
+  <edges id="345" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.2/@node_objs.0"/>
+  <edges id="347" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.2/@node_objs.1"/>
+  <edges id="348" source_obj="//@regions.0/@basic_blocks.1/@node_objs.21" sink_obj="//@regions.0/@basic_blocks.17/@node_objs.0"/>
+  <edges id="350" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.17/@node_objs.1"/>
+  <edges id="351" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.0" sink_obj="//@regions.0/@basic_blocks.1"/>
+  <edges id="352" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.0" sink_obj="//@regions.0/@basic_blocks.19"/>
+  <edges id="353" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.17"/>
+  <edges id="354" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.16"/>
+  <edges id="355" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.15"/>
+  <edges id="356" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.14"/>
+  <edges id="357" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.13"/>
+  <edges id="358" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.12"/>
+  <edges id="359" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.11"/>
+  <edges id="360" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.10"/>
+  <edges id="361" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.9"/>
+  <edges id="362" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.8"/>
+  <edges id="363" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.7"/>
+  <edges id="364" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.6"/>
+  <edges id="365" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.5"/>
+  <edges id="366" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.4"/>
+  <edges id="367" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.3"/>
+  <edges id="368" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.1" sink_obj="//@regions.0/@basic_blocks.2"/>
+  <edges id="369" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.2" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="370" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.3" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="371" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.4" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="372" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.5" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="373" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.6" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="374" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.7" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="375" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.8" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="376" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.9" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="377" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.10" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="378" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.11" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="379" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.12" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="380" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.13" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="381" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.14" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="382" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.15" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="383" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.16" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="384" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.17" sink_obj="//@regions.0/@basic_blocks.18"/>
+  <edges id="385" edge_type="CtrlEdge" source_obj="//@regions.0/@basic_blocks.18" sink_obj="//@regions.0/@basic_blocks.19"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.0/@node_objs.1" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.0/@node_objs.1" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.0/@node_objs.2" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.1"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.0/@node_objs.2" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.2"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.1" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.20"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.1" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.22"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.2" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.3"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.4"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.16/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.5"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.15/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.14"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.6/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.15"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.5/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.16"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.4/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.17"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.3/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.18"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.2/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.19"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.17/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.6"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.14/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.7"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.13/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.8"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.12/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.9"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.11/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.10"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.10/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.11"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.9/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.12"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.8/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.13"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.3" sink_obj="//@regions.0/@basic_blocks.7/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.3" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.4"/>
+  <edges id="-1" source_obj="//@ports.3" sink_obj="//@regions.0/@basic_blocks.16/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.4" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.5"/>
+  <edges id="-1" source_obj="//@ports.4" sink_obj="//@regions.0/@basic_blocks.15/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.13" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.14"/>
+  <edges id="-1" source_obj="//@ports.13" sink_obj="//@regions.0/@basic_blocks.6/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.14" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.15"/>
+  <edges id="-1" source_obj="//@ports.14" sink_obj="//@regions.0/@basic_blocks.5/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.15" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.16"/>
+  <edges id="-1" source_obj="//@ports.15" sink_obj="//@regions.0/@basic_blocks.4/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.16" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.17"/>
+  <edges id="-1" source_obj="//@ports.16" sink_obj="//@regions.0/@basic_blocks.3/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.17" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.18"/>
+  <edges id="-1" source_obj="//@ports.17" sink_obj="//@regions.0/@basic_blocks.2/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.18" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.19"/>
+  <edges id="-1" source_obj="//@ports.18" sink_obj="//@regions.0/@basic_blocks.17/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.5" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.6"/>
+  <edges id="-1" source_obj="//@ports.5" sink_obj="//@regions.0/@basic_blocks.14/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.6" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.7"/>
+  <edges id="-1" source_obj="//@ports.6" sink_obj="//@regions.0/@basic_blocks.13/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.7" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.8"/>
+  <edges id="-1" source_obj="//@ports.7" sink_obj="//@regions.0/@basic_blocks.12/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.8" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.9"/>
+  <edges id="-1" source_obj="//@ports.8" sink_obj="//@regions.0/@basic_blocks.11/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.9" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.10"/>
+  <edges id="-1" source_obj="//@ports.9" sink_obj="//@regions.0/@basic_blocks.10/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.10" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.11"/>
+  <edges id="-1" source_obj="//@ports.10" sink_obj="//@regions.0/@basic_blocks.9/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.11" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.12"/>
+  <edges id="-1" source_obj="//@ports.11" sink_obj="//@regions.0/@basic_blocks.8/@node_objs.0"/>
+  <edges id="-1" source_obj="//@ports.12" sink_obj="//@regions.0/@basic_blocks.1/@node_objs.13"/>
+  <edges id="-1" source_obj="//@ports.12" sink_obj="//@regions.0/@basic_blocks.7/@node_objs.0"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.4" sink_obj="//@ports.3"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.16/@node_objs.0" sink_obj="//@ports.3"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.5" sink_obj="//@ports.4"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.15/@node_objs.0" sink_obj="//@ports.4"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.14" sink_obj="//@ports.13"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.6/@node_objs.0" sink_obj="//@ports.13"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.15" sink_obj="//@ports.14"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.5/@node_objs.0" sink_obj="//@ports.14"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.16" sink_obj="//@ports.15"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.4/@node_objs.0" sink_obj="//@ports.15"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.17" sink_obj="//@ports.16"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.3/@node_objs.0" sink_obj="//@ports.16"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.18" sink_obj="//@ports.17"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.2/@node_objs.0" sink_obj="//@ports.17"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.19" sink_obj="//@ports.18"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.17/@node_objs.0" sink_obj="//@ports.18"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.6" sink_obj="//@ports.5"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.14/@node_objs.0" sink_obj="//@ports.5"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.7" sink_obj="//@ports.6"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.13/@node_objs.0" sink_obj="//@ports.6"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.8" sink_obj="//@ports.7"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.12/@node_objs.0" sink_obj="//@ports.7"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.9" sink_obj="//@ports.8"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.11/@node_objs.0" sink_obj="//@ports.8"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.10" sink_obj="//@ports.9"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.10/@node_objs.0" sink_obj="//@ports.9"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.11" sink_obj="//@ports.10"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.9/@node_objs.0" sink_obj="//@ports.10"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.12" sink_obj="//@ports.11"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.8/@node_objs.0" sink_obj="//@ports.11"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.1/@node_objs.13" sink_obj="//@ports.12"/>
+  <edges id="-1" source_obj="//@regions.0/@basic_blocks.7/@node_objs.0" sink_obj="//@ports.12"/>
+  <regions anchor_node="-1" region_type="8" interval="2" typeName="Pipeline" id="556" pipe_depth="21" RegionName="accumulateHW">
+    <basic_blocks id="24" name="block_24" type="BlockType">
+      <controlOutputObjs>block_74</controlOutputObjs>
+      <controlOutputObjs>._crit_edge</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="20" name="pol_read" originalName="pol" bitwidth="1" opcode="read" m_display="0">
+        <dataInputObjs>pol</dataInputObjs>
+        <dataOutputObjs>br</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="21" name="y_read" originalName="y" bitwidth="16" opcode="read" nodeLabel="1" m_display="0">
+        <dataInputObjs>y</dataInputObjs>
+        <dataOutputObjs>sub</dataOutputObjs>
+        <dataOutputObjs>sub</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="22" name="x_read" originalName="x" bitwidth="16" opcode="read" m_display="0">
+        <dataInputObjs>x</dataInputObjs>
+        <dataOutputObjs>mul</dataOutputObjs>
+        <dataOutputObjs>urem</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="23" name="node_23" lineNumber="8" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="8" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>read</dataInputObjs>
+        <controlInputObjs>._crit_edge</controlInputObjs>
+        <controlInputObjs>block_74</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>8</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="74" name="block_74" type="BlockType">
+      <controlInputObjs>block_24</controlInputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>branch15</controlOutputObjs>
+      <controlOutputObjs>branch0</controlOutputObjs>
+      <controlOutputObjs>branch1</controlOutputObjs>
+      <controlOutputObjs>branch2</controlOutputObjs>
+      <controlOutputObjs>branch3</controlOutputObjs>
+      <controlOutputObjs>branch4</controlOutputObjs>
+      <controlOutputObjs>branch5</controlOutputObjs>
+      <controlOutputObjs>branch6</controlOutputObjs>
+      <controlOutputObjs>branch7</controlOutputObjs>
+      <controlOutputObjs>branch8</controlOutputObjs>
+      <controlOutputObjs>branch9</controlOutputObjs>
+      <controlOutputObjs>branch10</controlOutputObjs>
+      <controlOutputObjs>branch11</controlOutputObjs>
+      <controlOutputObjs>branch12</controlOutputObjs>
+      <controlOutputObjs>branch13</controlOutputObjs>
+      <controlOutputObjs>branch14</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="28" name="tmp_s" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." rtlName="tmp_s_fu_339_p2" contextFuncName="accumulateHW" bitwidth="14" opcode="sub" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>read</dataInputObjs>
+        <dataInputObjs>read</dataInputObjs>
+        <dataOutputObjs>add</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="31" name="mul" rtlName="parseEvents_mul_mdEe_U19" bitwidth="32" opcode="mul" m_display="0">
+        <dataInputObjs>read</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>switch</dataOutputObjs>
+        <constName>empty</constName>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="35" name="newIndex" rtlName="parseEvents_urem_bkb_U17" bitwidth="14" opcode="urem" nodeLatency="18" m_display="0">
+        <dataInputObjs>read</dataInputObjs>
+        <dataOutputObjs>add</dataOutputObjs>
+        <constName>empty</constName>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="37" name="tmp_20" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." rtlName="tmp_20_fu_351_p2" contextFuncName="accumulateHW" bitwidth="14" opcode="add" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>sub</dataInputObjs>
+        <dataInputObjs>urem</dataInputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>load</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="55" name="glPLSlices_0_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="2">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_0</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_0</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="56" name="glPLSlices_1_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_1</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_1</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="57" name="glPLSlices_2_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_2</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_2</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="58" name="glPLSlices_3_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_3</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_3</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="59" name="glPLSlices_4_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_4</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_4</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="60" name="glPLSlices_5_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_5</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_5</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="61" name="glPLSlices_6_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_6</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_6</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="62" name="glPLSlices_7_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_7</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_7</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="63" name="glPLSlices_8_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_8</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_8</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="64" name="glPLSlices_9_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_9</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_9</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="65" name="glPLSlices_10_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_10</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_10</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="66" name="glPLSlices_11_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_11</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_11</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="67" name="glPLSlices_12_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_12</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_12</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="68" name="glPLSlices_13_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_13</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_13</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="69" name="glPLSlices_14_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_14</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_14</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="70" name="glPLSlices_15_load" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" bitwidth="8" opcode="load" nodeLabel="19" nodeLatency="1" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_15</dataInputObjs>
+        <dataOutputObjs>mux</dataOutputObjs>
+        <dataOutputObjs>glPLSlices_15</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="71" name="tmp" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." rtlName="parseEvents_mux_1cud_U18" contextFuncName="accumulateHW" bitwidth="8" opcode="mux" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>load</dataInputObjs>
+        <dataInputObjs>mul</dataInputObjs>
+        <dataOutputObjs>add</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="72" name="tmp_3" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." rtlName="tmp_3_fu_418_p2" contextFuncName="accumulateHW" bitwidth="8" opcode="add" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>mux</dataInputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <dataOutputObjs>store</dataOutputObjs>
+        <constName>empty</constName>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="73" name="node_73" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="switch" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>mul</dataInputObjs>
+        <controlInputObjs>branch15</controlInputObjs>
+        <controlInputObjs>branch0</controlInputObjs>
+        <controlInputObjs>branch1</controlInputObjs>
+        <controlInputObjs>branch2</controlInputObjs>
+        <controlInputObjs>branch3</controlInputObjs>
+        <controlInputObjs>branch4</controlInputObjs>
+        <controlInputObjs>branch5</controlInputObjs>
+        <controlInputObjs>branch6</controlInputObjs>
+        <controlInputObjs>branch7</controlInputObjs>
+        <controlInputObjs>branch8</controlInputObjs>
+        <controlInputObjs>branch9</controlInputObjs>
+        <controlInputObjs>branch10</controlInputObjs>
+        <controlInputObjs>branch11</controlInputObjs>
+        <controlInputObjs>branch12</controlInputObjs>
+        <controlInputObjs>branch13</controlInputObjs>
+        <controlInputObjs>branch14</controlInputObjs>
+        <constName>empty</constName>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="77" name="branch14" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="75" name="node_75" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_14</dataInputObjs>
+        <dataOutputObjs>glPLSlices_14</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="76" name="node_76" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="80" name="branch13" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="78" name="node_78" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_13</dataInputObjs>
+        <dataOutputObjs>glPLSlices_13</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="79" name="node_79" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="83" name="branch12" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="81" name="node_81" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_12</dataInputObjs>
+        <dataOutputObjs>glPLSlices_12</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="82" name="node_82" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="86" name="branch11" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="84" name="node_84" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_11</dataInputObjs>
+        <dataOutputObjs>glPLSlices_11</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="85" name="node_85" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="89" name="branch10" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="87" name="node_87" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_10</dataInputObjs>
+        <dataOutputObjs>glPLSlices_10</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="88" name="node_88" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="92" name="branch9" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="90" name="node_90" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_9</dataInputObjs>
+        <dataOutputObjs>glPLSlices_9</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="91" name="node_91" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="95" name="branch8" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="93" name="node_93" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_8</dataInputObjs>
+        <dataOutputObjs>glPLSlices_8</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="94" name="node_94" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="98" name="branch7" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="96" name="node_96" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_7</dataInputObjs>
+        <dataOutputObjs>glPLSlices_7</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="97" name="node_97" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="101" name="branch6" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="99" name="node_99" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_6</dataInputObjs>
+        <dataOutputObjs>glPLSlices_6</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="100" name="node_100" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="104" name="branch5" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="102" name="node_102" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_5</dataInputObjs>
+        <dataOutputObjs>glPLSlices_5</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="103" name="node_103" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="107" name="branch4" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="105" name="node_105" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_4</dataInputObjs>
+        <dataOutputObjs>glPLSlices_4</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="106" name="node_106" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="110" name="branch3" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="108" name="node_108" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_3</dataInputObjs>
+        <dataOutputObjs>glPLSlices_3</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="109" name="node_109" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="113" name="branch2" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="111" name="node_111" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_2</dataInputObjs>
+        <dataOutputObjs>glPLSlices_2</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="112" name="node_112" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="116" name="branch1" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="114" name="node_114" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_1</dataInputObjs>
+        <dataOutputObjs>glPLSlices_1</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="115" name="node_115" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="119" name="branch0" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="117" name="node_117" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="2">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_0</dataInputObjs>
+        <dataOutputObjs>glPLSlices_0</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="118" name="node_118" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="122" name="branch15" type="BlockType">
+      <controlInputObjs>block_74</controlInputObjs>
+      <controlOutputObjs>switch</controlOutputObjs>
+      <controlOutputObjs>block_124</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="120" name="node_120" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="store" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>add</dataInputObjs>
+        <dataInputObjs>glPLSlices_15</dataInputObjs>
+        <dataOutputObjs>glPLSlices_15</dataOutputObjs>
+      </node_objs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="121" name="node_121" lineNumber="10" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="19" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="10" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>block_124</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>10</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="124" name="block_124" type="BlockType">
+      <controlInputObjs>branch14</controlInputObjs>
+      <controlInputObjs>branch13</controlInputObjs>
+      <controlInputObjs>branch12</controlInputObjs>
+      <controlInputObjs>branch11</controlInputObjs>
+      <controlInputObjs>branch10</controlInputObjs>
+      <controlInputObjs>branch9</controlInputObjs>
+      <controlInputObjs>branch8</controlInputObjs>
+      <controlInputObjs>branch7</controlInputObjs>
+      <controlInputObjs>branch6</controlInputObjs>
+      <controlInputObjs>branch5</controlInputObjs>
+      <controlInputObjs>branch4</controlInputObjs>
+      <controlInputObjs>branch3</controlInputObjs>
+      <controlInputObjs>branch2</controlInputObjs>
+      <controlInputObjs>branch1</controlInputObjs>
+      <controlInputObjs>branch0</controlInputObjs>
+      <controlInputObjs>branch15</controlInputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>._crit_edge</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="123" name="node_123" lineNumber="11" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="br" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="11" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+        <controlInputObjs>._crit_edge</controlInputObjs>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>11</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+    <basic_blocks id="126" name="._crit_edge" type="BlockType">
+      <controlInputObjs>block_24</controlInputObjs>
+      <controlInputObjs>block_124</controlInputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <controlOutputObjs>br</controlOutputObjs>
+      <node_objs xsi:type="cdfg:CdfgNode" id="125" name="node_125" lineNumber="12" fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" fileDirectory=".." contextFuncName="accumulateHW" opcode="ret" nodeLabel="20" m_display="0">
+        <inlineStackInfo fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp" linenumber="12" fileDirectory="E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF_HLS\parseEvents" functionName="accumulateHW"/>
+      </node_objs>
+      <fileValidLineNumbers fileName="../../mz_libcaer_OF_HLS/ABMOF/abmof_hw_accel.cpp">
+        <validLinenumbers>12</validLinenumbers>
+      </fileValidLineNumbers>
+    </basic_blocks>
+  </regions>
+  <ScheduleInfo time="0"/>
+  <ScheduleInfo time="1"/>
+  <ScheduleInfo time="2"/>
+  <ScheduleInfo time="3"/>
+  <ScheduleInfo time="4"/>
+  <ScheduleInfo time="5"/>
+  <ScheduleInfo time="6"/>
+  <ScheduleInfo time="7"/>
+  <ScheduleInfo time="8"/>
+  <ScheduleInfo time="9"/>
+  <ScheduleInfo time="10"/>
+  <ScheduleInfo time="11"/>
+  <ScheduleInfo time="12"/>
+  <ScheduleInfo time="13"/>
+  <ScheduleInfo time="14"/>
+  <ScheduleInfo time="15"/>
+  <ScheduleInfo time="16"/>
+  <ScheduleInfo time="17"/>
+  <ScheduleInfo time="18"/>
+  <ScheduleInfo time="19"/>
+  <ScheduleInfo time="20"/>
+  <regnodes realName="y_read_reg_460">
+    <nodeIds>21</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_10_addr_reg_491">
+    <nodeIds>41</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_9_addr_reg_556">
+    <nodeIds>54</nodeIds>
+  </regnodes>
+  <regnodes realName="pol_read_reg_446">
+    <nodeIds>20</nodeIds>
+  </regnodes>
+  <regnodes realName="newIndex_reg_471">
+    <nodeIds>35</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_5_addr_reg_536">
+    <nodeIds>50</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_7_addr_reg_546">
+    <nodeIds>52</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_12_addr_reg_501">
+    <nodeIds>43</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_4_addr_reg_531">
+    <nodeIds>49</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_11_addr_reg_496">
+    <nodeIds>42</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_1_addr_reg_486">
+    <nodeIds>40</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_13_addr_reg_506">
+    <nodeIds>44</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_15_addr_reg_516">
+    <nodeIds>46</nodeIds>
+  </regnodes>
+  <regnodes realName="tmp_18_reg_466">
+    <nodeIds>32</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_14_addr_reg_511">
+    <nodeIds>45</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_6_addr_reg_541">
+    <nodeIds>51</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_2_addr_reg_521">
+    <nodeIds>47</nodeIds>
+  </regnodes>
+  <regnodes realName="arrayNo_reg_476">
+    <nodeIds>33</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_0_addr_reg_481">
+    <nodeIds>39</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_3_addr_reg_526">
+    <nodeIds>48</nodeIds>
+  </regnodes>
+  <regnodes realName="mul_reg_455">
+    <nodeIds>31</nodeIds>
+  </regnodes>
+  <regnodes realName="glPLSlices_8_addr_reg_551">
+    <nodeIds>53</nodeIds>
+  </regnodes>
+  <regnodes realName="tmp_17_reg_450">
+    <nodeIds>29</nodeIds>
+  </regnodes>
+  <expressionNodes realName="glPLSlices_6_addr_gep_fu_194">
+    <nodeIds>51</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_3_fu_418">
+    <nodeIds>72</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="arrayNo_cast_fu_377">
+    <nodeIds>34</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_15_addr_gep_fu_159">
+    <nodeIds>46</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_7_addr_gep_fu_201">
+    <nodeIds>52</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_12_addr_gep_fu_138">
+    <nodeIds>43</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="zext_cast_fu_306">
+    <nodeIds>30</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_9_addr_gep_fu_215">
+    <nodeIds>54</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_4_addr_gep_fu_180">
+    <nodeIds>49</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_1_addr_gep_fu_117">
+    <nodeIds>40</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_0_addr_gep_fu_110">
+    <nodeIds>39</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_2_addr_gep_fu_166">
+    <nodeIds>47</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="arrayNo_fu_345">
+    <nodeIds>33</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_20_fu_351">
+    <nodeIds>37</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_3_addr_gep_fu_173">
+    <nodeIds>48</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_5_addr_gep_fu_187">
+    <nodeIds>50</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_18_fu_316">
+    <nodeIds>32</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_14_addr_gep_fu_152">
+    <nodeIds>45</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_11_addr_gep_fu_131">
+    <nodeIds>42</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_8_addr_gep_fu_208">
+    <nodeIds>53</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_fu_380">
+    <nodeIds>71</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_10_addr_gep_fu_124">
+    <nodeIds>41</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="glPLSlices_13_addr_gep_fu_145">
+    <nodeIds>44</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_17_fu_302">
+    <nodeIds>29</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_s_fu_339">
+    <nodeIds>28</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="p_shl_cast_fu_331">
+    <nodeIds>27</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_24_cast_fu_357">
+    <nodeIds>38</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_15_fu_325">
+    <nodeIds>25</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="mul_fu_440">
+    <nodeIds>31</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_16_fu_328">
+    <nodeIds>26</nodeIds>
+  </expressionNodes>
+  <expressionNodes realName="tmp_19_fu_348">
+    <nodeIds>36</nodeIds>
+  </expressionNodes>
+  <moduleNodes realName="grp_fu_310">
+    <nodeIds>35</nodeIds>
+  </moduleNodes>
+  <ioNodes realName="y_read_read_fu_104">
+    <nodeIds>21</nodeIds>
+  </ioNodes>
+  <ioNodes realName="pol_read_read_fu_92">
+    <nodeIds>20</nodeIds>
+  </ioNodes>
+  <ioNodes realName="x_read_read_fu_98">
+    <nodeIds>22</nodeIds>
+  </ioNodes>
+  <memoryPorts dataString="glPLSlices_0">
+    <nodeIds>55</nodeIds>
+    <nodeIds>117</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_1">
+    <nodeIds>56</nodeIds>
+    <nodeIds>114</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_10">
+    <nodeIds>65</nodeIds>
+    <nodeIds>87</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_11">
+    <nodeIds>66</nodeIds>
+    <nodeIds>84</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_12">
+    <nodeIds>67</nodeIds>
+    <nodeIds>81</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_13">
+    <nodeIds>68</nodeIds>
+    <nodeIds>78</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_14">
+    <nodeIds>69</nodeIds>
+    <nodeIds>75</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_15">
+    <nodeIds>70</nodeIds>
+    <nodeIds>120</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_2">
+    <nodeIds>57</nodeIds>
+    <nodeIds>111</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_3">
+    <nodeIds>58</nodeIds>
+    <nodeIds>108</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_4">
+    <nodeIds>59</nodeIds>
+    <nodeIds>105</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_5">
+    <nodeIds>60</nodeIds>
+    <nodeIds>102</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_6">
+    <nodeIds>61</nodeIds>
+    <nodeIds>99</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_7">
+    <nodeIds>62</nodeIds>
+    <nodeIds>96</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_8">
+    <nodeIds>63</nodeIds>
+    <nodeIds>93</nodeIds>
+  </memoryPorts>
+  <memoryPorts dataString="glPLSlices_9">
+    <nodeIds>64</nodeIds>
+    <nodeIds>90</nodeIds>
+  </memoryPorts>
+  <ioPorts name="glPLSlices_0(p0)">
+    <contents name="load">
+      <nodeIds>55</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>117</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_1(p0)">
+    <contents name="load">
+      <nodeIds>56</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>114</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_10(p0)">
+    <contents name="load">
+      <nodeIds>65</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>87</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_11(p0)">
+    <contents name="load">
+      <nodeIds>66</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>84</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_12(p0)">
+    <contents name="load">
+      <nodeIds>67</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>81</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_13(p0)">
+    <contents name="load">
+      <nodeIds>68</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>78</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_14(p0)">
+    <contents name="load">
+      <nodeIds>69</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>75</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_15(p0)">
+    <contents name="load">
+      <nodeIds>70</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>120</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_2(p0)">
+    <contents name="load">
+      <nodeIds>57</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>111</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_3(p0)">
+    <contents name="load">
+      <nodeIds>58</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>108</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_4(p0)">
+    <contents name="load">
+      <nodeIds>59</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>105</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_5(p0)">
+    <contents name="load">
+      <nodeIds>60</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>102</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_6(p0)">
+    <contents name="load">
+      <nodeIds>61</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>99</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_7(p0)">
+    <contents name="load">
+      <nodeIds>62</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>96</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_8(p0)">
+    <contents name="load">
+      <nodeIds>63</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>93</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="glPLSlices_9(p0)">
+    <contents name="load">
+      <nodeIds>64</nodeIds>
+    </contents>
+    <contents name="store">
+      <nodeIds>90</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="pol">
+    <contents name="read">
+      <nodeIds>20</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="x">
+    <contents name="read">
+      <nodeIds>22</nodeIds>
+    </contents>
+  </ioPorts>
+  <ioPorts name="y">
+    <contents name="read">
+      <nodeIds>21</nodeIds>
+    </contents>
+  </ioPorts>
+  <fsm>
+    <states id="1">
+      <operations id="20" stage="1" latency="1"/>
+      <operations id="22" stage="1" latency="1"/>
+      <operations id="23" stage="1" latency="1"/>
+      <operations id="29" stage="1" latency="1"/>
+      <operations id="30" stage="1" latency="1"/>
+      <operations id="31" stage="1" latency="1"/>
+      <operations id="35" stage="19" latency="19"/>
+    </states>
+    <states id="2">
+      <operations id="21" stage="1" latency="1"/>
+      <operations id="32" stage="1" latency="1"/>
+      <operations id="35" stage="18" latency="19"/>
+    </states>
+    <states id="3">
+      <operations id="35" stage="17" latency="19"/>
+    </states>
+    <states id="4">
+      <operations id="35" stage="16" latency="19"/>
+    </states>
+    <states id="5">
+      <operations id="35" stage="15" latency="19"/>
+    </states>
+    <states id="6">
+      <operations id="35" stage="14" latency="19"/>
+    </states>
+    <states id="7">
+      <operations id="35" stage="13" latency="19"/>
+    </states>
+    <states id="8">
+      <operations id="35" stage="12" latency="19"/>
+    </states>
+    <states id="9">
+      <operations id="35" stage="11" latency="19"/>
+    </states>
+    <states id="10">
+      <operations id="35" stage="10" latency="19"/>
+    </states>
+    <states id="11">
+      <operations id="35" stage="9" latency="19"/>
+    </states>
+    <states id="12">
+      <operations id="35" stage="8" latency="19"/>
+    </states>
+    <states id="13">
+      <operations id="35" stage="7" latency="19"/>
+    </states>
+    <states id="14">
+      <operations id="35" stage="6" latency="19"/>
+    </states>
+    <states id="15">
+      <operations id="35" stage="5" latency="19"/>
+    </states>
+    <states id="16">
+      <operations id="35" stage="4" latency="19"/>
+    </states>
+    <states id="17">
+      <operations id="35" stage="3" latency="19"/>
+    </states>
+    <states id="18">
+      <operations id="35" stage="2" latency="19"/>
+    </states>
+    <states id="19">
+      <operations id="35" stage="1" latency="19"/>
+    </states>
+    <states id="20">
+      <operations id="25" stage="1" latency="1"/>
+      <operations id="26" stage="1" latency="1"/>
+      <operations id="27" stage="1" latency="1"/>
+      <operations id="28" stage="1" latency="1"/>
+      <operations id="33" stage="1" latency="1"/>
+      <operations id="36" stage="1" latency="1"/>
+      <operations id="37" stage="1" latency="1"/>
+      <operations id="38" stage="1" latency="1"/>
+      <operations id="39" stage="1" latency="1"/>
+      <operations id="40" stage="1" latency="1"/>
+      <operations id="41" stage="1" latency="1"/>
+      <operations id="42" stage="1" latency="1"/>
+      <operations id="43" stage="1" latency="1"/>
+      <operations id="44" stage="1" latency="1"/>
+      <operations id="45" stage="1" latency="1"/>
+      <operations id="46" stage="1" latency="1"/>
+      <operations id="47" stage="1" latency="1"/>
+      <operations id="48" stage="1" latency="1"/>
+      <operations id="49" stage="1" latency="1"/>
+      <operations id="50" stage="1" latency="1"/>
+      <operations id="51" stage="1" latency="1"/>
+      <operations id="52" stage="1" latency="1"/>
+      <operations id="53" stage="1" latency="1"/>
+      <operations id="54" stage="1" latency="1"/>
+      <operations id="55" stage="2" latency="2"/>
+      <operations id="56" stage="2" latency="2"/>
+      <operations id="57" stage="2" latency="2"/>
+      <operations id="58" stage="2" latency="2"/>
+      <operations id="59" stage="2" latency="2"/>
+      <operations id="60" stage="2" latency="2"/>
+      <operations id="61" stage="2" latency="2"/>
+      <operations id="62" stage="2" latency="2"/>
+      <operations id="63" stage="2" latency="2"/>
+      <operations id="64" stage="2" latency="2"/>
+      <operations id="65" stage="2" latency="2"/>
+      <operations id="66" stage="2" latency="2"/>
+      <operations id="67" stage="2" latency="2"/>
+      <operations id="68" stage="2" latency="2"/>
+      <operations id="69" stage="2" latency="2"/>
+      <operations id="70" stage="2" latency="2"/>
+      <operations id="76" stage="1" latency="1"/>
+      <operations id="79" stage="1" latency="1"/>
+      <operations id="82" stage="1" latency="1"/>
+      <operations id="85" stage="1" latency="1"/>
+      <operations id="88" stage="1" latency="1"/>
+      <operations id="91" stage="1" latency="1"/>
+      <operations id="94" stage="1" latency="1"/>
+      <operations id="97" stage="1" latency="1"/>
+      <operations id="100" stage="1" latency="1"/>
+      <operations id="103" stage="1" latency="1"/>
+      <operations id="106" stage="1" latency="1"/>
+      <operations id="109" stage="1" latency="1"/>
+      <operations id="112" stage="1" latency="1"/>
+      <operations id="115" stage="1" latency="1"/>
+      <operations id="118" stage="1" latency="1"/>
+      <operations id="121" stage="1" latency="1"/>
+    </states>
+    <states id="21">
+      <operations id="34" stage="1" latency="1"/>
+      <operations id="55" stage="1" latency="2"/>
+      <operations id="56" stage="1" latency="2"/>
+      <operations id="57" stage="1" latency="2"/>
+      <operations id="58" stage="1" latency="2"/>
+      <operations id="59" stage="1" latency="2"/>
+      <operations id="60" stage="1" latency="2"/>
+      <operations id="61" stage="1" latency="2"/>
+      <operations id="62" stage="1" latency="2"/>
+      <operations id="63" stage="1" latency="2"/>
+      <operations id="64" stage="1" latency="2"/>
+      <operations id="65" stage="1" latency="2"/>
+      <operations id="66" stage="1" latency="2"/>
+      <operations id="67" stage="1" latency="2"/>
+      <operations id="68" stage="1" latency="2"/>
+      <operations id="69" stage="1" latency="2"/>
+      <operations id="70" stage="1" latency="2"/>
+      <operations id="71" stage="1" latency="1"/>
+      <operations id="72" stage="1" latency="1"/>
+      <operations id="73" stage="1" latency="1"/>
+      <operations id="75" stage="1" latency="1"/>
+      <operations id="78" stage="1" latency="1"/>
+      <operations id="81" stage="1" latency="1"/>
+      <operations id="84" stage="1" latency="1"/>
+      <operations id="87" stage="1" latency="1"/>
+      <operations id="90" stage="1" latency="1"/>
+      <operations id="93" stage="1" latency="1"/>
+      <operations id="96" stage="1" latency="1"/>
+      <operations id="99" stage="1" latency="1"/>
+      <operations id="102" stage="1" latency="1"/>
+      <operations id="105" stage="1" latency="1"/>
+      <operations id="108" stage="1" latency="1"/>
+      <operations id="111" stage="1" latency="1"/>
+      <operations id="114" stage="1" latency="1"/>
+      <operations id="117" stage="1" latency="1"/>
+      <operations id="120" stage="1" latency="1"/>
+      <operations id="123" stage="1" latency="1"/>
+      <operations id="125" stage="1" latency="1"/>
+    </states>
+    <transitions inState="1" outState="2">
+      <condition id="112"/>
+    </transitions>
+    <transitions inState="2" outState="3">
+      <condition id="113"/>
+    </transitions>
+    <transitions inState="3" outState="4">
+      <condition id="114"/>
+    </transitions>
+    <transitions inState="4" outState="5">
+      <condition id="115"/>
+    </transitions>
+    <transitions inState="5" outState="6">
+      <condition id="116"/>
+    </transitions>
+    <transitions inState="6" outState="7">
+      <condition id="117"/>
+    </transitions>
+    <transitions inState="7" outState="8">
+      <condition id="118"/>
+    </transitions>
+    <transitions inState="8" outState="9">
+      <condition id="119"/>
+    </transitions>
+    <transitions inState="9" outState="10">
+      <condition id="120"/>
+    </transitions>
+    <transitions inState="10" outState="11">
+      <condition id="121"/>
+    </transitions>
+    <transitions inState="11" outState="12">
+      <condition id="122"/>
+    </transitions>
+    <transitions inState="12" outState="13">
+      <condition id="123"/>
+    </transitions>
+    <transitions inState="13" outState="14">
+      <condition id="124"/>
+    </transitions>
+    <transitions inState="14" outState="15">
+      <condition id="125"/>
+    </transitions>
+    <transitions inState="15" outState="16">
+      <condition id="126"/>
+    </transitions>
+    <transitions inState="16" outState="17">
+      <condition id="127"/>
+    </transitions>
+    <transitions inState="17" outState="18">
+      <condition id="128"/>
+    </transitions>
+    <transitions inState="18" outState="19">
+      <condition id="129"/>
+    </transitions>
+    <transitions inState="19" outState="20">
+      <condition id="130"/>
+    </transitions>
+    <transitions inState="20" outState="21">
+      <condition id="131"/>
+    </transitions>
+  </fsm>
+  <CFGRegionsRoot>
+    <cfgRegions mId="1" mTag="accumulateHW" mII="2" mDepth="21" mMinTripCount="-1" mMaxTripCount="-1" mMinLatency="20" mMaxLatency="-1">
+      <basicBlocks>24</basicBlocks>
+      <basicBlocks>74</basicBlocks>
+      <basicBlocks>77</basicBlocks>
+      <basicBlocks>80</basicBlocks>
+      <basicBlocks>83</basicBlocks>
+      <basicBlocks>86</basicBlocks>
+      <basicBlocks>89</basicBlocks>
+      <basicBlocks>92</basicBlocks>
+      <basicBlocks>95</basicBlocks>
+      <basicBlocks>98</basicBlocks>
+      <basicBlocks>101</basicBlocks>
+      <basicBlocks>104</basicBlocks>
+      <basicBlocks>107</basicBlocks>
+      <basicBlocks>110</basicBlocks>
+      <basicBlocks>113</basicBlocks>
+      <basicBlocks>116</basicBlocks>
+      <basicBlocks>119</basicBlocks>
+      <basicBlocks>122</basicBlocks>
+      <basicBlocks>124</basicBlocks>
+      <basicBlocks>126</basicBlocks>
+      <mDfPipe/>
+    </cfgRegions>
+  </CFGRegionsRoot>
+</cdfg:DBCdfg>
