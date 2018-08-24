@@ -6,7 +6,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include "sds_utils.h"
-#include "mmult_accel.h"
 
 #ifdef __SDSCC__
 #include "sds_lib.h"
@@ -240,9 +239,14 @@ int main(int argc, char *argv[]){
 
 	/************** libcaer part ***********************/
 
-    int socketPort;
+    int socketPort = 4097, eventThreshold = 50000;
     if (argc < 2) socketPort = 4097;     //default port number 4097
     if (argc == 2) socketPort = atoi(argv[1]);
+    if (argc == 3)
+    {
+    	socketPort = atoi(argv[1]);
+    	eventThreshold = atoi(argv[2]);
+    }
     int remoteSocket;
 
     // Open a DAVIS, give it a device ID of 1, and don't care about USB bus or SN restrictions.
@@ -323,8 +327,15 @@ int main(int argc, char *argv[]){
 //				uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
 //				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
 //				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
+			    sds_utils::perf_counter hw_ctr, sw_ctr;
 
-				remoteSocket = abmof(polarity, socketPort);
+			    sw_ctr.start();
+				remoteSocket = abmof(polarity, socketPort, eventThreshold);
+			    sw_ctr.stop();
+			    uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
+
+			    std::cout << "Number of CPU cycles running application in software: "
+			                << sw_cycles << std::endl;
 				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 //				CAER_POLARITY_ITERATOR_VALID_END
 			}

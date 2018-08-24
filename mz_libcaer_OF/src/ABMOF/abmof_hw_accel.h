@@ -16,6 +16,7 @@
 
 #pragma SDS data access_pattern(data:SEQUENTIAL)
 #pragma SDS data copy(data[0:eventsArraySize * 2])
+#pragma SDS data mem_attribute(eventSlice:PHYSICAL_CONTIGUOUS)
 #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
 void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSlice);
 

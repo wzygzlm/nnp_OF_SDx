@@ -7,6 +7,8 @@
 
 #include <math.h>
 
+#include "sds_utils.h"
+
 
 // TODO, hardcode now, should adapt to the real chip size.
 uchar slices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
@@ -247,7 +249,7 @@ void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
 	accumulate(x, y, pol, ts);
 }
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold)
 {
 	if (!initSocketFlg)
 	{
@@ -276,8 +278,14 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		eventSlice = (int8_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 		return retSocket;
 	}
-
+	if(eventsArraySize >= eventThreshold)
+	{
+		eventsArraySize = eventThreshold;
+	}
 	parseEvents(&(firstEvent.data), eventsArraySize, eventSlice);
+
+//    uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
+//    double speedup = (double) sw_cycles / (double) hw_cycles;
 
 	sendEventSlice();
 

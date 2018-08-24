@@ -53,10 +53,10 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSl
 		int16_t x = ((data[i]) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
 		int16_t y = ((data[i]) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((data[i]) >> POLARITY_SHIFT) & POLARITY_MASK;;
-		// int64_t ts = data[i+1];
+		int64_t ts = data[i+1];
 
 		// ts is unsued, should remove it.
-		accumulateHW(x, y, pol, 0);
+		accumulateHW(x, y, pol, ts);
 	}
 
 	copyToPS(eventSlice);
