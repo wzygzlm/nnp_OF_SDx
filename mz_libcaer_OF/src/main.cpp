@@ -300,6 +300,16 @@ int main(int argc, char *argv[]){
 	// Let's turn on blocking data-get mode to avoid wasting resources.
 	davisHandle.configSet(CAER_HOST_CONFIG_DATAEXCHANGE, CAER_HOST_CONFIG_DATAEXCHANGE_BLOCKING, true);
 
+	// Set data exchange buffer size
+	// davisHandle.configSet(CAER_HOST_CONFIG_DATAEXCHANGE, CAER_HOST_CONFIG_DATAEXCHANGE_BUFFER_SIZE, 10);
+	uint32_t bufferSize = davisHandle.configGet(CAER_HOST_CONFIG_DATAEXCHANGE, CAER_HOST_CONFIG_DATAEXCHANGE_BUFFER_SIZE);
+
+	// Set log level
+	davisHandle.configSet(CAER_HOST_CONFIG_LOG, CAER_HOST_CONFIG_LOG_LEVEL, 5);
+
+	// Set time interval
+	// davisHandle.configSet(CAER_HOST_CONFIG_PACKETS, CAER_HOST_CONFIG_PACKETS_MAX_CONTAINER_INTERVAL, 10);
+
 	while (!globalShutdown.load(memory_order_relaxed)) {
 		std::unique_ptr<libcaer::events::EventPacketContainer> packetContainer = davisHandle.dataGet();
 		if (packetContainer == nullptr) {
@@ -327,15 +337,9 @@ int main(int argc, char *argv[]){
 //				uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
 //				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
 //				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
-			    sds_utils::perf_counter hw_ctr, sw_ctr;
 
-			    sw_ctr.start();
 				remoteSocket = abmof(polarity, socketPort, eventThreshold);
-			    sw_ctr.stop();
-			    uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
 
-			    std::cout << "Number of CPU cycles running application in software: "
-			                << sw_cycles << std::endl;
 				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 //				CAER_POLARITY_ITERATOR_VALID_END
 			}

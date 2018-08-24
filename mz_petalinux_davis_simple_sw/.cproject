@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.xilinx.sdsoc.managedbuild.project.debug.2125661371">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xilinx.sdsoc.managedbuild.project.debug.2125661371" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xilinx.sdk.managedbuilder.XELF.armlinux" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.xilinx.sdk.apf.XilinxErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf _sds sd_card" description="" id="com.xilinx.sdsoc.managedbuild.project.debug.2125661371" name="Debug" parent="com.xilinx.sdsoc.managedbuild.project.debug" prebuildStep="sdsoc_make_clean Debug">
+					<folderInfo id="com.xilinx.sdsoc.managedbuild.project.debug.2125661371." name="/" resourcePath="">
+						<toolChain id="com.xilinx.sdsoc.managedbuild.project.debug.toolchain.1940809122" name="SDS Toolchain" superClass="com.xilinx.sdsoc.managedbuild.project.debug.toolchain">
+							<targetPlatform binaryParser="com.xilinx.sdk.managedbuilder.XELF.armlinux" id="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform.214310312" isAbstract="false" name="SDS Target Platform" superClass="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform"/>
+							<builder buildPath="${workspace_loc:/mz_petalinux_davis_simple_sw}/Debug" enableAutoBuild="true" id="com.xilinx.sdsoc.managedbuild.toolchain.builder.185856145" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU make" superClass="com.xilinx.sdsoc.managedbuild.toolchain.builder"/>
+							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.ccompiler.769382347" name="SDSCC Compiler" superClass="com.xilinx.sdsoc.managedbuild.toolchain.ccompiler">
+								<option id="xilinx.gnu.compiler.dircategory.includes.859441023" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+								</option>
+								<option id="xilinx.gnu.compiler.symbols.defined.368047342" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="HLS_NO_XIL_FPO_LIB"/>
+								</option>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1956702367" name="Software Platform Inferred Flags" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -I${SYSROOT}/usr/include/c++/7.2.0 -I${SYSROOT}/usr/include/c++/7.2.0/arm-xlinx-linux-gnueabi -I${SYSROOT}/usr/include/c++/7.2.0/backward -I${SYSROOT}/usr/include -I${SYSROOT}/usr/include/glib-2.0 -I${SYSROOT}/usr/lib/glib-2.0/include -I${XILINX_SDK}/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1 -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/aarch64-linux-gnu -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/backward -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include-fixed -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include -IE:/minliu/only_caer_rootfs_armA53/include -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare" valueType="string"/>
+								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdscc.input.279676540" name="C source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdscc.input"/>
+							</tool>
+							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.cppcompiler.1833646094" name="SDS++ Compiler" superClass="com.xilinx.sdsoc.managedbuild.toolchain.cppcompiler">
+								<option id="xilinx.gnu.compiler.dircategory.includes.1156675075" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\sdk_petalinux_2018_2_roofs\sdk\sysroots\cortexa9hf-neon-xilinx-linux-gnueabi\usr\include&quot;"/>
+								</option>
+								<option id="xilinx.gnu.compiler.symbols.defined.124489419" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="HLS_NO_XIL_FPO_LIB"/>
+								</option>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.904348265" name="Software Platform Inferred Flags" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -I${SYSROOT}/usr/include/c++/7.2.0 -I${SYSROOT}/usr/include/c++/7.2.0/arm-xlinx-linux-gnueabi -I${SYSROOT}/usr/include/c++/7.2.0/backward -I${SYSROOT}/usr/include -I${SYSROOT}/usr/include/glib-2.0 -I${SYSROOT}/usr/lib/glib-2.0/include -I${XILINX_SDK}/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1 -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/aarch64-linux-gnu -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/backward -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include-fixed -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include -IE:/minliu/only_caer_rootfs_armA53/include -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare" valueType="string"/>
+								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdspp.input.1499605710" name="C++ source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdspp.input"/>
+							</tool>
+							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.linker.1141584674" name="SDS++ Linker" superClass="com.xilinx.sdsoc.managedbuild.toolchain.linker">
+								<option id="xilinx.gnu.c.link.option.ldflags.91988196" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value=" --sysroot=${SYSROOT} -L=E:/minliu/only_caer_rootfs_armA53/libs -L=/lib -L=/usr/lib -Wl,-rpath-link=${SYSROOT}/lib,-rpath-link=${SYSROOT}/usr/lib" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.libs.1575478108" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="opencv_core"/>
+									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
+									<listOptionValue builtIn="false" value="usb-1.0"/>
+									<listOptionValue builtIn="false" value="opencv_imgproc"/>
+									<listOptionValue builtIn="false" value="caer"/>
+								</option>
+								<inputType id="xilinx.gnu.linker.input.1955735307" superClass="xilinx.gnu.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<inputType id="xilinx.gnu.linker.input.lscript.1308417624" name="Linker Script" superClass="xilinx.gnu.linker.input.lscript"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="**/_sds/iprepo/|**/_sds/p0/|**/_sds/reports/|**/_sds/vhls/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.xilinx.sdsoc.managedbuild.project.release.1175660821">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.xilinx.sdsoc.managedbuild.project.release.1175660821" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.xilinx.sdk.managedbuilder.XELF.armlinux" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="com.xilinx.sdk.apf.XilinxErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf _sds sd_card" description="" id="com.xilinx.sdsoc.managedbuild.project.release.1175660821" name="Release" parent="com.xilinx.sdsoc.managedbuild.project.release" prebuildStep="sdsoc_make_clean Release">
+					<folderInfo id="com.xilinx.sdsoc.managedbuild.project.release.1175660821." name="/" resourcePath="">
+						<toolChain id="com.xilinx.sdsoc.managedbuild.project.release.toolchain.1299612903" name="SDS Toolchain" superClass="com.xilinx.sdsoc.managedbuild.project.release.toolchain">
+							<targetPlatform binaryParser="com.xilinx.sdk.managedbuilder.XELF.armlinux" id="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform.1348853576" isAbstract="false" name="SDS Target Platform" superClass="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform"/>
+							<builder buildPath="${workspace_loc:/mz_petalinux_davis_simple_sw}/Release" enableAutoBuild="true" id="com.xilinx.sdsoc.managedbuild.toolchain.builder.1487879644" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU make" superClass="com.xilinx.sdsoc.managedbuild.toolchain.builder"/>
+							<tool id="com.xilinx.sdsoc.managedbuild.project.release.sdscc.274916682" name="SDSCC Compiler" superClass="com.xilinx.sdsoc.managedbuild.project.release.sdscc">
+								<option id="xilinx.gnu.compiler.dircategory.includes.37580172" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+								</option>
+								<option id="xilinx.gnu.compiler.symbols.defined.1047203539" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="HLS_NO_XIL_FPO_LIB"/>
+								</option>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1465457740" name="Software Platform Inferred Flags" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -I${SYSROOT}/usr/include/c++/7.2.0 -I${SYSROOT}/usr/include/c++/7.2.0/arm-xlinx-linux-gnueabi -I${SYSROOT}/usr/include/c++/7.2.0/backward -I${SYSROOT}/usr/include -I${SYSROOT}/usr/include/glib-2.0 -I${SYSROOT}/usr/lib/glib-2.0/include -I${XILINX_SDK}/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1 -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/aarch64-linux-gnu -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/backward -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include-fixed -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include -IE:/minliu/only_caer_rootfs_armA53/include -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare" valueType="string"/>
+								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdscc.input.1291092623" name="C source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdscc.input"/>
+							</tool>
+							<tool id="com.xilinx.sdsoc.managedbuild.project.release.sdspp.222635909" name="SDS++ Compiler" superClass="com.xilinx.sdsoc.managedbuild.project.release.sdspp">
+								<option id="xilinx.gnu.compiler.dircategory.includes.159436800" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>
+								</option>
+								<option id="xilinx.gnu.compiler.symbols.defined.905843247" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="HLS_NO_XIL_FPO_LIB"/>
+								</option>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1393611097" name="Software Platform Inferred Flags" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -I${SYSROOT}/usr/include/c++/7.2.0 -I${SYSROOT}/usr/include/c++/7.2.0/arm-xlinx-linux-gnueabi -I${SYSROOT}/usr/include/c++/7.2.0/backward -I${SYSROOT}/usr/include -I${SYSROOT}/usr/include/glib-2.0 -I${SYSROOT}/usr/lib/glib-2.0/include -I${XILINX_SDK}/gnu/aarch32/nt/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include/c++/7.2.1 -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/aarch64-linux-gnu -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include/c++/6.2.1/backward -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/lib/gcc/aarch64-linux-gnu/6.2.1/include-fixed -I${XILINX_SDK}/gnu/aarch64/nt/aarch64-linux/aarch64-linux-gnu/include -IE:/minliu/only_caer_rootfs_armA53/include -Wno-overloaded-virtual -Wno-unused-label -Wno-strict-overflow -Wno-uninitialized -Wno-unused-function -Wno-unused-variable -Wno-unknown-attributes -Wno-unused-local-typedefs -Wno-sign-compare" valueType="string"/>
+								<inputType id="com.xilinx.sdsoc.managedbuild.tool.sdspp.input.187140478" name="C++ source files" superClass="com.xilinx.sdsoc.managedbuild.tool.sdspp.input"/>
+							</tool>
+							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.linker.1354084777" name="SDS++ Linker" superClass="com.xilinx.sdsoc.managedbuild.toolchain.linker">
+								<option id="xilinx.gnu.c.link.option.ldflags.109012085" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value=" --sysroot=${SYSROOT} -L=E:/minliu/only_caer_rootfs_armA53/libs -L=/lib -L=/usr/lib -Wl,-rpath-link=${SYSROOT}/lib,-rpath-link=${SYSROOT}/usr/lib" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.libs.649605806" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="opencv_core"/>
+									<listOptionValue builtIn="false" value="opencv_imgcodecs"/>
+									<listOptionValue builtIn="false" value="usb-1.0"/>
+									<listOptionValue builtIn="false" value="opencv_imgproc"/>
+									<listOptionValue builtIn="false" value="caer"/>
+								</option>
+								<inputType id="xilinx.gnu.linker.input.797299018" superClass="xilinx.gnu.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<inputType id="xilinx.gnu.linker.input.lscript.805125999" name="Linker Script" superClass="xilinx.gnu.linker.input.lscript"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="**/_sds/iprepo/|**/_sds/p0/|**/_sds/reports/|**/_sds/vhls/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="mz_petalinux_davis_simple_sw.com.xilinx.sdsoc.managedbuild.project.1028770799" name="Xilinx SDS Project" projectType="com.xilinx.sdsoc.managedbuild.project"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="refreshScope"/>
+</cproject>
