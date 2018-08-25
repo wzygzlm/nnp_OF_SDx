@@ -18,7 +18,7 @@
 					<folderInfo id="com.xilinx.sdsoc.managedbuild.project.debug.307647139." name="/" resourcePath="">
 						<toolChain id="com.xilinx.sdsoc.managedbuild.project.debug.toolchain.702708054" name="SDS Toolchain" superClass="com.xilinx.sdsoc.managedbuild.project.debug.toolchain">
 							<targetPlatform binaryParser="com.xilinx.sdk.managedbuilder.XELF.armlinux" id="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform.1597878760" isAbstract="false" name="SDS Target Platform" superClass="com.xilinx.sdsoc.managedbuild.toolchain.targetplatform"/>
-							<builder buildPath="${workspace_loc:/nnp_mmult_OF/Debug}" enableAutoBuild="true" id="com.xilinx.sdsoc.managedbuild.toolchain.builder.1237277729" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU make" superClass="com.xilinx.sdsoc.managedbuild.toolchain.builder"/>
+							<builder buildPath="${workspace_loc:/mz_libcaer_OF/Debug}" enableAutoBuild="true" id="com.xilinx.sdsoc.managedbuild.toolchain.builder.1237277729" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU make" superClass="com.xilinx.sdsoc.managedbuild.toolchain.builder"/>
 							<tool id="com.xilinx.sdsoc.managedbuild.toolchain.ccompiler.920272444" name="SDSCC Compiler" superClass="com.xilinx.sdsoc.managedbuild.toolchain.ccompiler">
 								<option id="xilinx.gnu.compiler.dircategory.includes.1858662681" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../src&quot;"/>

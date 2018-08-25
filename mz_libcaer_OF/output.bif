@@ -1,0 +1,8 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF\fsbl.elf
+	E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF\Debug\_sds\p0\_vpl\ipi\syn\syn.runs\impl_1\minized_petalinux_wrapper.bit
+	E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF\u-boot.elf
+	[offset = 0x270000]E:\xfOpenCV\wksp_2018_1\mz_libcaer_OF\image_noxlnk.ub
+}

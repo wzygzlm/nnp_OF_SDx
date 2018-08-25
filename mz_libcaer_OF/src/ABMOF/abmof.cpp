@@ -127,7 +127,7 @@ static void *display(void *ptr)
                 std::cerr << "bytes = " << bytes << std::endl;
                 break;
             }
-            sendFlg = false;
+            // sendFlg = false;
         }
     }
 
