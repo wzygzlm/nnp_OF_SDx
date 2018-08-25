@@ -282,19 +282,20 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	{
 		eventsArraySize = eventThreshold;
 	}
+
+	uint32_t * data = (uint32_t *)sds_alloc(eventsArraySize * eventPerSize);
+	memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
     hw_ctr.start();
-	parseEvents(&(firstEvent.data), eventsArraySize, eventSlice);
+	parseEvents(data, eventsArraySize, eventSlice);
 	hw_ctr.stop();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
 
     std::cout << "Number of CPU cycles running application in hardware: "
                 << hw_cycles << std::endl;
 
-//    uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
-//    double speedup = (double) sw_cycles / (double) hw_cycles;
-
+    sds_free(data);
 	sendEventSlice();
 
 //	int i = 0;
