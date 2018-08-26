@@ -239,13 +239,19 @@ int main(int argc, char *argv[]){
 
 	/************** libcaer part ***********************/
 
-    int socketPort = 4097, eventThreshold = 50000;
-    if (argc < 2) socketPort = 4097;     //default port number 4097
+    int socketPort = 4097, eventThreshold = 50000, packetInterval = 10000;
+    // if (argc < 2) socketPort = 4097;     //default port number 4097
     if (argc == 2) socketPort = atoi(argv[1]);
     if (argc == 3)
     {
     	socketPort = atoi(argv[1]);
     	eventThreshold = atoi(argv[2]);
+    }
+    if (argc == 4)
+    {
+    	socketPort = atoi(argv[1]);
+    	eventThreshold = atoi(argv[2]);
+    	packetInterval = atoi(argv[3]);
     }
     int remoteSocket;
 
@@ -308,7 +314,7 @@ int main(int argc, char *argv[]){
 	davisHandle.configSet(CAER_HOST_CONFIG_LOG, CAER_HOST_CONFIG_LOG_LEVEL, 5);
 
 	// Set time interval
-	// davisHandle.configSet(CAER_HOST_CONFIG_PACKETS, CAER_HOST_CONFIG_PACKETS_MAX_CONTAINER_INTERVAL, 10);
+	davisHandle.configSet(CAER_HOST_CONFIG_PACKETS, CAER_HOST_CONFIG_PACKETS_MAX_CONTAINER_INTERVAL, packetInterval);
 
 	while (!globalShutdown.load(memory_order_relaxed)) {
 		std::unique_ptr<libcaer::events::EventPacketContainer> packetContainer = davisHandle.dataGet();
