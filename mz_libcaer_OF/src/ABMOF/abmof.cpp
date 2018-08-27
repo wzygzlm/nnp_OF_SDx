@@ -20,7 +20,7 @@ static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
 static uint16_t retSocket;
 
-static int8_t *eventSlice = (int8_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+static int32_t *eventSlice = (int32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -143,7 +143,7 @@ static void *display(void *ptr)
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
             //send processed image
-            if ((bytes = sendto(socket, img.data, imgSize, 0, (struct sockaddr*)&remoteAddr, addrLen)) < 0){
+            if ((bytes = sendto(socket, (void *)eventSlice, DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&remoteAddr, addrLen)) < 0){
                 std::cerr << "bytes = " << bytes << std::endl;
                 break;
             }
@@ -295,12 +295,21 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     // Make suer sds_alloc allocate a right memory for eventSlice.
 	if(eventSlice == NULL)
 	{
-		eventSlice = (int8_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+		eventSlice = (int32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 		return retSocket;
 	}
 	if(eventsArraySize >= eventThreshold)
 	{
 		eventsArraySize = eventThreshold;
+	}
+
+	// Currently we need to make eventSlice a static pointer, otherwise the display thread may have
+	// competence with this main thread. To achieve this, we must specify the size of eventSlice.
+	// For software, this might not be an issue since eventSlice is a FIFO which doesn't have address
+	// when implemented on hardware.
+	if(eventsArraySize >= DVS_HEIGHT * DVS_WIDTH / 4)
+	{
+		eventsArraySize = DVS_HEIGHT * DVS_WIDTH / 4;
 	}
 
 	uint32_t * data = (uint32_t *)sds_alloc(eventsArraySize * eventPerSize);

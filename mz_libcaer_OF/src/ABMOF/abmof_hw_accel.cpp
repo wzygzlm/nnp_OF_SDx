@@ -40,12 +40,12 @@ void resetCurrentSliceHW()
 
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 // #pragma SDS data data_mover(data:AXIFIFO:1, eventSlice:AXIFIFO:2)
-#pragma SDS data buffer_depth(data:512, eventSlice:1024)
+// #pragma SDS data buffer_depth(data:512, eventSlice:1)
 #pragma SDS data data_mover(data:AXIDMA_SIMPLE:1, eventSlice:AXIDMA_SIMPLE:2)
-#pragma SDS data copy(data[0:eventsArraySize * 2], eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
+#pragma SDS data copy(data[0:eventsArraySize * 2], eventSlice[0:eventsArraySize])
 #pragma SDS data mem_attribute(data:PHYSICAL_CONTIGUOUS, eventSlice:PHYSICAL_CONTIGUOUS)
 // #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
-void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSlice)
+void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
 // #pragma HLS INTERFACE ap_fifo port=data
 #pragma HLS ARRAY_PARTITION variable=glPLSlices block factor=16 dim=3
@@ -57,17 +57,19 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSl
 	{
 #pragma HLS PIPELINE
 		#pragma HLS loop_tripcount min=0 max=10000
-		int16_t x = ((data[i]) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		int16_t y = ((data[i]) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
-		bool pol  = ((data[i]) >> POLARITY_SHIFT) & POLARITY_MASK;;
+		uint32_t tmp = data[i];
+		int16_t x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		int16_t y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
 		int64_t ts = data[i+1];
 
 		// ts is unsued, should remove it.
 		accumulateHW(x, y, pol, ts);
 
-		// eventSlice[i%240] = glPLSlices[glPLSliceIdx][y][x];
+		// Reorder the data to make it easier to be parsed.
+		*eventSlice++ = x + (y << 8) + (pol << 16);
 	}
 
 
-	copyToPS(eventSlice);
+	// copyToPS(eventSlice);
 }
