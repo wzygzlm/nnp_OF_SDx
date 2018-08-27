@@ -40,7 +40,7 @@ void resetCurrentSliceHW()
 
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 // #pragma SDS data data_mover(data:AXIFIFO:1, eventSlice:AXIFIFO:2)
-// #pragma SDS data buffer_depth(data:512, eventSlice:512)
+#pragma SDS data buffer_depth(data:512, eventSlice:1024)
 #pragma SDS data data_mover(data:AXIDMA_SIMPLE:1, eventSlice:AXIDMA_SIMPLE:2)
 #pragma SDS data copy(data[0:eventsArraySize * 2], eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
 #pragma SDS data mem_attribute(data:PHYSICAL_CONTIGUOUS, eventSlice:PHYSICAL_CONTIGUOUS)
@@ -64,7 +64,10 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int8_t *eventSl
 
 		// ts is unsued, should remove it.
 		accumulateHW(x, y, pol, ts);
+
+		// eventSlice[i%240] = glPLSlices[glPLSliceIdx][y][x];
 	}
+
 
 	copyToPS(eventSlice);
 }

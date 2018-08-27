@@ -45,7 +45,7 @@ int init_socket(int port)
     int addrLen = sizeof(struct sockaddr_in);
 
 
-    localSocket = socket(AF_INET , SOCK_STREAM , 0);
+    localSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (localSocket == -1){
          perror("socket() call failed!!");
     }
@@ -60,10 +60,10 @@ int init_socket(int port)
     }
 
     //Listening
-    listen(localSocket , 3);
-
-    std::cout <<  "Waiting for connections...\n"
-              <<  "Server Port:" << port << std::endl;
+//    listen(localSocket , 3);
+//
+//    std::cout <<  "Waiting for connections...\n"
+//              <<  "Server Port:" << port << std::endl;
 
     //accept connection from an incoming client
     // while(1){
@@ -72,14 +72,16 @@ int init_socket(int port)
     //    exit(1);
     //}
 
-     remoteSocket = accept(localSocket, (struct sockaddr *)&remoteAddr, (socklen_t*)&addrLen);
+     // UDP doesn't have accept, we only use localSocket to replace it.
+     // remoteSocket = accept(localSocket, (struct sockaddr *)&remoteAddr, (socklen_t*)&addrLen);
+    remoteSocket = localSocket;
       //std::cout << remoteSocket<< "32"<< std::endl;
     if (remoteSocket < 0) {
         perror("accept failed!");
         exit(1);
     }
     std::cout << "Connection accepted" << std::endl;
-     pthread_create(&thread_id,NULL,display,&remoteSocket);
+     pthread_create(&thread_id,NULL,display,(void *)&localSocket);
      pthread_setname_np(thread_id, "SliceDisplay");
      sleep(5);
 
@@ -95,8 +97,27 @@ int init_socket(int port)
 static void *display(void *ptr)
 {
     int socket = *(int *)ptr;
+    struct  sockaddr_in remoteAddr;
+    socklen_t addrLen = sizeof(struct sockaddr_in);
+
+    char buf[10];
+    int recvLen;
+
+    std::cout <<  "Waiting for connections...\n" << std::endl;
+    //try to receive some data, this is a blocking call
+    if ((recvLen = recvfrom(socket, buf, 10, 0, (struct sockaddr *) &remoteAddr, &addrLen)) == -1)
+    {
+        std::cerr << "bytes = " << recvLen << std::endl;
+        return NULL;
+    }
+
+    //print details of the client/peer and the data received
+    printf("Received packet from %s:%d\n", inet_ntoa(remoteAddr.sin_addr), ntohs(remoteAddr.sin_port));
+    printf("Data: %s\n" , buf);
+
     //OpenCV Code
     //----------------------------------------------------------
+
 
     cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, slices[currentIdx]);
      //make it continuous
@@ -107,7 +128,6 @@ static void *display(void *ptr)
     int imgSize = img.total() * img.elemSize();
     int bytes = 0;
     int key;
-
 
     std::cout << "Image Size:" << imgSize << std::endl;
 
@@ -123,7 +143,7 @@ static void *display(void *ptr)
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
             //send processed image
-            if ((bytes = send(socket, img.data, imgSize, 0)) < 0){
+            if ((bytes = sendto(socket, img.data, imgSize, 0, (struct sockaddr*)&remoteAddr, addrLen)) < 0){
                 std::cerr << "bytes = " << bytes << std::endl;
                 break;
             }
@@ -288,6 +308,9 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
     hw_ctr.start();
+    // reset the eventSlice
+    memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
+
 	parseEvents(data, eventsArraySize, eventSlice);
 	hw_ctr.stop();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
@@ -315,10 +338,3 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
 	return retSocket;
 }
-
-
-
-
-
-
-
