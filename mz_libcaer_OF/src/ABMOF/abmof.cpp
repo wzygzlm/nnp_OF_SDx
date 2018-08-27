@@ -25,10 +25,119 @@ static int32_t *eventSlice = (int32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
 
-static void *display(void *);
+static void *displayTCP(void *);
+
+static void *displayUDP(void *);
+
+// TCP server
+int init_socket_TCP(int port)
+{
+
+    //--------------------------------------------------------
+    //networking stuff: socket, bind, listen
+    //--------------------------------------------------------
+    int                 localSocket,
+                        remoteSocket;
+
+    struct  sockaddr_in localAddr,
+                        remoteAddr;
+    pthread_t thread_id;
 
 
-int init_socket(int port)
+    int addrLen = sizeof(struct sockaddr_in);
+
+
+    localSocket = socket(AF_INET , SOCK_STREAM , 0);
+    if (localSocket == -1){
+         perror("socket() call failed!!");
+    }
+
+    localAddr.sin_family = AF_INET;
+    localAddr.sin_addr.s_addr = INADDR_ANY;
+    localAddr.sin_port = htons( port );
+
+    if( bind(localSocket,(struct sockaddr *)&localAddr , sizeof(localAddr)) < 0) {
+         perror("Can't bind() socket");
+         exit(1);
+    }
+
+    //Listening
+    listen(localSocket , 3);
+
+    std::cout <<  "Waiting for connections...\n"
+              <<  "Server Port:" << port << std::endl;
+
+    //accept connection from an incoming client
+    // while(1){
+    //if (remoteSocket < 0) {
+    //    perror("accept failed!");
+    //    exit(1);
+    //}
+
+     remoteSocket = accept(localSocket, (struct sockaddr *)&remoteAddr, (socklen_t*)&addrLen);
+      //std::cout << remoteSocket<< "32"<< std::endl;
+    if (remoteSocket < 0) {
+        perror("accept failed!");
+        exit(1);
+    }
+    std::cout << "Connection accepted" << std::endl;
+     pthread_create(&thread_id,NULL,displayTCP,&remoteSocket);
+     pthread_setname_np(thread_id, "SliceDisplay");
+     sleep(5);
+
+     //pthread_join(thread_id,NULL);
+
+    // }
+    //pthread_join(thread_id,NULL);
+    //close(remoteSocket);
+
+    return remoteSocket;
+}
+
+static void *displayTCP(void *ptr)
+{
+    int socket = *(int *)ptr;
+    //OpenCV Code
+    //----------------------------------------------------------
+
+    cv::Mat img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, slices[currentIdx]);
+     //make it continuous
+    if (!img.isContinuous()) {
+        img = img.clone();
+    }
+
+    int imgSize = img.total() * img.elemSize();
+    int bytes = 0;
+    int key;
+
+
+    std::cout << "Image Size:" << imgSize << std::endl;
+
+    while(1) {
+        if(sendFlg)
+        {
+            /* get a frame from camera */
+            img = cv::Mat(DVS_HEIGHT, DVS_WIDTH, CV_8UC1, eventSlice);
+            double maxIntensity;
+            // cv::minMaxLoc(img, NULL, &maxIntensity);
+            // std::cout<<"max value is "<<maxIntensity<<std::endl;
+            //do video processing here
+            // cvtColor(img, imgGray, CV_BGR2GRAY);
+
+            //send processed image
+            if ((bytes = send(socket, img.data, imgSize, 0)) < 0){
+                std::cerr << "bytes = " << bytes << std::endl;
+                break;
+            }
+            // sendFlg = false;
+        }
+    }
+
+}
+
+
+// UDP server
+int init_socket_UDP(int port)
 {
 
     //--------------------------------------------------------
@@ -81,7 +190,7 @@ int init_socket(int port)
         exit(1);
     }
     std::cout << "Connection accepted" << std::endl;
-     pthread_create(&thread_id,NULL,display,(void *)&localSocket);
+     pthread_create(&thread_id,NULL,displayUDP,(void *)&localSocket);
      pthread_setname_np(thread_id, "SliceDisplay");
      sleep(5);
 
@@ -94,7 +203,7 @@ int init_socket(int port)
     return remoteSocket;
 }
 
-static void *display(void *ptr)
+static void *displayUDP(void *ptr)
 {
     int socket = *(int *)ptr;
     struct  sockaddr_in remoteAddr;
@@ -269,11 +378,18 @@ void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
 	accumulate(x, y, pol, ts);
 }
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType)
 {
 	if (!initSocketFlg)
 	{
-		retSocket = init_socket(port);
+		if (socketType == 0)     //0 : UDP
+		{
+			retSocket = init_socket_UDP(port);
+		}
+		else
+		{
+			retSocket = init_socket_TCP(port);
+		}
 		initSocketFlg = true;
 	}
 

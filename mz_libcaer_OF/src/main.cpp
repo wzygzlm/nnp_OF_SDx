@@ -239,8 +239,7 @@ int main(int argc, char *argv[]){
 
 	/************** libcaer part ***********************/
 
-    int socketPort = 4097, eventThreshold = 50000, packetInterval = 10000;
-    // if (argc < 2) socketPort = 4097;     //default port number 4097
+    int socketPort = 4097, eventThreshold = 50000, packetInterval = 10000, socketType = 0;  // Default value
     if (argc == 2) socketPort = atoi(argv[1]);
     if (argc == 3)
     {
@@ -252,6 +251,13 @@ int main(int argc, char *argv[]){
     	socketPort = atoi(argv[1]);
     	eventThreshold = atoi(argv[2]);
     	packetInterval = atoi(argv[3]);
+    }
+    if (argc == 5)
+    {
+    	socketPort = atoi(argv[1]);
+    	eventThreshold = atoi(argv[2]);
+    	packetInterval = atoi(argv[3]);
+    	socketType = atoi(argv[4]);
     }
     int remoteSocket;
 
@@ -344,7 +350,7 @@ int main(int argc, char *argv[]){
 //				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
 //				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
-				remoteSocket = abmof(polarity, socketPort, eventThreshold);
+				remoteSocket = abmof(polarity, socketPort, eventThreshold, socketType);
 
 				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 //				CAER_POLARITY_ITERATOR_VALID_END
