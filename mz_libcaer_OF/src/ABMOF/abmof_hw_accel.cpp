@@ -107,6 +107,7 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 		}
 
 		// For FIFO interface, this one could be commented.
+		// We put it here only to make the program more readable.
 		eventSlice++;
 
 		localCnt++;
