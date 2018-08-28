@@ -2,6 +2,7 @@
 
 static int8_t glPLSlices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
 static int8_t glPLSliceIdx;
+static uint16_t glCnt;
 
 void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 {
@@ -52,6 +53,15 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 #pragma HLS LATENCY min=1
 	resetCurrentSliceHW();
 
+	uint16_t localCnt;
+
+	// Experiment shows that this statement have on effect in the final result.
+	// Only in the loop eventSlice started to output data.
+	// It might be that HLS optimized it. Like in verilog, if there're two assignments
+	// for a same variable, the first one will be ignored and only keep the last one.
+	// Not sure if that's the reason.
+	*eventSlice = localCnt + (glCnt << 16);     // The first byte to store the glCnt to check if they are always the same.
+
 	// Every event always consists of 2 int32_t which is 8bytes.
 	loop_1:for(int32_t i = 0; i < eventsArraySize * 2; i = i + 2)
 	{
@@ -66,10 +76,41 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 		// ts is unsued, should remove it.
 		accumulateHW(x, y, pol, ts);
 
-		// Reorder the data to make it easier to be parsed.
-		*eventSlice++ = x + (y << 8) + (pol << 16);
+		int8_t refBlock[23][23];
+		int8_t targetBlocks[23][23];
+		int32_t sum = 0;
+		calOFLoop:for(int8_t m = 0; m < 23; m++)
+		{
+			calOFInnerLoop:for(int8_t n = 0; n < 23; n++)
+			{
+				int16_t tmpSum = refBlock[m][n] - targetBlocks[m][n];
+				if ( tmpSum < 0)
+				{
+					sum = sum - tmpSum;
+				}
+				else
+				{
+					sum = sum + tmpSum;
+				}
+			}
+		}
+
+		if (i == 0)
+		{
+			// The first byte to store the glCnt to check if they are always the same.
+			*eventSlice = localCnt + (glCnt << 16);
+		}
+		else
+		{
+			// Reorder the data to make it easier to be parsed.
+			*eventSlice = x + (y << 8) + (pol << 16) + (sum << 17);
+		}
+
+		// For FIFO interface, this one could be commented.
+		eventSlice++;
+
+		localCnt++;
+		glCnt++;
 	}
-
-
 	// copyToPS(eventSlice);
 }
