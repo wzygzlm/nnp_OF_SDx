@@ -14,6 +14,8 @@
 #define DVS_WIDTH  240
 #define DVS_HEIGHT 180
 
+#define BITS_PER_PIXEL 3
+
 void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice);
 
 #endif

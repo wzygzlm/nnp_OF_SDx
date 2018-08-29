@@ -1,29 +1,44 @@
 #include "abmof_hw_accel.h"
+#include "ap_int.h"
 
-static int8_t glPLSlices[SLICES_NUMBER][DVS_HEIGHT][DVS_WIDTH];
-static int8_t glPLSliceIdx;
+typedef ap_int<BITS_PER_PIXEL> pix_t;
+typedef ap_uint<2> sliceIdx_t;
+
+static int8_t glPLSlice0[DVS_HEIGHT][DVS_WIDTH], glPLSlice1[DVS_HEIGHT][DVS_WIDTH], glPLSlice2[DVS_HEIGHT][DVS_WIDTH];
+static sliceIdx_t glPLActiveSliceIdx;
 static uint16_t glCnt;
 
 void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 {
 	if (pol == true)
 	{
-		glPLSlices[glPLSliceIdx][y][x] += 1;
+		if(glPLActiveSliceIdx == 0)
+		{
+			glPLSlice0[y][x] = 0;
+		}
+		else if(glPLActiveSliceIdx == 1)
+		{
+			glPLSlice1[y][x] = 0;
+		}
+		else if(glPLActiveSliceIdx == 2)
+		{
+			glPLSlice2[y][x] = 0;
+		}
 	}
 }
 
 // #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
-void copyToPS(int8_t *eventSlice)
-{
-	copyToPSLoop: for(int16_t i = 0; i < DVS_HEIGHT; i++)
-	{
-		copyToPS_label2:for(int16_t j = 0; j < DVS_WIDTH; j++)
-		{
-#pragma HLS PIPELINE
-			eventSlice[i * DVS_WIDTH + j] = glPLSlices[glPLSliceIdx][i][j];
-		}
-	}
-}
+//void copyToPS(int8_t *eventSlice)
+//{
+//	copyToPSLoop: for(int16_t i = 0; i < DVS_HEIGHT; i++)
+//	{
+//		copyToPS_label2:for(int16_t j = 0; j < DVS_WIDTH; j++)
+//		{
+//#pragma HLS PIPELINE
+//			eventSlice[i * DVS_WIDTH + j] = glPLSlices[glPLSliceIdx][i][j];
+//		}
+//	}
+//}
 
 void resetCurrentSliceHW()
 {
@@ -34,7 +49,18 @@ void resetCurrentSliceHW()
 		resetSliceLoop2:for(int16_t j = 0; j < DVS_WIDTH; j++)
 		{
 #pragma HLS PIPELINE
-			glPLSlices[glPLSliceIdx][i][j] = 0;
+			if(glPLActiveSliceIdx == 0)
+			{
+				glPLSlice0[i][j] = 0;
+			}
+			else if(glPLActiveSliceIdx == 1)
+			{
+				glPLSlice1[i][j] = 0;
+			}
+			else if(glPLActiveSliceIdx == 2)
+			{
+				glPLSlice2[i][j] = 0;
+			}
 		}
 	}
 }
@@ -49,8 +75,16 @@ void resetCurrentSliceHW()
 void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
 // #pragma HLS INTERFACE ap_fifo port=data
-#pragma HLS ARRAY_PARTITION variable=glPLSlices block factor=16 dim=3
+// #pragma HLS ARRAY_PARTITION variable=glPLSlices block factor=16 dim=3
 #pragma HLS LATENCY min=1
+	// Rotate the slice
+	glPLActiveSliceIdx++;
+
+	if(glPLActiveSliceIdx == 3)
+	{
+		glPLActiveSliceIdx = 0;
+	}
+
 	resetCurrentSliceHW();
 
 	uint16_t localCnt;
@@ -108,7 +142,7 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 
 		// For FIFO interface, this one could be commented.
 		// We put it here only to make the program more readable.
-		eventSlice++;
+		// eventSlice++;
 
 		localCnt++;
 		glCnt++;
