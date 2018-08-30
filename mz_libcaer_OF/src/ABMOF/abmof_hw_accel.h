@@ -14,7 +14,10 @@
 #define DVS_WIDTH  240
 #define DVS_HEIGHT 180
 
-#define BITS_PER_PIXEL 3
+#define BITS_PER_PIXEL 1
+
+#define BLOCK_SIZE 3
+#define SEARCH_DISTANCE 4
 
 void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice);
 
