@@ -428,7 +428,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		eventsArraySize = DVS_HEIGHT * DVS_WIDTH / 4;
 	}
 
-	uint32_t * data = (uint32_t *)sds_alloc(eventsArraySize * eventPerSize);
+	uint64_t * data = (uint64_t *)sds_alloc(eventsArraySize * eventPerSize);
 	memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
     sds_utils::perf_counter hw_ctr, sw_ctr;
 

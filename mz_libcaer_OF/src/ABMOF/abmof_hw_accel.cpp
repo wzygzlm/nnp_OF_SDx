@@ -29,7 +29,7 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 			tmpTmpData[yIndex] = tmpData[4*y + yIndex];
 		}
 		tmpTmpData +=  1;
-		for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+		for(int8_t yIndex = 0; yIndex < 1; yIndex++)
 		{
 			tmpData[4*y + yIndex] = tmpTmpData[yIndex];
 		}
@@ -92,10 +92,10 @@ void resetCurrentSliceHW()
 // #pragma SDS data data_mover(data:AXIFIFO:1, eventSlice:AXIFIFO:2)
 // #pragma SDS data buffer_depth(data:512, eventSlice:1)
 #pragma SDS data data_mover(data:AXIDMA_SIMPLE:1, eventSlice:AXIDMA_SIMPLE:2)
-#pragma SDS data copy(data[0:eventsArraySize * 2], eventSlice[0:eventsArraySize])
+#pragma SDS data copy(data[0:eventsArraySize], eventSlice[0:eventsArraySize])
 #pragma SDS data mem_attribute(data:PHYSICAL_CONTIGUOUS, eventSlice:PHYSICAL_CONTIGUOUS)
 // #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
-void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice)
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
 	// Rotate the slices
 	if(glPLActiveSliceIdx == 0)
@@ -136,15 +136,17 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 	*eventSlice = localCnt + (glCnt << 16);     // The first byte to store the glCnt to check if they are always the same.
 
 	// Every event always consists of 2 int32_t which is 8bytes.
-	loop_1:for(int32_t i = 0; i < eventsArraySize * 2; i = i + 2)
+	loop_1:for(int32_t i = 0; i < eventsArraySize; i++)
 	{
+#pragma HLS DEPENDENCE variable=glPLSlices inter RAW false
+
 #pragma HLS PIPELINE
 		#pragma HLS loop_tripcount min=0 max=10000
-		uint32_t tmp = data[i];
+		uint64_t tmp = data[i];
 		int16_t x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
 		int16_t y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
-		int64_t ts = data[i+1];
+		int64_t ts = tmp >> 32;
 
 		// ts is unsued, should remove it.
 		accumulateHW(x, y, pol, ts);
@@ -161,44 +163,44 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 		// a lot of LUTs because temp1 and temp2's bit width is very big.
 //		if(glPLActiveSliceIdx == 0)
 //		{
-//			ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
-//			ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
-//
-//			readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
-//			{
-//				col_pix_t tmp1, tmp2;
-//
-//				tmp1 = glPLSlices[glPLTminus1SliceIdx][x + k];
-//				tmp2 = glPLSlices[glPLTminus2SliceIdx][x + k];
-//
-//				readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
-//				{
-//					ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-//					for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-//					{
-//						tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-//						tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-//					}
-//					refBlock[k][l] = tmpTmp1;
-//					targetBlocks[k][l] = tmpTmp2;
-//				}
-//			}
-//
-//			calOFLoop1:for(int8_t m = 0; m < BLOCK_SIZE; m++)
-//			{
-//				calOFInnerLoop1:for(int8_t n = 0; n < BLOCK_SIZE; n++)
-//				{
-//					ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
-//					if ( tmpSum < 0)
-//					{
-//						sum = sum - tmpSum;
-//					}
-//					else
-//					{
-//						sum = sum + tmpSum;
-//					}
-//				}
-//			}
+			ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
+			ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
+
+			readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
+			{
+				col_pix_t tmp1, tmp2;
+
+				tmp1 = glPLSlices[glPLTminus1SliceIdx][x + k];
+				tmp2 = glPLSlices[glPLTminus2SliceIdx][x + k];
+
+				readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
+				{
+					ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+					for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+					{
+						tmpTmp1[yIndex] = tmp1[4*y + yIndex];
+						tmpTmp2[yIndex] = tmp2[4*y + yIndex];
+					}
+					refBlock[k][l] = tmpTmp1;
+					targetBlocks[k][l] = tmpTmp2;
+				}
+			}
+
+			calOFLoop1:for(int8_t m = 0; m < BLOCK_SIZE; m++)
+			{
+				calOFInnerLoop1:for(int8_t n = 0; n < BLOCK_SIZE; n++)
+				{
+					ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
+					if ( tmpSum < 0)
+					{
+						sum = sum - tmpSum;
+					}
+					else
+					{
+						sum = sum + tmpSum;
+					}
+				}
+			}
 //
 //			// sum = calcOF(refBlock, targetBlocks);
 //		}
@@ -296,7 +298,12 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
 		if (i == 0)
 		{
 			// Output the current slice index and the sum result.
-			*eventSlice = glPLActiveSliceIdx + sum;
+			*eventSlice = localCnt + (glCnt << 16);
+		}
+		else if (i == 1)
+		{
+			// Output the current slice index and the sum result.
+			*eventSlice = glPLActiveSliceIdx.to_char() + (glPLTminus1SliceIdx.to_char() << 8) + (glPLTminus2SliceIdx.to_char() << 16);
 		}
 		else
 		{
