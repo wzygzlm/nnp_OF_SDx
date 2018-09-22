@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     int err_cnt = 0;
 	int retval=0;
 
-	srand((unsigned)time(NULL));
+//	srand((unsigned)time(NULL));
 	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
