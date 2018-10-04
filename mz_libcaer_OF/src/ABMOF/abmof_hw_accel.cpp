@@ -518,7 +518,14 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint17_t
 	{
 #pragma HLS LOOP_TRIPCOUNT min=1 max=10000
 #pragma HLS PIPELINE
-		*eventSlice++ = packetEventDataStream.read() + (miniSumStream.read().to_int()) << 17;
+		apUint17_t tmp1 = packetEventDataStream.read();
+		apUint15_t tmp2 = miniSumStream.read();
+		ap_uint<32> output = tmp2.concat(tmp1);
+//		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
+//		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
+//		std :: cout << "output is "  << std::hex << output << std :: endl;
+//		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
+		*eventSlice++ = output.to_int() ;
 	}
 }
 
@@ -539,7 +546,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 #pragma HLS RESOURCE variable=xStream core=FIFO_SRL
 		hls::stream<apUint17_t> pktEventDataStream("EventStream");
 #pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
-#pragma HLS STREAM variable=pktEventDataStream depth=18 dim=1
+#pragma HLS STREAM variable=pktEventDataStream depth=2 dim=1
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 #pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
 #pragma HLS STREAM variable=tagStreamIn depth=2 dim=1
