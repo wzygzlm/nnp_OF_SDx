@@ -2,8 +2,13 @@
 #include "abmof_hw_accel.h"
 
 // xfopencv
-#include "xf_headers.h"
-#include "xf_dense_npyr_optical_flow_config.h"
+// only used in SDx environment
+// #include "xf_headers.h"
+// #include "xf_dense_npyr_optical_flow_config.h"
+
+
+// standard opencv, used in standard opencv environment
+#include "opencv2/opencv.hpp"
 
 #include <math.h>
 

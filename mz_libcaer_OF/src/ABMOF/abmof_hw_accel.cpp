@@ -1,92 +1,525 @@
 #include "abmof_hw_accel.h"
 #include "ap_int.h"
+#include <iostream>
+#include "ap_int.h"
+#include "abmof_hw_accel.h"
+#include "hls_stream.h"
 
-typedef ap_int<BITS_PER_PIXEL> pix_t;
-typedef ap_uint<2> sliceIdx_t;
-
-typedef ap_int<DVS_HEIGHT * 4> col_pix_t;
-
-// static col_pix_t glPLSlice0[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice1[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice2[DVS_WIDTH * BITS_PER_PIXEL];
-static col_pix_t glPLSlices[SLICES_NUMBER][DVS_WIDTH * BITS_PER_PIXEL];
-
+static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
-static uint16_t glCnt;
 
-int partFactor=6;
+#define INPUT_COLS 4
 
-void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
+void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 {
-	col_pix_t tmpData;
-	ap_int<4> tmpTmpData;
-	if (pol == true)
+#pragma HLS INLINE off
+	ap_int<16> tmp = 0;
+	calOFLoop2:for(ap_uint<4> i = 0; i < BLOCK_SIZE; i++)
 	{
-//		// Use bit selection plus for-loop to read multi-bits from a wider bit width value
-//		// rather than use range selection directly. The reason is that the latter will use
-//		// a lot of shift-register which will reduce a lot of LUTs consuming.
-		tmpData = glPLSlices[glPLActiveSliceIdx][x];
-		for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+#pragma HLS UNROLL factor=1
+		if(sum[i] < 0) sum[i] = -sum[i];
+//		sum[i] = sum[i] < 0 ? ap_int<BITS_PER_PIXEL+1>(-sum[i]) : sum[i];
+		tmp = tmp + sum[i];
+	}
+
+	*sadRet = tmp.to_short();
+}
+
+void sad(pix_t refBlock[BLOCK_SIZE], pix_t targetBlocks[BLOCK_SIZE], int16_t *sadRet)
+{
+#pragma HLS PIPELINE
+#pragma HLS INLINE off
+	int16_t retVal = 0;
+	ap_int<pix_t::width+1> sum[BLOCK_SIZE];
+//	*sadRet = 0;
+
+	DFRegion:
+	{
+		calOFLoop1:for(int16_t m = 0; m < BLOCK_SIZE; m++)
 		{
-			tmpTmpData[yIndex] = tmpData[4*y + yIndex];
+			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
+			sum[m] = tmpSum;
 		}
-		tmpTmpData +=  1;
-		for(int8_t yIndex = 0; yIndex < 1; yIndex++)
+
+		sadSum(sum, sadRet);
+//		std::cout<<"sadRet is " << *sadRet << std::endl;
+	}
+
+}
+
+void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			int16_t retVal[2*SEARCH_DISTANCE + 1])
+{
+#pragma HLS ARRAY_PARTITION variable=t2Col complete dim=0
+#pragma HLS ARRAY_PARTITION variable=retVal complete dim=0
+#pragma HLS ARRAY_PARTITION variable=t1Col complete dim=0
+#pragma HLS PIPELINE
+#pragma HLS INLINE off
+	colSADSumLoop:for(ap_uint<4> i = 0; i <= 2*SEARCH_DISTANCE; i++)
+	{
+		pix_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
+#pragma HLS ARRAY_PARTITION variable=input2 complete dim=0
+#pragma HLS ARRAY_PARTITION variable=input1 complete dim=0
+		colSADSumInnerLoop:for(ap_uint<4> j = 0; j < BLOCK_SIZE; j++)
 		{
-			tmpData[4*y + yIndex] = tmpTmpData[yIndex];
+			input1[j] = t1Col[j];
+			input2[j] = t2Col[i+j];
 		}
-		glPLSlices[glPLActiveSliceIdx][x] = tmpData;
+		sad(input1, input2, &retVal[i]);
+	}
+
+}
+
+void blockSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		int16_t sumBlock[2*SEARCH_DISTANCE + 1])
+{
+#pragma HLS PIPELINE
+#pragma HLS ARRAY_RESHAPE variable=t2Block complete dim=1
+#pragma HLS ARRAY_RESHAPE variable=t1Block complete dim=1
+#pragma HLS ARRAY_RESHAPE variable=sumBlock complete dim=1
+//	blockSADSumLoop:for (int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+//	{
+		pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+		int16_t out[2*SEARCH_DISTANCE + 1];
+
+		// Convert the ap_fifo input interface to wires.
+		readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+		{
+			in1[j] = t1Block[j];
+			in2[j] = t2Block[j];
+		}
+
+		std::cout << "in1 is: " << std::endl;
+		for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+		{
+			std::cout << in1[j] << " ";
+		}
+		std::cout << std::endl;
+
+		std::cout << "in2 is: " << std::endl;
+		for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+		{
+			std::cout << in2[j] << " ";
+		}
+		std::cout << std::endl;
+
+		colSADSum(in1, in2, out);
+
+		// Convert the wires to ap_fifo output interface.
+		outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
+		{
+			sumBlock[j] = out[j];
+		}
+//	}
+}
+
+// Function Description: return the minimum value of an array.
+ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1])
+{
+#pragma HLS ARRAY_PARTITION variable=inArr complete dim=0
+#pragma HLS PIPELINE
+#pragma HLS INLINE off
+	ap_int<16> tmp = inArr[0];
+	minLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE + 1; i++)
+	{
+		// Here is a bug. Use the if-else statement,
+		// cannot use the question mark statement.
+		// Otherwise a lot of muxs will be generated,
+		// DON'T KNOW WHY. SHOULD BE A BUG.
+		if(inArr[i] < tmp) tmp = inArr[i];
+//		tmp = (inArr[i] < tmp) ? inArr[i] : tmp;
+	}
+	return tmp;
+}
+
+
+
+
+pix_t readPixFromCol(col_pix_t colData, ap_uint<8> idx)
+{
+#pragma HLS INLINE
+	pix_t retData;
+	// Use bit selection plus for-loop to read multi-bits from a wider bit width value
+	// rather than use range selection directly. The reason is that the latter will use
+	// a lot of shift-register which will increase a lot of LUTs consumed.
+	readWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+	{
+#pragma HLS UNROLL
+		const int bitOffset = BITS_PER_PIXEL >> 1;
+		ap_uint<8 + bitOffset> colIdx;
+		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<10>(idx * BITS_PER_PIXEL).range(8 + bitOffset - 1, bitOffset);
+		colIdx.range(bitOffset - 1, 0) = ap_uint<2>(yIndex);
+
+		retData[yIndex] = colData[colIdx];
+//		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
+	}
+	return retData;
+}
+
+pix_t readPixFromTwoCols(two_cols_pix_t colData, ap_uint<8> idx)
+{
+#pragma HLS INLINE
+	pix_t retData;
+	// Use bit selection plus for-loop to read multi-bits from a wider bit width value
+	// rather than use range selection directly. The reason is that the latter will use
+	// a lot of shift-register which will increase a lot of LUTs consumed.
+//	ap_uint<256> colIdxHi, colIdxLo;
+//	colIdxHi = (ap_uint<8>(idx * BITS_PER_PIXEL)(8,2), ap_uint<2>(0));
+//	colIdxLo = (ap_uint<8>(idx * BITS_PER_PIXEL)(8,2), ap_uint<2>(BITS_PER_PIXEL - 1));
+//	retData = colData(colIdxHi, colIdxLo);
+	readTwoColsWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+	{
+#pragma HLS UNROLL
+		const int bitOffset = BITS_PER_PIXEL >> 1;
+		ap_uint<8 + bitOffset> colIdx;
+		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<10>(idx * BITS_PER_PIXEL).range(8 + bitOffset - 1, bitOffset);
+		colIdx.range(bitOffset - 1, 0) = ap_uint<2>(yIndex);
+
+		retData[yIndex] = colData[colIdx];
+//		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
+	}
+	return retData;
+}
+
+void writePixToCol(col_pix_t *colData, ap_uint<8> idx, pix_t pixData)
+{
+#pragma HLS INLINE
+	writeWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+	{
+#pragma HLS UNROLL
+		const int bitOffset = BITS_PER_PIXEL >> 1;
+		ap_uint<8 + bitOffset> colIdx;
+		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<10>(idx * BITS_PER_PIXEL).range(8 + bitOffset - 1, bitOffset);
+		colIdx.range(bitOffset - 1, 0) = ap_uint<2>(yIndex);
+
+		(*colData)[colIdx] = pixData[yIndex];
 	}
 }
 
-// #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
-//void copyToPS(int8_t *eventSlice)
-//{
-//	copyToPSLoop: for(int16_t i = 0; i < DVS_HEIGHT; i++)
-//	{
-//		copyToPS_label2:for(int16_t j = 0; j < DVS_WIDTH; j++)
-//		{
-//#pragma HLS PIPELINE
-//			eventSlice[i * DVS_WIDTH + j] = glPLSlices[glPLCurrentSliceIdx][i][j];
-//		}
-//	}
-//}
-
-void resetCurrentSliceHW()
+void resetPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
 #pragma HLS INLINE
-	// clear current slice
-//	resetSliceLoop: for(int16_t i = 0; i < DVS_HEIGHT; i=i+180)
-//	{
-//#pragma HLS PIPELINE
-		resetSliceLoop2:for(int16_t j = 0; j < DVS_WIDTH * BITS_PER_PIXEL; j++)
-		{
+	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = 0;
+}
+
+void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
+{
+#pragma HLS DEPENDENCE variable=glPLSlices inter false
+#pragma HLS ARRAY_PARTITION variable=glPLSlices cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlices complete dim=1
+#pragma HLS INLINE
 #pragma HLS PIPELINE
-			glPLSlices[glPLActiveSliceIdx][j] = 0;
-		}
+#pragma HLS RESOURCE variable=glPLSlices core=RAM_T2P_BRAM
+	col_pix_t tmpData;
+	pix_t tmpTmpData;
+
+	ap_uint<8> yNewIdx = y%COMBINED_PIXELS;
+
+	tmpData = glPLSlices[sliceIdx][x][y/COMBINED_PIXELS];
+
+	tmpTmpData = readPixFromCol(tmpData, yNewIdx);
+
+	tmpTmpData +=  1;
+
+	writePixToCol(&tmpData, yNewIdx, tmpTmpData);
+
+	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = tmpData;
+}
+
+// Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
+static ap_int<16> miniRetVal = 0x7fff;
+static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
+static ap_int<16> localSumReg[BLOCK_SIZE][2*SEARCH_DISTANCE + 1];
+
+static int32_t eventIterSize;
+
+void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		int16_t shiftCnt,
+		ap_int<16> *miniSumRet)
+{
+#pragma HLS PIPELINE
+#pragma HLS ARRAY_RESHAPE variable=t2Block complete dim=1
+#pragma HLS ARRAY_RESHAPE variable=t1Block complete dim=1
+#pragma HLS INLINE
+#pragma HLS ARRAY_PARTITION variable=localSumReg complete dim=0
+	ap_int<16> miniRetValTmpIter;
+
+	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	int16_t out[2*SEARCH_DISTANCE + 1];
+
+	readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+	{
+		in1[j] = t1Block[j];
+		in2[j] = t2Block[j];
+	}
+
+//	miniRetVal = (shiftCnt == 1) ? ap_int<16>(0x7fff) : miniRetVal;
+//
+//	initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+//	{
+//		miniSumTmp[i] = (shiftCnt == 1) ? ap_int<16>(0) : miniSumTmp[i];
 //	}
+
+	colSADSum(in1, in2, out);
+
+	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+	{
+		ap_int<16> tmpMiniSumTmp = miniSumTmp[i] + out[i];
+		ap_int<16> tmpMinius = tmpMiniSumTmp - localSumReg[0][i];
+		miniSumTmp[i] = (shiftCnt > BLOCK_SIZE - 1) ? tmpMinius : tmpMiniSumTmp;
+//		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
+//		else miniRetVal[i] = miniRetVal[i];
+	}
+
+	std::cout << "miniSumTmp from HW is: " << std::endl;
+	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+	{
+		std::cout << miniSumTmp[m] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "Old miniRetVal from HW is: " << miniRetVal << std::endl;
+
+	miniRetValTmpIter = min(miniSumTmp);
+	// Use a new register to store the old value and use the return value as the new value.
+//	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
+	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > BLOCK_SIZE - 1) ? miniRetValTmpIter : miniRetVal;
+
+	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
+
+	shiftMainLoop: for(int8_t i = 0; i < BLOCK_SIZE - 1; i++)
+	{
+		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+		{
+			localSumReg[i][j] = localSumReg[i + 1][j];
+		}
+	}
+
+	shiftLastLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+	{
+		localSumReg[BLOCK_SIZE - 1][j] = out[j];
+	}
+
+//	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
+//	{
+		*miniSumRet = miniRetVal;
+//	}
+
 }
 
 
-//int32_t calcOF(ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE], ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE])
-//{
-//	int32_t sum;
-//
-//	calOFLoop:for(int8_t m = 0; m < BLOCK_SIZE; m++)
-//	{
-//		calOFInnerLoop:for(int8_t n = 0; n < BLOCK_SIZE; n++)
+void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+{
+#pragma HLS ARRAY_RESHAPE variable=tagCol complete dim=1
+#pragma HLS ARRAY_RESHAPE variable=refCol complete dim=1
+#pragma HLS PIPELINE
+#pragma HLS INLINE
+
+		two_cols_pix_t refColData;
+		// concatenate two columns together
+		refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxRef][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+
+		// concatenate two columns together
+		two_cols_pix_t tagColData;
+		// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+		tagColData = (glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+
+		// find the bottom pixel of the column that centered on y.
+		ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+
+		readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+		{
+			refCol[i] = readPixFromTwoCols(refColData,  yColOffsetIdx);
+			tagCol[i] = readPixFromTwoCols(tagColData,  yColOffsetIdx);
+			yColOffsetIdx++;
+		}
+
+}
+
+void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int16_t shiftCnt, ap_int<16> *miniSumRet)
+{
+#pragma HLS INLINE
+	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	readBlockCols(x, y , idx + 1, idx + 2, in1, in2);
+	miniSADSum(in1, in2, shiftCnt, miniSumRet);
+}
+
+
+void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream)
+//void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
+{
+#pragma HLS INLINE off
+
+	// Every event always consists of 2 int32_t which is 8bytes.
+	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+#pragma HLS PIPELINE
+#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+		uint64_t tmp = data[i];
+		ap_uint<8> xWr, yWr;
+		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
+		int64_t ts = tmp >> 32;
+
+//		writePix(xWr, yWr, glPLActiveSliceIdx);
+//		resetPix(xWr, yWr, glPLActiveSliceIdx + 3);
+
+//		shiftCnt = 0;
+//		miniRetVal = 0x7fff;
+//		for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 //		{
-//			int16_t tmpSum = refBlock[m][n] - targetBlocks[m][n];
-//			if ( tmpSum < 0)
+//				miniSumTmp[i] = 0;
+//		}
+//		for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+//		{
+//			for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 //			{
-//				sum = sum - tmpSum;
-//			}
-//			else
-//			{
-//				sum = sum + tmpSum;
+//				localSumReg[i][j] = 0;
 //			}
 //		}
-//	}
-//}
 
+		xStream << xWr;
+		yStream << yWr;
+//		*xStream++ = xWr;
+//		*yStream++ = yWr;
+	}
+}
+
+#define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
+#define PIXS_PER_COL SLICE_HEIGHT/COMBINED_PIXELS
+typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
+void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx,
+			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
+{
+	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+		ap_uint<8> xRd;
+		ap_uint<8> yRd;
+
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; xOffSet++)
+		{
+#pragma HLS PIPELINE
+//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
+//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
+			if (xOffSet == 0)
+			{
+				xRd = xStream.read();
+				yRd = yStream.read();
+
+				writePix(xRd, yRd, idx);
+
+				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 64, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 96, (sliceIdx_t)(idx + 3));
+
+//				resetPix(i, 128, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 160, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 192, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 224, (sliceIdx_t)(idx + 3));
+			}
+			else
+			{
+				pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+//				resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
+
+	//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
+
+				readBlockCols(xRd + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
+
+				apIntBlockCol_t refBlockCol;
+				apIntBlockCol_t tagBlockCol;
+
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+				}
+
+				refStreamOut << refBlockCol;
+				tagStreamOut << tagBlockCol;
+			}
+		}
+	}
+
+	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+	{
+#pragma HLS PIPELINE
+		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+	}
+
+}
+
+void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<uint16_t> &miniSumStream)
+//void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
+{
+#pragma HLS INLINE off
+	wrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+		ap_int<16> miniRet;
+		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; k++)
+		{
+#pragma HLS PIPELINE
+			if (k == 0)    // Initialization code
+			{
+				miniRetVal = ap_int<16>(0x7fff);
+
+				initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+				{
+					miniSumTmp[i] = ap_int<16>(0);
+				}
+			}
+			else
+			{
+				pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+				apIntBlockCol_t refBlockCol = refStreamIn.read();
+				apIntBlockCol_t tagBlockCol = tagStreamIn.read();
+
+				// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+				// to calculate the range function. However, unroll it completely will make all this operations
+				// are only wires connection and will not consume any resources.
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					in1[l] = refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+					in2[l] = tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				}
+
+				miniSADSum(in1, in2, k, &miniRet);   // Here k starts from 1 not 0.
+			}
+		}
+		miniSumStream.write(miniRet);
+	}
+}
+
+
+void outputResult(hls::stream<uint16_t> &miniSumStream, int32_t *eventSlice)
+{
+	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
+	{
+#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+#pragma HLS PIPELINE
+//			*eventSlice++ = x + (y << 8) + (pol << 16) + (miniSumStream.read() << 17);
+		*eventSlice++ = miniSumStream.read();
+	}
+}
 
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 // #pragma SDS data data_mover(data:AXIFIFO:1, eventSlice:AXIFIFO:2)
@@ -97,227 +530,29 @@ void resetCurrentSliceHW()
 // #pragma SDS data zero_copy(eventSlice[0:DVS_WIDTH * DVS_HEIGHT])
 void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
-	// Rotate the slices
-	if(glPLActiveSliceIdx == 0)
+	DFRegion:
 	{
-		glPLActiveSliceIdx = 1;
+#pragma HLS DATAFLOW
+		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+#pragma HLS RESOURCE variable=yStream core=FIFO_SRL
+#pragma HLS RESOURCE variable=xStream core=FIFO_SRL
+		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
+#pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
+#pragma HLS STREAM variable=tagStreamIn depth=2 dim=1
+#pragma HLS RESOURCE variable=refStream core=FIFO_SRL
+#pragma HLS STREAM variable=refStream depth=2 dim=1
+		hls::stream<uint16_t> miniSumStream("miniSumStream");
+#pragma HLS RESOURCE variable=miniSumStream core=FIFO_SRL
+#pragma HLS STREAM variable=miniSumStream depth=2 dim=1
 
-		glPLTminus1SliceIdx = 0;
-		glPLTminus2SliceIdx = 2;
+		glPLActiveSliceIdx++;
+
+		eventIterSize = eventsArraySize;
+
+		getXandY(data, xStream, yStream);
+		rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
+		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream);
+		outputResult(miniSumStream, eventSlice);
+
 	}
-	if(glPLActiveSliceIdx == 1)
-	{
-		glPLActiveSliceIdx = 2;
-
-		glPLTminus1SliceIdx = 1;
-		glPLTminus2SliceIdx = 0;
-	}
-	if(glPLActiveSliceIdx == 2)
-	{
-		glPLActiveSliceIdx = 0;
-
-		glPLTminus1SliceIdx = 2;
-		glPLTminus2SliceIdx = 1;
-	}
-
-// #pragma HLS ARRAY_PARTITION variable=glPLSlice0 complete dim=2
-// #pragma HLS ARRAY_PARTITION variable=glPLSlice1 complete dim=2
-// #pragma HLS ARRAY_PARTITION variable=glPLSlice2 complete dim=2
-// #pragma HLS LATENCY min=1
-	resetCurrentSliceHW();
-
-	uint16_t localCnt;
-
-	// Experiment shows that this statement have on effect in the final result.
-	// Only in the loop eventSlice started to output data.
-	// It might be that HLS optimized it. Like in verilog, if there're two assignments
-	// for a same variable, the first one will be ignored and only keep the last one.
-	// Not sure if that's the reason.
-	*eventSlice = localCnt + (glCnt << 16);     // The first byte to store the glCnt to check if they are always the same.
-
-	// Every event always consists of 2 int32_t which is 8bytes.
-	loop_1:for(int32_t i = 0; i < eventsArraySize; i++)
-	{
-#pragma HLS DEPENDENCE variable=glPLSlices inter RAW false
-
-#pragma HLS PIPELINE
-		#pragma HLS loop_tripcount min=0 max=10000
-		uint64_t tmp = data[i];
-		int16_t x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		int16_t y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
-		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
-		int64_t ts = tmp >> 32;
-
-		// ts is unsued, should remove it.
-		accumulateHW(x, y, pol, ts);
-
-
-// #pragma HLS ARRAY_PARTITION variable=refBlock complete dim=0
-// #pragma HLS ARRAY_PARTITION variable=targetBlocks complete dim=0
-
-		int16_t sum = 0;
-
-
-		// Do not share the temp1 and temp2 for these three cases.
-		// Otherwise selector will be synthesed and it will consume
-		// a lot of LUTs because temp1 and temp2's bit width is very big.
-//		if(glPLActiveSliceIdx == 0)
-//		{
-			ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
-			ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
-
-			readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
-			{
-				col_pix_t tmp1, tmp2;
-
-				tmp1 = glPLSlices[glPLTminus1SliceIdx][x + k];
-				tmp2 = glPLSlices[glPLTminus2SliceIdx][x + k];
-
-				readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
-				{
-					ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-					for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-					{
-						tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-						tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-					}
-					refBlock[k][l] = tmpTmp1;
-					targetBlocks[k][l] = tmpTmp2;
-				}
-			}
-
-			calOFLoop1:for(int8_t m = 0; m < BLOCK_SIZE; m++)
-			{
-				calOFInnerLoop1:for(int8_t n = 0; n < BLOCK_SIZE; n++)
-				{
-					ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
-					if ( tmpSum < 0)
-					{
-						sum = sum - tmpSum;
-					}
-					else
-					{
-						sum = sum + tmpSum;
-					}
-				}
-			}
-//
-//			// sum = calcOF(refBlock, targetBlocks);
-//		}
-//
-//		else if(glPLActiveSliceIdx == 1)
-//		{
-//			ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
-//			ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
-//
-//			readRefBlockLoop2: for(int8_t k = 0; k < BLOCK_SIZE; k++)
-//			{
-//
-//				col_pix_t tmp1, tmp2;
-//
-//				tmp1 = glPLSlice0[x + k];
-//				tmp2 = glPLSlice2[x + k];
-//
-//				readBlockInnerLoop2: for(int8_t l = 0; l < BLOCK_SIZE; l++)
-//				{
-//					ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-//					for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-//					{
-//						tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-//						tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-//					}
-//					refBlock[k][l] = tmpTmp1;
-//					targetBlocks[k][l] = tmpTmp2;
-//				}
-//			}
-//
-//			calOFLoop2:for(int8_t m = 0; m < BLOCK_SIZE; m++)
-//			{
-//				calOFInnerLoop2:for(int8_t n = 0; n < BLOCK_SIZE; n++)
-//				{
-//					ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
-//					if ( tmpSum < 0)
-//					{
-//						sum = sum - tmpSum;
-//					}
-//					else
-//					{
-//						sum = sum + tmpSum;
-//					}
-//				}
-//			}
-//
-//			//sum = calcOF(refBlock, targetBlocks);
-//		}
-//
-//		else if(glPLActiveSliceIdx == 2)
-//		{
-//			ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
-//			ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
-//
-//			readRefBlockLoop3: for(int8_t k = 0; k < BLOCK_SIZE; k++)
-//			{
-//
-//				col_pix_t tmp1, tmp2;
-//
-//				tmp1 = glPLSlice1[x + k];
-//				tmp2 = glPLSlice0[x + k];
-//
-//				readBlockInnerLoop3: for(int8_t l = 0; l < BLOCK_SIZE; l++)
-//				{
-//					ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-//					for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-//					{
-//						tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-//						tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-//					}
-//					refBlock[k][l] = tmpTmp1;
-//					targetBlocks[k][l] = tmpTmp2;
-//				}
-//			}
-//
-//			calOFLoop3:for(int8_t m = 0; m < BLOCK_SIZE; m++)
-//			{
-//				calOFInnerLoop3:for(int8_t n = 0; n < BLOCK_SIZE; n++)
-//				{
-//					ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
-//					if ( tmpSum < 0)
-//					{
-//						sum = sum - tmpSum;
-//					}
-//					else
-//					{
-//						sum = sum + tmpSum;
-//					}
-//				}
-//			}
-//			// sum =  calcOF(refBlock, targetBlocks);
-//		}
-
-
-		if (i == 0)
-		{
-			// Output the current slice index and the sum result.
-			*eventSlice = localCnt + (glCnt << 16);
-		}
-		else if (i == 1)
-		{
-			// Output the current slice index and the sum result.
-			*eventSlice = glPLActiveSliceIdx.to_char() + (glPLTminus1SliceIdx.to_char() << 8) + (glPLTminus2SliceIdx.to_char() << 16);
-		}
-		else
-		{
-			// Reorder the data to make it easier to be parsed.
-			*eventSlice = x + (y << 8) + (pol << 16) + (sum << 17);
-			// *eventSlice = glPLSlices[glPLActiveSliceIdx][x];
-		}
-
-		// For FIFO interface, this one could be commented.
-		// We put it here only to make the program more readable.
-		eventSlice++;
-
-		localCnt++;
-		glCnt++;
-	}
-	// copyToPS(eventSlice);
 }

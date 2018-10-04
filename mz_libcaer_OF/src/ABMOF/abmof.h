@@ -13,10 +13,6 @@
 #include <unistd.h>
 #include <string.h>
 
-#define SLICES_NUMBER 3
-#define DVS_WIDTH  240
-#define DVS_HEIGHT 180
-
 struct SADResult {
 	uint16_t dx;
 	uint16_t dy;
