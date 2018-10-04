@@ -355,8 +355,8 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 }
 
 
-void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream)
-//void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
+typedef ap_uint<17> apUint17_t;
+void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)//void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
 #pragma HLS INLINE off
 
@@ -391,6 +391,7 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 
 		xStream << xWr;
 		yStream << yWr;
+		packetEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 //		*xStream++ = xWr;
 //		*yStream++ = yWr;
 	}
@@ -465,7 +466,8 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 
 }
 
-void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<uint16_t> &miniSumStream)
+typedef ap_uint<15> apUint15_t;
+void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<apUint15_t> &miniSumStream)
 //void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
 {
 #pragma HLS INLINE off
@@ -505,19 +507,18 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 				miniSADSum(in1, in2, k, &miniRet);   // Here k starts from 1 not 0.
 			}
 		}
-		miniSumStream.write(miniRet);
+		miniSumStream.write(apUint15_t(miniRet));
 	}
 }
 
 
-void outputResult(hls::stream<uint16_t> &miniSumStream, int32_t *eventSlice)
+void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
 {
 	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
 	{
 #pragma HLS LOOP_TRIPCOUNT min=1 max=10000
 #pragma HLS PIPELINE
-//			*eventSlice++ = x + (y << 8) + (pol << 16) + (miniSumStream.read() << 17);
-		*eventSlice++ = miniSumStream.read();
+		*eventSlice++ = packetEventDataStream.read() + (miniSumStream.read().to_int()) << 17;
 	}
 }
 
@@ -536,12 +537,15 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
 #pragma HLS RESOURCE variable=yStream core=FIFO_SRL
 #pragma HLS RESOURCE variable=xStream core=FIFO_SRL
+		hls::stream<apUint17_t> pktEventDataStream("EventStream");
+#pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
+#pragma HLS STREAM variable=pktEventDataStream depth=18 dim=1
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 #pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
 #pragma HLS STREAM variable=tagStreamIn depth=2 dim=1
 #pragma HLS RESOURCE variable=refStream core=FIFO_SRL
 #pragma HLS STREAM variable=refStream depth=2 dim=1
-		hls::stream<uint16_t> miniSumStream("miniSumStream");
+		hls::stream<apUint15_t> miniSumStream("miniSumStream");
 #pragma HLS RESOURCE variable=miniSumStream core=FIFO_SRL
 #pragma HLS STREAM variable=miniSumStream depth=2 dim=1
 
@@ -549,10 +553,9 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 
 		eventIterSize = eventsArraySize;
 
-		getXandY(data, xStream, yStream);
+		getXandY(data, xStream, yStream, pktEventDataStream);
 		rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
 		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream);
-		outputResult(miniSumStream, eventSlice);
-
+		outputResult(miniSumStream, pktEventDataStream, eventSlice);
 	}
 }
