@@ -638,7 +638,7 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 	}
 }
 
-void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
+void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, uint64_t *eventSlice)
 {
 	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
 	{
@@ -647,27 +647,34 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t>
 		apUint17_t tmp1 = packetEventDataStream.read();
 		ap_int<9> tmp2 = miniSumStream.read().range(8, 0);
 		apUint6_t tmpOF = OFRetStream.read();
-		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
+		ap_uint<64> output = (tmp2, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
 //		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
 //		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
-		*eventSlice++ = output.to_int();
+		*eventSlice++ = output.to_uint();
 	}
 }
 
-#pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
+//#pragma SDS data access_pattern(data:SEQUENTIAL)
 // #pragma SDS data data_mover(data:AXIFIFO:1, eventSlice:AXIFIFO:2)
 // #pragma SDS data buffer_depth(data:512, eventSlice:1)
 #pragma SDS data data_mover(data:AXIDMA_SIMPLE:1, eventSlice:AXIDMA_SIMPLE:2)
-#pragma SDS data copy(data[0:eventsArraySize], eventSlice[0:eventsArraySize])
+#pragma SDS data zero_copy(data[0:eventsArraySize], eventSlice[0:eventsArraySize])
 #pragma SDS data mem_attribute(data:PHYSICAL_CONTIGUOUS, eventSlice:PHYSICAL_CONTIGUOUS)
-// #pragma SDS data zero_copy(eventSlice[0:eventsArraySize])
-void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
+//#pragma SDS data zero_copy(eventSlice[0:eventsArraySize])
+#pragma SDS data sys_port(data:AFI, eventSlice:AFI)
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, uint64_t *eventSlice)
 {
-#pragma HLS INTERFACE axis register both port=data
-#pragma HLS INTERFACE axis register both port=eventSlice
-//#pragma HLS INTERFACE s_axilite port=return bundle=control
+#pragma HLS INTERFACE axis port=data
+//#pragma HLS INTERFACE axis register both port=eventSlice
+
+//#pragma HLS INTERFACE m_axi port=data offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=eventSlice offset=slave bundle=gmem
+
+//#pragma HLS INTERFACE s_axilite port=data bundle=control
+//#pragma HLS INTERFACE s_axilite port=eventSlice bundle=control
+#pragma HLS INTERFACE s_axilite port=return bundle=control
 	DFRegion:
 	{
 #pragma HLS DATAFLOW

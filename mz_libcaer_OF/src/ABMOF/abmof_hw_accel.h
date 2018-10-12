@@ -52,6 +52,6 @@ pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 
 void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_int<16> *miniSumRet);
 
-void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice);
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, uint64_t *eventSlice);
 
 #endif
