@@ -16,7 +16,6 @@ void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 	ap_int<16> tmp = 0;
 	calOFLoop2:for(ap_uint<4> i = 0; i < BLOCK_SIZE; i++)
 	{
-#pragma HLS UNROLL factor=1
 		if(sum[i] < 0) sum[i] = -sum[i];
 //		sum[i] = sum[i] < 0 ? ap_int<BITS_PER_PIXEL+1>(-sum[i]) : sum[i];
 		tmp = tmp + sum[i];
@@ -35,7 +34,20 @@ void sad(pix_t refBlock[BLOCK_SIZE], pix_t targetBlocks[BLOCK_SIZE], int16_t *sa
 
 	DFRegion:
 	{
-		calOFLoop1:for(int16_t m = 0; m < BLOCK_SIZE; m++)
+//		calOFLoop1:for(int16_t m = 0; m < BLOCK_SIZE; m++)
+//		{
+//			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
+//			sum[m] = tmpSum;
+//		}
+
+		calOFDSPLoop: for(uint8_t m = 0; m < 5; m++)
+		{
+			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
+#pragma HLS RESOURCE variable=tmpSum core=AddSub_DSP
+			sum[m] = tmpSum;
+		}
+
+		calOFNoDSPLoop: for(uint8_t m = 5; m < BLOCK_SIZE; m++)
 		{
 			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
 			sum[m] = tmpSum;
@@ -136,7 +148,7 @@ ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1], int8_t *index)
 {
 #pragma HLS INLINE off
 #pragma HLS PIPELINE
-#pragma HLS ARRAY_PARTITION variable=inArr complete dim=0
+#pragma HLS ARRAY_RESHAPE variable=inArr complete dim=1
 	ap_int<16> tmp = inArr[0];
 	int8_t tmpIdx = 0;
 	minLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE + 1; i++)
@@ -250,112 +262,6 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = tmpData;
 }
 
-// Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
-static ap_int<16> miniRetVal = 0x7fff;
-static ap_uint<6> minOFRet = ap_uint<6>(0xff);
-static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
-static ap_int<16> localSumReg[BLOCK_SIZE][2*SEARCH_DISTANCE + 1];
-
-static uint16_t eventIterSize = 100;
-
-void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		int16_t shiftCnt,
-		ap_int<16> *miniSumRet,
-		ap_uint<6> *OFRet
-		)
-{
-#pragma HLS ARRAY_PARTITION variable=localSumReg complete dim=0
-#pragma HLS INLINE
-#pragma HLS ARRAY_RESHAPE variable=t1Block complete dim=1
-#pragma HLS ARRAY_RESHAPE variable=t2Block complete dim=1
-#pragma HLS PIPELINE
-	ap_int<16> miniRetValTmpIter;
-
-	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	int16_t out[2*SEARCH_DISTANCE + 1];
-
-	readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
-	{
-		in1[j] = t1Block[j];
-		in2[j] = t2Block[j];
-	}
-
-//	miniRetVal = (shiftCnt == 1) ? ap_int<16>(0x7fff) : miniRetVal;
-//
-//	initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
-//	{
-//		miniSumTmp[i] = (shiftCnt == 1) ? ap_int<16>(0) : miniSumTmp[i];
-//	}
-
-	colSADSum(in1, in2, out);
-
-	ap_uint<1> cond1 = (shiftCnt > BLOCK_SIZE - 1) ? 1 : 0;
-//	std::cout << "shiftCnt is: " << shiftCnt << std::endl;
-//	std::cout << "cond1 is: " << cond1 << std::endl;
-//
-//	std::cout << "localSumReg[0] from HW is: " << std::endl;
-//	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-//	{
-//		std::cout << localSumReg[0][m] << " ";
-//	}
-//	std::cout << std::endl;
-
-	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
-	{
-		ap_int<16> tmpMiniSumTmp = miniSumTmp[i] + out[i];
-		ap_int<16> tmpMinius = tmpMiniSumTmp - localSumReg[0][i];
-		miniSumTmp[i] = (shiftCnt > BLOCK_SIZE) ? tmpMinius : tmpMiniSumTmp;  // Notice: this condition is not cond1.
-//		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
-//		else miniRetVal[i] = miniRetVal[i];
-	}
-
-//	std::cout << "miniSumTmp from HW is: " << std::endl;
-//	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-//	{
-//		std::cout << miniSumTmp[m] << " ";
-//	}
-//	std::cout << std::endl;
-//
-//	std::cout << "Old miniRetVal from HW is: " << miniRetVal << std::endl;
-
-	int8_t retIdx;
-	miniRetValTmpIter = min(miniSumTmp, &retIdx);
-	ap_uint<1> cond2 = (miniRetValTmpIter < miniRetVal) ? 1 : 0;
-
-	// Use a new register to store the old value and use the return value as the new value.
-//	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
-	miniRetVal = (cond2) && (cond1) ? miniRetValTmpIter : miniRetVal;
-
-//	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
-
-	// TODO: change the localSumReg to a hls stream with depth BLOCK_SIZE.
-	shiftMainLoop: for(int8_t i = 0; i < BLOCK_SIZE - 1; i++)
-	{
-		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
-		{
-			localSumReg[i][j] = localSumReg[i + 1][j];
-		}
-	}
-
-	shiftLastLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
-	{
-		localSumReg[BLOCK_SIZE - 1][j] = out[j];
-	}
-
-	*miniSumRet = miniRetVal;
-
-	ap_uint<3> OFRet_x = shiftCnt - BLOCK_SIZE;
-	ap_uint<3> OFRet_y = ap_uint<3>(retIdx);
-
-	minOFRet = (cond2) && (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : minOFRet;  // TODO: add a flag to indicate the result valid or not. Use 0 to represent the invalid result.
-	*OFRet = minOFRet;
-
-//	std::cout << "miniSumRetHW is: " << *miniSumRet << "\t OFRetHW is: " << std::hex << *OFRet << std::endl;
-//	std::cout << std::dec;    // Restore dec mode
-}
-
-
 void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
 		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
@@ -386,29 +292,15 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 
 }
 
-void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int16_t shiftCnt, ap_int<16> *miniSumRet)
-{
-#pragma HLS INLINE
-	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	ap_uint<6> OFRet;
-
-	readBlockCols(x, y , idx + 1, idx + 2, in1, in2);
-	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
-}
-
-
 void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)
 //void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
 #pragma HLS INLINE off
 
 	// Every event always consists of 2 int32_t which is 8bytes.
-	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
-	{
-#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
-#pragma HLS PIPELINE
-		uint64_t tmp = data[i];
+//	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
+//	{
+		uint64_t tmp = *data;
 		ap_uint<8> xWr, yWr;
 		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
 		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
@@ -437,12 +329,12 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 		packetEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 //		*xStream++ = xWr;
 //		*yStream++ = yWr;
-	}
+//	}
 }
 
 
 static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThr = 1000;
+static uint16_t areaEventThr = 20;
 
 void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
@@ -452,9 +344,8 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 #pragma HLS INLINE off
 //	glPLActiveSliceIdx--;
 
-	rotateSliceOutLoop:for(int32_t i = 0; i < eventIterSize; i++)
-	{
-#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+//	rotateSliceOutLoop:for(int32_t i = 0; i < eventIterSize; i++)
+//	{
 		ap_uint<8> x, y;
 		x = xInStream.read();
 		y = yInStream.read();
@@ -469,17 +360,17 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 		{
 			glPLActiveSliceIdx--;
 
-            for(int r = 0; r < 1000; r++)
+            for(int r = 0; r < 1; r++)
             {
-                std::cout << "Rotated successfully!!!!" << std::endl;
+                std::cout << "Rotated successfully from HW!!!!" << std::endl;
                 std::cout << "x is: " << x << "\t y is: " << y << "\t idx is: " << glPLActiveSliceIdx << std::endl;
             }
 
 
 			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
 			{
-#pragma HLS PIPELINE
 #pragma HLS INLINE off
+#pragma HLS PIPELINE
 				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
 				{
 					areaEventRegs[areaX][areaY] = 0;
@@ -496,9 +387,13 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 		xOutStream.write(x);
 		yOutStream.write(y);
 		idxStream.write(glPLActiveSliceIdx);
-	}
+//	}
 }
 
+
+// It takes 2048 cycles to reset the whole slice, so we use 11 bits.
+static ap_uint<11> resetCnt;
+sliceIdx_t oldIdx = glPLActiveSliceIdx;
 void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
 			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
@@ -506,14 +401,14 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 	ap_uint<8> xRd;
 	ap_uint<8> yRd;
 	sliceIdx_t idx;
-	sliceIdx_t oldIdx;
 
-	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
-	{
-#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
-		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; xOffSet++)
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+//	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+//	{
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE * (2 * SEARCH_DISTANCE + 1); xOffSet++)
 		{
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
 //			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
 //			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
 			if (xOffSet == 0)
@@ -523,49 +418,37 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 				idx = idxStream.read();
 
 				/* This is only for C-simulation and debugging. */
-//				if (i == 0) oldIdx = idx;
-//				if (oldIdx != idx)
-//				{
-//					oldIdx = idx;
-//					// Check the accumulation slice is clear or not
-//					for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
-//					{
-//						for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
-//						{
-//							if (glPLSlices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
-//							{
-//								for(int r = 0; r < 1000; r++)
-//								{
-//									std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
-//									std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
-//								}
-//							}
-//						}
-//					}
-//				}
+				if (oldIdx != idx)
+				{
+					oldIdx = idx;
+					// Check the accumulation slice is clear or not
+					for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+					{
+						for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+						{
+							if (glPLSlices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+							{
+								for(int r = 0; r < 1000; r++)
+								{
+									std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+									std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
+								}
+							}
+						}
+					}
+				}
 
 				writePix(xRd, yRd, idx);
 
-				resetPix(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-//				resetPix(i/(PIXS_PER_COL), (i % (PIXS_PER_COL) + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 64, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 96, (sliceIdx_t)(idx + 3));
-
-//				resetPix(i, 128, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 160, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 192, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 224, (sliceIdx_t)(idx + 3));
+				resetPix(resetCnt/(PIXS_PER_COL), (resetCnt % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+				resetCnt++;
 			}
-			else
+			else if(xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1)
 			{
 				pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 				pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-//				resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
-
-	//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
-
-				readBlockCols(xRd + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
+				readBlockCols(xRd - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
 
 				apIntBlockCol_t refBlockCol;
 				apIntBlockCol_t tagBlockCol;
@@ -576,85 +459,188 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
 				}
 
-				refStreamOut << refBlockCol;
+				if (xOffSet > SEARCH_DISTANCE && xOffSet <= SEARCH_DISTANCE + BLOCK_SIZE) refStreamOut << refBlockCol;
 				tagStreamOut << tagBlockCol;
 			}
+			else
+			{
+				// Reset two pixels at the same time because it has two write ports.
+				resetPix(resetCnt/(PIXS_PER_COL), (resetCnt % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+				resetCnt++;
+				resetPix(resetCnt/(PIXS_PER_COL), (resetCnt % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+				resetCnt++;
+			}
 		}
-	}
+//	}
 
-	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
-	{
-#pragma HLS PIPELINE
-		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-	}
+//	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+//	{
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
 
 }
 
-void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
-//void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
+// Function description: reorder the column stream read directly from the memory slices.
+void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
+		hls::stream<apUint112_t> &outStream)
 {
-#pragma HLS INLINE off
-	wrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
-	{
-#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
-		ap_int<16> miniRet;
-		ap_uint<6> OFRet = 0;    // TODO: maybe change the initial value.
-		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; k++)
-		{
-#pragma HLS PIPELINE
-			if (k == 0)    // Initialization code
-			{
-				miniRetVal = ap_int<16>(0x7fff);
-				minOFRet = ap_uint<6>(0xff);
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
+#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
 
-				initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+	colStreamToColSum_label1:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		colStreamToColSum_label2:for(int k= 0; k < BLOCK_SIZE; k++)
+		{
+#pragma HLS PIPELINE rewind
+			apIntBlockCol_t tmpData0, tmpData1;
+
+			if(i == 0)
+			{
+				colData0[k] = colStream0.read();
+				colData1[k] = colStream1.read();
+
+				tmpData0 = colData0[k];
+				tmpData1 = colData1[k];
+			}
+			else
+			{
+				if((i == 1) && (k < 2 * SEARCH_DISTANCE))  colData1[BLOCK_SIZE + k] = colStream1.read();
+
+				tmpData0 = colData0[k];
+				tmpData1 = colData1[i + k];
+			}
+
+			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+			int16_t out[2*SEARCH_DISTANCE + 1];
+
+			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+			// to calculate the range function. However, unroll it completely will make all this operations
+			// are only wires connection and will not consume any resources.
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			{
+				in1[l] = tmpData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				in2[l] = tmpData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+			}
+
+			colSADSum(in1, in2, out);
+
+			apUint112_t outputData;
+
+			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+			{
+				outputData.range(16 * l + 15, 16 * l) = out[l];
+			}
+
+			outStream.write(outputData);
+		}
+	}
+}
+
+static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
+void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
+{
+#pragma HLS ARRAY_RESHAPE variable=lastSumData complete dim=1
+	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		accumulateStream_label3:for(int k= 0; k < BLOCK_SIZE; k++)
+		{
+#pragma HLS PIPELINE rewind
+			apUint112_t inData = inStream.read();
+
+			uint16_t inputData[2 * SEARCH_DISTANCE + 1];
+#pragma HLS ARRAY_RESHAPE variable=inputData complete dim=1
+
+			if(k == BLOCK_SIZE - 1)
+			{
+				ap_int<16> tmpData[2 * SEARCH_DISTANCE + 1];
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
 				{
-					miniSumTmp[j] = ap_int<16>(0);
+					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					lastSumData[l] = lastSumData[l] + inputData[l];
+				}
+
+				ap_int<16> outputMinData;
+				int8_t index;
+				outputMinData = min(lastSumData, &index);
+				outStream.write(outputMinData.to_short());
+				OF_yStream.write(index);
+
+				// If use reshape directive, then here must use decrease form.
+				// if use increase form, then the II is 2 cannot be 1.
+				// And lastSumData couldn't be 0.
+				// DON'T KNOW WHY. MIGHT BE A BUG.
+				for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
+				{
+					lastSumData[l] = 0;
 				}
 			}
 			else
 			{
-				pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-				apIntBlockCol_t refBlockCol = refStreamIn.read();
-				apIntBlockCol_t tagBlockCol = tagStreamIn.read();
-
-				// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
-				// to calculate the range function. However, unroll it completely will make all this operations
-				// are only wires connection and will not consume any resources.
-				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
 				{
-					in1[l] = refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-					in2[l] = tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					lastSumData[l] += inputData[l];
 				}
-
-				miniSADSum(in1, in2, k, &miniRet, &OFRet);   // Here k starts from 1 not 0.
 			}
 		}
-		miniSumStream.write(apUint15_t(miniRet));
-		OFRetStream.write(apUint6_t(OFRet));
 	}
+
 }
 
-void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, uint64_t *eventSlice)
+static apUint15_t currentMin = 0x7fff;
+void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<apUint15_t> &minStream, hls::stream<apUint6_t> &OFStream)
 {
-	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
+	apUint6_t OFRet = 0x3f;
+
+	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
-#pragma HLS PIPELINE
-#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+		int16_t inData = inStream.read();
+		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
+		ap_uint<1> compCond;
+
+		if(i == 2 * SEARCH_DISTANCE)
+		{
+			compCond = (inData < currentMin) ? 1 : 0;
+			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+			minStream.write(currentMin);
+			OFStream.write(OFRet);
+			currentMin = 0x7fff;
+		}
+		else
+		{
+			compCond = (inData < currentMin) ? 1 : 0;
+			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+		}
+	}
+
+}
+
+void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, uint32_t *eventSlice)
+{
+//	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
+//	{
 		apUint17_t tmp1 = packetEventDataStream.read();
-		ap_int<9> tmp2 = miniSumStream.read().range(8, 0);
+		apUint15_t miniSumRet = miniSumStream.read();
+		ap_int<9> tmp2 = miniSumRet.range(8, 0);
 		apUint6_t tmpOF = OFRetStream.read();
-		ap_uint<64> output = (tmp2, (tmpOF, tmp1));
+
+		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
 //		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
 //		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
 		*eventSlice++ = output.to_uint();
-	}
+
+//	}
 }
+
+static uint16_t eventIterSize = 100;
 
 //#pragma SDS data access_pattern(data:SEQUENTIAL)
 // #pragma SDS data data_mover(data:AXIFIFO:1, eventSlice:AXIFIFO:2)
@@ -663,47 +649,93 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t>
 #pragma SDS data zero_copy(data[0:eventsArraySize], eventSlice[0:eventsArraySize])
 #pragma SDS data mem_attribute(data:PHYSICAL_CONTIGUOUS, eventSlice:PHYSICAL_CONTIGUOUS)
 //#pragma SDS data zero_copy(eventSlice[0:eventsArraySize])
-#pragma SDS data sys_port(data:AFI, eventSlice:AFI)
-void parseEvents(const uint64_t * data, int32_t eventsArraySize, uint64_t *eventSlice)
+//#pragma SDS data sys_port(data:AFI, eventSlice:AFI)
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, uint32_t *eventSlice, ap_uint<1> *outLed)
 {
 #pragma HLS INTERFACE axis port=data
 //#pragma HLS INTERFACE axis register both port=eventSlice
 
 //#pragma HLS INTERFACE m_axi port=data offset=slave bundle=gmem
-#pragma HLS INTERFACE m_axi port=eventSlice offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=eventSlice offset=slave bundle=gmem max_read_burst_length=2 max_write_burst_length=256
 
 //#pragma HLS INTERFACE s_axilite port=data bundle=control
 //#pragma HLS INTERFACE s_axilite port=eventSlice bundle=control
 #pragma HLS INTERFACE s_axilite port=return bundle=control
-	DFRegion:
-	{
-#pragma HLS DATAFLOW
-		hls::stream<uint8_t>  xInStream("xInStream"), yInStream("yInStream");
-#pragma HLS RESOURCE variable=yInStream core=FIFO_SRL
-#pragma HLS RESOURCE variable=xInStream core=FIFO_SRL
+	hls::stream<uint8_t>  xInStream("xInStream"), yInStream("yInStream");
 		hls::stream<uint8_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
 		hls::stream<sliceIdx_t> idxStream("idxStream");
 		hls::stream<apUint17_t> pktEventDataStream("EventStream");
-#pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
-#pragma HLS STREAM variable=pktEventDataStream depth=2 dim=1
 		hls::stream<apUint6_t> OFRetStream("OFStream");
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
-#pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
-#pragma HLS STREAM variable=tagStreamIn depth=2 dim=1
-#pragma HLS RESOURCE variable=refStream core=FIFO_SRL
-#pragma HLS STREAM variable=refStream depth=2 dim=1
 		hls::stream<apUint15_t> miniSumStream("miniSumStream");
-#pragma HLS RESOURCE variable=miniSumStream core=FIFO_SRL
-#pragma HLS STREAM variable=miniSumStream depth=2 dim=1
 
+		hls::stream<uint16_t> thrStream("thresholdStream");
+		hls::stream<apUint1_t> rotatFlgStream("rotationFlgStream");
+
+		hls::stream<uint8_t>  xWrStream("xWrStream"), yWrStream("yWrStream");
+		hls::stream<sliceIdx_t> idxWrStream("idxWrStream");
+		hls::stream<col_pix_t> currentColStream("currentColStream");
+
+		hls::stream<apUint112_t> outStream("sumStream");
+	#pragma HLS RESOURCE variable=outStream core=FIFO_SRL
+	#pragma HLS STREAM variable=outStream depth=2 dim=1
+		hls::stream<int16_t> outSumStream("outSumStream");
+		hls::stream<int8_t> OF_yStream("OF_yStream");
 
 		eventIterSize = eventsArraySize;
+		*outLed = 1;
 
-		getXandY(data, xInStream, yInStream, pktEventDataStream);
-		rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
-		rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
-		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
-		outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
+		parseEventsLoop:for(int32_t i = 0; i < eventIterSize; i++)
+		{
+	#pragma HLS LOOP_TRIPCOUNT min=1 max=10000
+			DFRegion:
+			{
+	#pragma HLS DATAFLOW
+	#pragma HLS STREAM variable=pktEventDataStream depth=2 dim=1
+	#pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
+	#pragma HLS STREAM variable=miniSumStream depth=2 dim=1
+	#pragma HLS RESOURCE variable=miniSumStream core=FIFO_SRL
+	#pragma HLS STREAM variable=tagStreamIn depth=6 dim=1
+	#pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
+	#pragma HLS STREAM variable=refStream depth=2 dim=1
+	#pragma HLS RESOURCE variable=refStream core=FIFO_SRL
+				// This one has wrong block sad sum module.
+	//			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
+	//			rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+	//			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
+	//			miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+	//			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
 
-	}
+				getXandY(data++, xInStream, yInStream, pktEventDataStream);
+				rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+				rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
+				colStreamToColSum(refStream, tagStreamIn, outStream);
+				accumulateStream(outStream, outSumStream, OF_yStream);
+				findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
+				outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
+
+				// This is the version combined rwSlices and colStreamToColSum together
+				// It consumes less resources but has higher II.
+	//			getXandY(data++, xInStream, yInStream, pktEventDataStream);
+	//			rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+	//			rwSlicesAndColStreams(xOutStream, yOutStream, idxStream, outStream);
+	//			accumulateStream(outStream, outSumStream, OF_yStream);
+	//			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
+	//			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
+
+	// read and write array in seperate process function is not supported in dataflow.
+	//			getXandY(data++, xInStream, yInStream, pktEventDataStream);
+	//			rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+	//			readSlices( xOutStream, yOutStream, idxStream, xWrStream, yWrStream, idxWrStream,currentColStream, refStream, tagStreamIn);
+	//			writeSlices(xWrStream, yWrStream, idxWrStream, currentColStream);
+	//			miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+	//			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
+
+	//			getXandY(data, xInStream, yInStream, pktEventDataStream);
+	//			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream, rotatFlgStream);
+	//			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
+	//			miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+	//			feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, rotatFlgStream, thrStream, eventSlice);
+			}
+		}
 }

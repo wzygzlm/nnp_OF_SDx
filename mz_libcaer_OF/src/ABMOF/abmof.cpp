@@ -25,7 +25,7 @@ static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
 static uint16_t retSocket;
 
-static uint64_t *eventSlice = (uint64_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -926,7 +926,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     // Make suer sds_alloc allocate a right memory for eventSlice.
 	if(eventSlice == NULL)
 	{
-		eventSlice = (uint64_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+		eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 		return retSocket;
 	}
 	if(eventsArraySize >= eventThreshold)
@@ -956,7 +956,8 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
 
-	parseEvents(data, eventsArraySize, eventSlice);
+    ap_uint<1> led;
+	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
