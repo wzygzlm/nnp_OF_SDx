@@ -44,7 +44,8 @@ typedef ap_uint<17> apUint17_t;
 typedef ap_uint<15> apUint15_t;
 typedef ap_uint<6> apUint6_t;
 typedef ap_uint<1> apUint1_t;
-typedef ap_uint<16 * 7> apUint112_t;
+typedef ap_uint<16 * (2 * SEARCH_DISTANCE + 1)> apUint112_t;
+typedef ap_uint<6 * (2 * SEARCH_DISTANCE + 1)> apUint42_t;
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
 #define PIXS_PER_COL (SLICE_HEIGHT/COMBINED_PIXELS)
