@@ -893,7 +893,58 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 	}
 }
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType)
+int creatEventdataFromFile(std::string filename, int startLine, int event_num, uint64_t *data)
+{
+    ifstream file(filename);
+    string str;
+    vector<int> values;
+    uint64_t *begin = 0;
+    begin = data;
+
+    // Nothing is executed until we arrived the desired line.
+    for (int lineno = 0; getline (file,str) && lineno < startLine; lineno++);
+
+    int lineCnt = 0;
+    std::cout << "Start reading line: " << startLine << std::endl;
+    while (getline(file, str))
+    {
+        stringstream stream(str);
+        uint64_t ts;
+        int x;
+        int y;
+        int polarity;
+        int OF_x;
+        int OF_y;
+        stream >> ts;
+        stream >> x;
+        stream >> y;
+        stream >> polarity;
+        stream >> OF_x;
+        stream >> OF_y;
+
+        // y = DVS_HEIGHT -1 - y;   // OpenCV and jaer has inverse y coordinate.
+
+        if( y >= DVS_HEIGHT || y < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
+        if( x >= DVS_WIDTH || x < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
+
+        uint64_t temp = 0;
+        temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (y << 2) + (polarity << 1) + 1;
+        *data++ = temp;
+
+        if(lineCnt >= event_num)
+        {
+            break;
+        }
+        lineCnt++;
+    }
+
+    data = begin;
+    return lineCnt;
+}
+
+static int simulationEventSpeed = 0;
+static int currentStartLine = 0;
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename)
 {
 	if (!initSocketFlg)
 	{
@@ -911,6 +962,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	// resetSlices();   // Clear slices before a new packet come in
 
 	imgNum++;
+    sendFlg = false;
 
 	// Get full timestamp and addresses of first event.
 	const libcaer::events::PolarityEvent &firstEvent = (*polarityPkt)[0];
@@ -929,6 +981,10 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 		return retSocket;
 	}
+
+    eventsArraySize = 3000;
+    eventPerSize = 8;
+
 	if(eventsArraySize >= eventThreshold)
 	{
 		eventsArraySize = eventThreshold;
@@ -955,6 +1011,15 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     hw_ctr.start();
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
+
+    int event_num = eventsArraySize;
+    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
+    //creatEventdata(60+(simulationEventSpeed)%30 , 60, event_num, data);
+    // creatEventdata_solid(60+(simulationEventSpeed)%30 , 60, 0, data);
+    simulationEventSpeed = simulationEventSpeed + 2;
+
+    if (eventsArraySize < event_num) currentStartLine = 0;
+    else currentStartLine += event_num;
 
     ap_uint<1> led;
 	parseEvents(data, eventsArraySize, eventSlice, &led);
