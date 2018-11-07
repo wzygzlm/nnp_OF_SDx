@@ -322,6 +322,9 @@ int main(int argc, char *argv[]){
 	// Set time interval
 	davisHandle.configSet(CAER_HOST_CONFIG_PACKETS, CAER_HOST_CONFIG_PACKETS_MAX_CONTAINER_INTERVAL, packetInterval);
 
+    std::ofstream resultfile;
+    resultfile.open("testResult.txt");
+
 	while (!globalShutdown.load(memory_order_relaxed)) {
 		std::unique_ptr<libcaer::events::EventPacketContainer> packetContainer = davisHandle.dataGet();
 		if (packetContainer == nullptr) {
@@ -350,7 +353,7 @@ int main(int argc, char *argv[]){
 //				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
 //				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
-				remoteSocket = abmof(polarity, socketPort, eventThreshold, socketType);
+				remoteSocket = abmof(polarity, socketPort, eventThreshold, socketType, resultfile);
 
 				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 //				CAER_POLARITY_ITERATOR_VALID_END
@@ -378,6 +381,8 @@ int main(int argc, char *argv[]){
 	}
 
 	davisHandle.dataStop();
+
+	resultfile.close();
 
 	// Close automatically done by destructor.
 

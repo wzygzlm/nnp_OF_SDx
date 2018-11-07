@@ -13,6 +13,13 @@
 #include <unistd.h>
 #include <string.h>
 
+
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <vector>
+
 struct SADResult {
 	uint16_t dx;
 	uint16_t dy;
@@ -20,7 +27,7 @@ struct SADResult {
 	uint64_t sadValue;
 };
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType);
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::ofstream &resultStream);
 
 int init_socket(int port);
 void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts);

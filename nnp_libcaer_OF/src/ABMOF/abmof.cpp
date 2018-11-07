@@ -893,7 +893,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 	}
 }
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::ofstream &resultStream)
 {
 	if (!initSocketFlg)
 	{
@@ -959,6 +959,13 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     ap_uint<1> led;
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
+
+	for (int m = 0; m < eventsArraySize; m++)
+	{
+		resultStream  << m << (eventSlice[m] & 0xff) << " " << ((eventSlice[m] >> 8) & 0xff) << " "
+				<< ((eventSlice[m] >> 16) & 0x1) << " " <<  ((eventSlice[m] >> 17) & 0x7) << " "
+				<<  ((eventSlice[m] >> 20) & 0x7) << std::endl;
+	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();

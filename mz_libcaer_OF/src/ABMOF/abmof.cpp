@@ -944,7 +944,7 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
 
 static int simulationEventSpeed = 0;
 static int currentStartLine = 0;
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
 {
 	if (!initSocketFlg)
 	{
@@ -1000,7 +1000,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	}
 
 	uint64_t * data = (uint64_t *)sds_alloc(eventsArraySize * eventPerSize);
-	memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
+	// memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
     sw_ctr.start();
@@ -1024,6 +1024,13 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     ap_uint<1> led;
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
+
+	for (int m = 0; m < eventsArraySize; m++)
+	{
+		resultStream  << m << " " << (eventSlice[m] & 0xff) << " " << ((eventSlice[m] >> 8) & 0xff) << " "
+				<< ((eventSlice[m] >> 16) & 0x1) << " " <<  ((eventSlice[m] >> 17) & 0x7) << " "
+				<<  ((eventSlice[m] >> 20) & 0x7) << std::endl;
+	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
