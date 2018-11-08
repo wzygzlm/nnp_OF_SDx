@@ -944,6 +944,7 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
 
 static int simulationEventSpeed = 0;
 static int currentStartLine = 0;
+static int total_err_cnt = 0;
 int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
 {
 	if (!initSocketFlg)
@@ -1008,7 +1009,6 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 //    parseEventsSW(data, eventsArraySize, eventSliceSW);
     sw_ctr.stop();
 
-    hw_ctr.start();
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
 
@@ -1021,22 +1021,70 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     if (eventsArraySize < event_num) currentStartLine = 0;
     else currentStartLine += event_num;
 
+    hw_ctr.start();
     ap_uint<1> led;
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
 
+	int err_cnt = 0;
+
 	for (int m = 0; m < eventsArraySize; m++)
 	{
-		resultStream  << m << " " << (eventSlice[m] & 0xff) << " " << ((eventSlice[m] >> 8) & 0xff) << " "
-				<< ((eventSlice[m] >> 16) & 0x1) << " " <<  ((eventSlice[m] >> 17) & 0x7) << " "
-				<<  ((eventSlice[m] >> 20) & 0x7) << std::endl;
+		ap_uint<3> OF_x = ((eventSlice[m] >> 17) & 0x7);
+		ap_uint<3> OF_y = ((eventSlice[m] >> 20) & 0x7);
+		ap_uint<6> OFRet = OF_y.concat(OF_x);
+
+		short xWr = (eventSlice[m] & 0xff);
+		short yWr = ((eventSlice[m] >> 8) & 0xff);
+
+		ap_uint<1> polWr = ((eventSlice[m] >> 16) & 0x1);
+
+		uint64_t tmpData = *data++;
+		ap_uint<3> OFGT_x = (tmpData >> 26);
+		ap_uint<3> OFGT_y = (tmpData >> 29);
+		ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
+		uint32_t tsWr = (tmpData >> 32);
+
+        // check result, only check valid result
+		if(OFRet != 0x3f)
+		{
+			if(!(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH
+				   || yWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT))
+			{
+				if(OFRet != OFGT)
+				{
+					cout << "Found error at index: " << m << endl;
+					cout << "x is:  " << xWr << "\t y is: " << yWr << "\t ts is: " << tsWr << endl;
+
+					err_cnt++;
+//					resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
+//							<<  OF_y << " " << tsWr << std::endl;
+				}
+			}
+		}
+		resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
+				<<  OF_y << " " << tsWr << std::endl;
+	}
+
+	if(err_cnt == 0)
+	{
+		cout << "Test " << imgNum << " passed." << endl;
+	}
+	total_err_cnt += err_cnt;
+	if (total_err_cnt == 0)
+	{
+			cout<<"*** WHOLE TEST PASSED ***" << endl;
+	} else
+	{
+			cout<<"!!! WHOLE TEST FAILED - " << total_err_cnt << " mismatches detected !!!";
+			cout<< endl;
 	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
 
-    std::cout << "Number of CPU cycles running application in software: "
-                << sw_cycles << std::endl;
+//    std::cout << "Number of CPU cycles running application in software: "
+//                << sw_cycles << std::endl;
 
     std::cout << "Number of CPU cycles running application in hardware: "
                 << hw_cycles << std::endl;
