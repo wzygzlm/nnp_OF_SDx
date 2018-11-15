@@ -983,8 +983,8 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		return retSocket;
 	}
 
-    eventsArraySize = 3000;
-    eventPerSize = 8;
+//    eventsArraySize = 3000;
+//    eventPerSize = 8;
 
 	if(eventsArraySize >= eventThreshold)
 	{
@@ -1001,7 +1001,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	}
 
 	uint64_t * data = (uint64_t *)sds_alloc(eventsArraySize * eventPerSize);
-	// memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
+	memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
     sw_ctr.start();
@@ -1013,7 +1013,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
 
     int event_num = eventsArraySize;
-    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
+//    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
     //creatEventdata(60+(simulationEventSpeed)%30 , 60, event_num, data);
     // creatEventdata_solid(60+(simulationEventSpeed)%30 , 60, 0, data);
     simulationEventSpeed = simulationEventSpeed + 2;
@@ -1028,57 +1028,57 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
 	int err_cnt = 0;
 
-	for (int m = 0; m < eventsArraySize; m++)
-	{
-		ap_uint<3> OF_x = ((eventSlice[m] >> 17) & 0x7);
-		ap_uint<3> OF_y = ((eventSlice[m] >> 20) & 0x7);
-		ap_uint<6> OFRet = OF_y.concat(OF_x);
-
-		short xWr = (eventSlice[m] & 0xff);
-		short yWr = ((eventSlice[m] >> 8) & 0xff);
-
-		ap_uint<1> polWr = ((eventSlice[m] >> 16) & 0x1);
-
-		uint64_t tmpData = *data++;
-		ap_uint<3> OFGT_x = (tmpData >> 26);
-		ap_uint<3> OFGT_y = (tmpData >> 29);
-		ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
-		uint32_t tsWr = (tmpData >> 32);
-
-        // check result, only check valid result
-		if(OFRet != 0x3f)
-		{
-			if(!(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH
-				   || yWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT))
-			{
-				if(OFRet != OFGT)
-				{
-					cout << "Found error at index: " << m << endl;
-					cout << "x is:  " << xWr << "\t y is: " << yWr << "\t ts is: " << tsWr << endl;
-
-					err_cnt++;
-//					resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
-//							<<  OF_y << " " << tsWr << std::endl;
-				}
-			}
-		}
-		resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
-				<<  OF_y << " " << tsWr << std::endl;
-	}
-
-	if(err_cnt == 0)
-	{
-		cout << "Test " << imgNum << " passed." << endl;
-	}
-	total_err_cnt += err_cnt;
-	if (total_err_cnt == 0)
-	{
-			cout<<"*** WHOLE TEST PASSED ***" << endl;
-	} else
-	{
-			cout<<"!!! WHOLE TEST FAILED - " << total_err_cnt << " mismatches detected !!!";
-			cout<< endl;
-	}
+//	for (int m = 0; m < eventsArraySize; m++)
+//	{
+//		ap_uint<3> OF_x = ((eventSlice[m] >> 17) & 0x7);
+//		ap_uint<3> OF_y = ((eventSlice[m] >> 20) & 0x7);
+//		ap_uint<6> OFRet = OF_y.concat(OF_x);
+//
+//		short xWr = (eventSlice[m] & 0xff);
+//		short yWr = ((eventSlice[m] >> 8) & 0xff);
+//
+//		ap_uint<1> polWr = ((eventSlice[m] >> 16) & 0x1);
+//
+//		uint64_t tmpData = *data++;
+//		ap_uint<3> OFGT_x = (tmpData >> 26);
+//		ap_uint<3> OFGT_y = (tmpData >> 29);
+//		ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
+//		uint32_t tsWr = (tmpData >> 32);
+//
+//        // check result, only check valid result
+//		if(OFRet != 0x3f)
+//		{
+//			if(!(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH
+//				   || yWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT))
+//			{
+//				if(OFRet != OFGT)
+//				{
+//					cout << "Found error at index: " << m << endl;
+//					cout << "x is:  " << xWr << "\t y is: " << yWr << "\t ts is: " << tsWr << endl;
+//
+//					err_cnt++;
+////					resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
+////							<<  OF_y << " " << tsWr << std::endl;
+//				}
+//			}
+//		}
+//		resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
+//				<<  OF_y << " " << tsWr << std::endl;
+//	}
+//
+//	if(err_cnt == 0)
+//	{
+//		cout << "Test " << imgNum << " passed." << endl;
+//	}
+//	total_err_cnt += err_cnt;
+//	if (total_err_cnt == 0)
+//	{
+//			cout<<"*** WHOLE TEST PASSED ***" << endl;
+//	} else
+//	{
+//			cout<<"!!! WHOLE TEST FAILED - " << total_err_cnt << " mismatches detected !!!";
+//			cout<< endl;
+//	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();

@@ -962,9 +962,9 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
 	for (int m = 0; m < eventsArraySize; m++)
 	{
-		resultStream  << (*data++ >> 32) << " " << (eventSlice[m] & 0xff) << " " << ((eventSlice[m] >> 8) & 0xff) << " "
-				<< ((eventSlice[m] >> 16) & 0x1) << " " <<  ((eventSlice[m] >> 17) & 0x7) << " "
-				<<  ((eventSlice[m] >> 20) & 0x7) << std::endl;
+//		resultStream  << (*data++ >> 32) << " " << (eventSlice[m] & 0xff) << " " << ((eventSlice[m] >> 8) & 0xff) << " "
+//				<< ((eventSlice[m] >> 16) & 0x1) << " " <<  ((eventSlice[m] >> 17) & 0x7) << " "
+//				<<  ((eventSlice[m] >> 20) & 0x7) << std::endl;
 	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
