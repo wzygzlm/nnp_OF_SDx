@@ -4,7 +4,7 @@
     <configBuildOptions xsi:type="sdsproject:Option" insertapm="false" genbitstream="true" gensdcard="false" dmclkid="0" enableHwSwTrace="false" traceApplication="false" genEmulationModel="false">
       <accelerator name="parseEvents" filepath="src/ABMOF/abmof_hw_accel.cpp" clkid="0" location="E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF/abmof_hw_accel.cpp"/>
     </configBuildOptions>
-    <lastBuildOptions xsi:type="sdsproject:Option" insertapm="false" genbitstream="false" gensdcard="false" dmclkid="0" enableHwSwTrace="false" traceApplication="false" genEmulationModel="false">
+    <lastBuildOptions xsi:type="sdsproject:Option" insertapm="false" genbitstream="true" gensdcard="false" dmclkid="0" enableHwSwTrace="false" traceApplication="false" genEmulationModel="false">
       <accelerator name="parseEvents" filepath="src/ABMOF/abmof_hw_accel.cpp" clkid="0" location="E:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/src/ABMOF/abmof_hw_accel.cpp"/>
     </lastBuildOptions>
   </configuration>
