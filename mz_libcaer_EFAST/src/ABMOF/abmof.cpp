@@ -947,18 +947,18 @@ static int currentStartLine = 0;
 static int total_err_cnt = 0;
 int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
 {
-	if (!initSocketFlg)
-	{
-		if (socketType == 0)     //0 : UDP
-		{
-			retSocket = init_socket_UDP(port);
-		}
-		else
-		{
-			retSocket = init_socket_TCP(port);
-		}
-		initSocketFlg = true;
-	}
+//	if (!initSocketFlg)
+//	{
+//		if (socketType == 0)     //0 : UDP
+//		{
+//			retSocket = init_socket_UDP(port);
+//		}
+//		else
+//		{
+//			retSocket = init_socket_TCP(port);
+//		}
+//		initSocketFlg = true;
+//	}
 
 	// resetSlices();   // Clear slices before a new packet come in
 
@@ -1096,7 +1096,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 //    if (cmpRet != 0) std::cout << "Test failed" << std::endl;
 
     sds_free(data);
-	sendEventSlice();
+//	sendEventSlice();
 
 //	int i = 0;
 //	for (auto &tmpEvent : *polarityPkt)
