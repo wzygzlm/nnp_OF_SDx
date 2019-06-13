@@ -1,0 +1,8 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]/home/minliu/github_prjs/nnp_OF_SDx/mz_libcaer_EFAST_ubuntu/fsbl.elf
+	/home/minliu/github_prjs/nnp_OF_SDx/mz_libcaer_EFAST_ubuntu/Debug/_sds/p0/_vpl/ipi/imp/imp.runs/impl_1/minized_petalinux_wrapper.bit
+	/home/minliu/github_prjs/nnp_OF_SDx/mz_libcaer_EFAST_ubuntu/u-boot.elf
+	[offset = 0x270000]/home/minliu/github_prjs/nnp_OF_SDx/mz_libcaer_EFAST_ubuntu/image_noxlnk.ub
+}

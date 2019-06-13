@@ -1,0 +1,6 @@
+/Debug/
+BOOT.bin
+u_boot.elf
+fsbl.elf
+image_noxlnk.ub
+
