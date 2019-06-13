@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/com.xilinx.sdsoc.managedbuild.project.debug.307647139/CPATH/delimiter=;
+environment/buildEnvironmentInclude/com.xilinx.sdsoc.managedbuild.project.debug.307647139/CPATH/operation=remove
+environment/buildEnvironmentInclude/com.xilinx.sdsoc.managedbuild.project.debug.307647139/C_INCLUDE_PATH/delimiter=;
+environment/buildEnvironmentInclude/com.xilinx.sdsoc.managedbuild.project.debug.307647139/C_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/com.xilinx.sdsoc.managedbuild.project.debug.307647139/append=true
+environment/buildEnvironmentInclude/com.xilinx.sdsoc.managedbuild.project.debug.307647139/appendContributed=true
+environment/buildEnvironmentLibrary/com.xilinx.sdsoc.managedbuild.project.debug.307647139/LIBRARY_PATH/delimiter=;
+environment/buildEnvironmentLibrary/com.xilinx.sdsoc.managedbuild.project.debug.307647139/LIBRARY_PATH/operation=remove
+environment/buildEnvironmentLibrary/com.xilinx.sdsoc.managedbuild.project.debug.307647139/append=true
+environment/buildEnvironmentLibrary/com.xilinx.sdsoc.managedbuild.project.debug.307647139/appendContributed=true
