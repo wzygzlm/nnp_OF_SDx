@@ -29,6 +29,8 @@ static uint16_t retSocket;
 
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 
+static uint64_t *toSendBuffer = (uint64_t *)malloc(DVS_HEIGHT * DVS_WIDTH);
+
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
 
@@ -930,7 +932,10 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
         if( x >= DVS_WIDTH || x < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
 
         uint64_t temp = 0;
-        temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (y << 2) + (polarity << 1) + 1;
+//        temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (y << 2) + (polarity << 1) + 1;
+        ts = (0 << 31) + (y << 22) + (x << 12)  + (polarity << 11) + 0;
+  		temp = (ts << 32) + ts;
+
         *data++ = temp;
 
         if(lineCnt >= event_num)
@@ -963,6 +968,10 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 //			retSocket = init_socket_TCP(port);
 //		}
 		initSocketFlg = true;
+		for(int i = 0; i < 4000; i = i + 4)
+		{
+			toSendBuffer[i] = i + ((i + 1) << 8) + ((i + 2) << 8) + ((i + 3) << 24);
+		}
 	}
 
 	if (!cap.isOpened()) {
@@ -1039,7 +1048,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
 
     int event_num = eventsArraySize;
-//    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
+    // eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
     //creatEventdata(60+(simulationEventSpeed)%30 , 60, event_num, data);
     // creatEventdata_solid(60+(simulationEventSpeed)%30 , 60, 0, data);
     simulationEventSpeed = simulationEventSpeed + 2;
@@ -1047,19 +1056,23 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     if (eventsArraySize < event_num) currentStartLine = 0;
     else currentStartLine += event_num;
 
+    printf("Before HW processing, the pointer is %p\n",eventSlice);
     hw_ctr.start();
     ap_uint<1> led;
 //	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
+	printf("After HW processing, the pointer is %p\n",eventSlice);
 
-	int total_pack = 1 + (encoded.size() - 1) / PACK_SIZE;
+    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, toSendBuffer);
+
+	int total_pack = 1 + (eventsArraySize - 1) / PACK_SIZE;
 
 	int ibuf[1];
 	ibuf[0] = total_pack;
 	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
 
 	for (int i = 0; i < total_pack; i++)
-		sock.sendTo( & encoded[i * PACK_SIZE], PACK_SIZE, serverIP, socketPort);
+		sock.sendTo( & toSendBuffer[i * PACK_SIZE/8], PACK_SIZE, serverIP, socketPort);
 
 	clock_t next_cycle = clock();
 	double duration = (next_cycle - last_cycle) / (double) CLOCKS_PER_SEC;
