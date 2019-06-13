@@ -12,6 +12,7 @@
 //showInclude\:E\:/sdk_petalinux_2018_2_roofs/caer_include=false
 //showInclude\:E\:/sdk_petalinux_2018_2_roofs/sdk/sysroots/cortexa9hf-neon-xilinx-linux-gnueabi/usr/include=false
 //showInclude\:E\:/workspace/nnp_board_SDx/sdx/sdx_prjs/nnp_mmult_04/libs/sds_utils=false
+//showInclude\:E\:/xfOpenCV/wksp_2018_1/mz_libcaer_EFAST/libs/sds_utils=false
 //showInclude\:E\:/xfOpenCV/wksp_2018_1/mz_libcaer_OF/libs/sds_utils=false
 //showInclude\:E\:/xfOpenCV/wksp_2018_1/nnp_mmult_04/libs/sds_utils=false
 //showInclude\:E\:/xfOpenCV/wksp_2018_1/nnp_mmult_OF/libs/sds_utils=false
