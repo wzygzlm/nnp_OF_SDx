@@ -1,6 +1,8 @@
 #include "abmof.h"
 #include "abmof_hw_accel.h"
 
+#include "PracticalSocket.h"      // For UDPSocket and SocketException
+
 // xfopencv
 // only used in SDx environment
 // #include "xf_headers.h"
@@ -208,9 +210,17 @@ int init_socket_UDP(int port)
     return remoteSocket;
 }
 
+static UDPSocket sock;
+string serverIP = "192.168.0.100";
+unsigned short socketPort = 8991;
+
 static void *displayUDP(void *ptr)
 {
     int socket = *(int *)ptr;
+
+	struct sockaddr_in destAddr;
+
+
     struct  sockaddr_in remoteAddr;
     socklen_t addrLen = sizeof(struct sockaddr_in);
 
@@ -219,15 +229,15 @@ static void *displayUDP(void *ptr)
 
     std::cout <<  "Waiting for connections...\n" << std::endl;
     //try to receive some data, this is a blocking call
-    if ((recvLen = recvfrom(socket, buf, 10, 0, (struct sockaddr *) &remoteAddr, &addrLen)) == -1)
-    {
-        std::cerr << "bytes = " << recvLen << std::endl;
-        return NULL;
-    }
-
-    //print details of the client/peer and the data received
-    printf("Received packet from %s:%d\n", inet_ntoa(remoteAddr.sin_addr), ntohs(remoteAddr.sin_port));
-    printf("Data: %s\n" , buf);
+//    if ((recvLen = recvfrom(socket, buf, 10, 0, (struct sockaddr *) &remoteAddr, &addrLen)) == -1)
+//    {
+//        std::cerr << "bytes = " << recvLen << std::endl;
+//        return NULL;
+//    }
+//
+//    //print details of the client/peer and the data received
+//    printf("Received packet from %s:%d\n", inet_ntoa(remoteAddr.sin_addr), ntohs(remoteAddr.sin_port));
+//    printf("Data: %s\n" , buf);
 
     //OpenCV Code
     //----------------------------------------------------------
@@ -256,11 +266,19 @@ static void *displayUDP(void *ptr)
             //do video processing here
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
-            //send processed image
-            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&remoteAddr, addrLen)) < 0){
-                std::cerr << "bytes = " << bytes << std::endl;
-                break;
-            }
+            int total_pack = DVS_HEIGHT * DVS_WIDTH / 7600;
+        	int ibuf[1];
+        	ibuf[0] = total_pack;
+//        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
+
+        	for (int i = 0; i < total_pack; i++)
+        		sock.sendTo((void *)(& eventSlice[i * 7600/4]), 7600, serverIP, socketPort);
+
+//            //send processed image
+//            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&destAddr, destAddrLen)) < 0){
+//                std::cerr << "bytes = " << bytes << std::endl;
+//                break;
+//            }
             // sendFlg = false;
         }
     }
@@ -386,7 +404,7 @@ void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
 
 #define TEST_TIMES 10
 
-static col_pixs_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
+static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdxSW = 0;
 
 void resetPixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
@@ -945,17 +963,20 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
 static int simulationEventSpeed = 0;
 static int currentStartLine = 0;
 static int total_err_cnt = 0;
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIPIP, int socketPort, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
 {
 	if (!initSocketFlg)
 	{
+		serverIP = serverIPIP;
+		socketPort = 8991;
+
 		if (socketType == 0)     //0 : UDP
 		{
-			retSocket = init_socket_UDP(port);
+			retSocket = init_socket_UDP(4097);
 		}
 		else
 		{
-			retSocket = init_socket_TCP(port);
+			retSocket = init_socket_TCP(4097);
 		}
 		initSocketFlg = true;
 	}

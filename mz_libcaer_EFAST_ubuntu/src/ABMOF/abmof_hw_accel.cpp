@@ -750,6 +750,17 @@ void outputResult(hls::stream< ap_uint<1> > &isFinalCornerStream, hls::stream<ap
 		ap_uint<1> isCornerStage1 = isFinalCornerStream.read();
 		ap_uint<1> isCorner = isCornerStage0 & isCornerStage1;
 		output[31] = isCorner;
+
+		ap_uint<32> xWr, yWr;
+		bool pol;
+
+		xWr = (240 - tmp1 & 0xff);
+		yWr = (180 - tmp1 >> 8) & 0xff;
+		pol = tmp1.bit(16).to_bool();
+
+		output = (0 << 31) + (yWr << 22) + (xWr << 12)  + (pol << 11) + isCorner;
+		*eventSlice++ = output.to_uint();
+
 		*eventSlice++ = output.to_int();
 //	}
 }

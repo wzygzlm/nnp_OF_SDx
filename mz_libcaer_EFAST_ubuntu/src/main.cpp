@@ -239,35 +239,45 @@ int main(int argc, char *argv[]){
 
 	/************** libcaer part ***********************/
 
+	char *serverIP;
     int socketPort = 4097, eventThreshold = 50000, packetInterval = 10000, socketType = 0;  // Default value
     string filename = "/mnt/emmc/pig-withOFResult_areaThr_1000-OFResult.txt";
 
-    if (argc == 2) socketPort = atoi(argv[1]);
+    if (argc == 2) serverIP = argv[1];
     if (argc == 3)
     {
-    	socketPort = atoi(argv[1]);
-    	eventThreshold = atoi(argv[2]);
+    	serverIP = argv[1];
+    	socketPort = atoi(argv[2]);
     }
     if (argc == 4)
     {
-    	socketPort = atoi(argv[1]);
-    	eventThreshold = atoi(argv[2]);
-    	packetInterval = atoi(argv[3]);
+    	serverIP = argv[1];
+    	socketPort = atoi(argv[2]);
+    	eventThreshold = atoi(argv[3]);
     }
     if (argc == 5)
     {
-    	socketPort = atoi(argv[1]);
-    	eventThreshold = atoi(argv[2]);
-    	packetInterval = atoi(argv[3]);
-    	socketType = atoi(argv[4]);
+    	serverIP = argv[1];
+    	socketPort = atoi(argv[2]);
+    	eventThreshold = atoi(argv[3]);
+    	packetInterval = atoi(argv[4]);
     }
     if (argc == 6)
     {
-    	socketPort = atoi(argv[1]);
-    	eventThreshold = atoi(argv[2]);
-    	packetInterval = atoi(argv[3]);
-    	socketType = atoi(argv[4]);
-        filename = argv[5];
+    	serverIP = argv[1];
+    	socketPort = atoi(argv[2]);
+    	eventThreshold = atoi(argv[3]);
+    	packetInterval = atoi(argv[4]);
+    	socketType = atoi(argv[5]);
+    }
+    if (argc == 7)
+    {
+    	serverIP = argv[1];
+    	socketPort = atoi(argv[2]);
+    	eventThreshold = atoi(argv[3]);
+    	packetInterval = atoi(argv[4]);
+    	socketType = atoi(argv[5]);
+        filename = argv[6];
     }
     int remoteSocket;
 
@@ -363,7 +373,7 @@ int main(int argc, char *argv[]){
 //				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
 //				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
-				remoteSocket = abmof(polarity, socketPort, eventThreshold, socketType, filename, resultfile);
+				remoteSocket = abmof(polarity, serverIP, socketPort, eventThreshold, socketType, filename, resultfile);
 
 				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
 //				CAER_POLARITY_ITERATOR_VALID_END

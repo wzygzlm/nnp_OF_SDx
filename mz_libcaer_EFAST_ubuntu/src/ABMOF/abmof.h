@@ -26,7 +26,7 @@ struct SADResult {
 	uint64_t sadValue;
 };
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, int port, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream);
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIPIP, int socketPort, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream);
 
 int init_socket(int port);
 void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts);
