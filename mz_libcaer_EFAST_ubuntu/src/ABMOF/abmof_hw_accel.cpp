@@ -760,8 +760,6 @@ void outputResult(hls::stream< ap_uint<1> > &isFinalCornerStream, hls::stream<ap
 
 		output = (0 << 31) + (yWr << 22) + (xWr << 12)  + (pol << 11) + isCorner;
 		*eventSlice++ = output.to_uint();
-
-		*eventSlice++ = output.to_int();
 //	}
 }
 
@@ -775,7 +773,7 @@ void outputResult(hls::stream< ap_uint<1> > &isFinalCornerStream, hls::stream<ap
 //#pragma SDS data sys_port(data:AFI, eventSlice:AFI)
 void parseEvents(const uint64_t * data, int32_t eventsArraySize, uint32_t *eventSlice, ap_uint<1> *outLed)
 {
-#pragma HLS INTERFACE axis port=data
+//#pragma HLS INTERFACE axis port=data
 
 #pragma HLS DATAFLOW
 

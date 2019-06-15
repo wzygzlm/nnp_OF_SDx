@@ -255,7 +255,12 @@ static void *displayUDP(void *ptr)
 
     std::cout << "Image Size:" << imgSize << std::endl;
 
+    std::cout << "Sleep the UDP thread 50 seconds:" << std::endl;
+    sleep(50);
+
     while(1) {
+        std::cout << "sendFlg is:" << sendFlg << std::endl;
+
         if(sendFlg)
         {
             /* get a frame from camera */
