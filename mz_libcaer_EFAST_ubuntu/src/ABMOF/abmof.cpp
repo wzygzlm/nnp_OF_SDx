@@ -797,8 +797,8 @@ void FastDetectorisFeature(int pix_x, int pix_y, int timesmp, bool polarity, boo
 	const int max_scale = 1;
 	// only check if not too close to border
 	const int cs = max_scale*20;
-	if (pix_x < cs || pix_x >= sensor_width_-cs ||
-			pix_y < cs || pix_y >= sensor_height_-cs)
+	if (pix_x < cs || pix_x >= sensor_width_-cs-4 ||
+			pix_y < cs || pix_y >= sensor_height_-cs-4)
 	{
 		*found_streak = false;
 		return;
@@ -935,11 +935,13 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eve
 {
 	for (int i = 0; i < eventsArraySize; i++)
 	{
+        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 		uint64_t tmp = *dataStream++;
-		int x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		int y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		uint32_t x, y;
+		x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
-		int ts = tmp >> 32;
+		int64_t ts = tmp >> 32;
 #if DEBUG
 		cout << "x : " << x << endl;
 		cout << "y : " << y << endl;
@@ -948,12 +950,12 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eve
 
 		bool isCorner = 0;
 
-		FastDetectorisFeature(x, y, ts, pol, &isCorner);
+//		FastDetectorisFeature(x, y, ts, pol, &isCorner);
 
 		x = 239 - x;
 		y = 179 - y;
 
-		ap_uint<32> tmpOutput = (0 << 31) + (x << 22) + (y << 12)  + (pol << 11) + isCorner;
+		ap_uint<32> tmpOutput = (0 << 31) + (y << 22) + (x << 12)  + (pol << 11) + isCorner;
 
 		ap_uint<32> output;
 
@@ -963,7 +965,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eve
 		output.range(23,16) = tmpOutput.range(15,8);
 		output.range(31,24) = tmpOutput.range(7,0);
 
-		eventSliceSW[i] = output.to_uint();
+		*eventSliceSW++ = output.to_uint();
 	}
 }
 
@@ -1083,13 +1085,13 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
     sw_ctr.start();
     uint32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
-    parseEventsSW(data, eventsArraySize, eventSliceSW);
+    parseEventsSW(data, 10000, eventSliceSW);
     sw_ctr.stop();
     int total_pack = eventsArraySize / 7600 + 1;
 	int ibuf[1];
 	ibuf[0] = total_pack;
 	for (int i = 0; i < total_pack; i++)
-		sock.sendTo((void *)(& eventSliceSW[0]), 7600, serverIP, socketPort);
+		sock.sendTo((void *)(& eventSliceSW[i*7600/4]), 7600, serverIP, socketPort);
 
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
