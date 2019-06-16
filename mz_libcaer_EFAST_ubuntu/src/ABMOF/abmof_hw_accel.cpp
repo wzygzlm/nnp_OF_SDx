@@ -754,11 +754,18 @@ void outputResult(hls::stream< ap_uint<1> > &isFinalCornerStream, hls::stream<ap
 		ap_uint<32> xWr, yWr;
 		bool pol;
 
-		xWr = (240 - tmp1 & 0xff);
-		yWr = (180 - tmp1 >> 8) & 0xff;
+		xWr = 239 - (tmp1 & 0xff);
+		yWr = 179 - ((tmp1 >> 8) & 0xff);
 		pol = tmp1.bit(16).to_bool();
 
-		output = (0 << 31) + (yWr << 22) + (xWr << 12)  + (pol << 11) + isCorner;
+		ap_uint<32> tmpOutput = (0 << 31) + (yWr << 22) + (xWr << 12)  + (pol << 11) + isCorner;
+
+		// Changed to small endian mode to send it to jAER
+		output.range(7,0) = tmpOutput.range(31,24);
+		output.range(15,8) = tmpOutput.range(23,16);
+		output.range(23,16) = tmpOutput.range(15,8);
+		output.range(31,24) = tmpOutput.range(7,0);
+
 		*eventSlice++ = output.to_uint();
 //	}
 }
