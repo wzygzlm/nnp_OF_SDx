@@ -30,24 +30,6 @@ static uint16_t retSocket;
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
 
-// Software EFAST
-static const int sensor_width_ = 240;
-static const int sensor_height_ = 180;
-
-// SAE (Surface of Active Event)
-static int sae_[2][DVS_HEIGHT][DVS_WIDTH];
-
-const int circle3_[INNER_SIZE][2] = {{0, 3}, {1, 3}, {2, 2}, {3, 1},
-      {3, 0}, {3, -1}, {2, -2}, {1, -3},
-      {0, -3}, {-1, -3}, {-2, -2}, {-3, -1},
-      {-3, 0}, {-3, 1}, {-2, 2}, {-1, 3}};
-const int circle4_[OUTER_SIZE][2] = {{0, 4}, {1, 4}, {2, 3}, {3, 2},
-      {4, 1}, {4, 0}, {4, -1}, {3, -2},
-      {2, -3}, {1, -4}, {0, -4}, {-1, -4},
-      {-2, -3}, {-3, -2}, {-4, -1}, {-4, 0},
-      {-4, 1}, {-3, 2}, {-2, 3}, {-1, 4}};
-
-
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
 
@@ -320,22 +302,22 @@ void sendEventSlice()
     sendFlg = true;
 }
 
-void resetSlices()
-{
-	// clear slices
-	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
-		for (uchar (&row)[240] : slice)
-			for (uchar & cell : row)
-				cell *= 0;
-}
-
-void resetCurrentSlice()
-{
-	// clear current slice
-	for (uchar (&row)[240] : slices[currentIdx])
-		for (uchar & cell : row)
-			cell *= 0;
-}
+//void resetSlices()
+//{
+//	// clear slices
+//	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
+//		for (uchar (&row)[240] : slice)
+//			for (uchar & cell : row)
+//				cell *= 0;
+//}
+//
+//void resetCurrentSlice()
+//{
+//	// clear current slice
+//	for (uchar (&row)[240] : slices[currentIdx])
+//		for (uchar & cell : row)
+//			cell *= 0;
+//}
 
 void accumulate(int16_t x, int16_t y, bool pol, int64_t ts)
 {
@@ -346,18 +328,18 @@ void accumulate(int16_t x, int16_t y, bool pol, int64_t ts)
 }
 
 
-void rotateSlices()
-{
-	if(currentIdx == 2)
-	{
-		currentIdx = 0;
-	}
-	else
-	{
-		currentIdx++;
-	}
-	resetCurrentSlice();
-}
+//void rotateSlices()
+//{
+//	if(currentIdx == 2)
+//	{
+//		currentIdx = 0;
+//	}
+//	else
+//	{
+//		currentIdx++;
+//	}
+//	resetCurrentSlice();
+//}
 
 float sadDistance(int16_t x, int16_t y, int16_t dx, int16_t dy, int16_t blockRadius)
 {
@@ -786,186 +768,147 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 	}
 }
 
-void FastDetectorisFeature(int pix_x, int pix_y, int timesmp, bool polarity, bool *found_streak)
+static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
+static uint16_t areaEventThrSW = 1000;
+static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
+
+void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
-	if(polarity==0)
-	{
-		*found_streak = false;
-		return;
-	}
+//	glPLActiveSliceIdxSW--;
+//	sliceIdx_t idx = glPLActiveSliceIdxSW;
 
-	const int max_scale = 1;
-	// only check if not too close to border
-	const int cs = max_scale*20;
-	if (pix_x < cs || pix_x >= sensor_width_-cs-4 ||
-			pix_y < cs || pix_y >= sensor_height_-cs-4)
-	{
-		*found_streak = false;
-		return;
-	}
-
-	const int pol = 0;
-	// update SAE
-	sae_[pol][pix_x][pix_y] = timesmp;
-
-    *found_streak = false;
-
-#if DEBUG
-  std::cout << "Idx Inner Data SW is: " << std::endl;
-  for (int i=0; i<16; i++)
-  {
-		cout << sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]] << "\t";
-  }
-	std::cout << std::endl;
-#endif
-
-  isFeatureOutterLoop:for (int i=0; i<16; i++)
-  {
-    FastDetectorisFeature_label2:for (int streak_size = 3; streak_size<=6; streak_size++)
-    {
-      // check that streak event is larger than neighbor
-      if ((sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]]) <  (sae_[pol][pix_x+circle3_[(i-1+16)%16][0]][pix_y+circle3_[(i-1+16)%16][1]]))
-        continue;
-
-      // check that streak event is larger than neighbor
-      if (sae_[pol][pix_x+circle3_[(i+streak_size-1)%16][0]][pix_y+circle3_[(i+streak_size-1)%16][1]] < sae_[pol][pix_x+circle3_[(i+streak_size)%16][0]][pix_y+circle3_[(i+streak_size)%16][1]])
-        continue;
-
-      // find the smallest timestamp in corner min_t
-      double min_t = sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]];
-      FastDetectorisFeature_label1:for (int j=1; j<streak_size; j++)
-      {
-        const double tj = sae_[pol][pix_x+circle3_[(i+j)%16][0]][pix_y+circle3_[(i+j)%16][1]];
-        if (tj < min_t)
-          min_t = tj;
-      }
-
-      //check if corner timestamp is higher than corner
-      bool did_break = false;
-      FastDetectorisFeature_label0:for (int j=streak_size; j<16; j++)
-      {
-        const double tj = sae_[pol][pix_x+circle3_[(i+j)%16][0]][pix_y+circle3_[(i+j)%16][1]];
-
-        if (tj >= min_t)
-        {
-          did_break = true;
-          break;
-        }
-      }
-
-      if (!did_break)
-      {
-        *found_streak = true;
-#if DEBUG
-		cout << "Inner Corner position is : " << i << " and streak size is: " << streak_size << endl;
-#endif
-        break;
-      }
-    }
-
-	  if (*found_streak)
-	  {
-		  break;
-	  }
-  }
-
-  if (*found_streak)
-  {
-    *found_streak = false;
-
-#if DEBUG
-	std::cout << "Idx Outer Data SW is: " << std::endl;
-	for (int i=0; i<20; i++)
-	{
-	cout << sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]] << "\t";
-	}
-	std::cout << std::endl;
-#endif
-
-    FastDetectorisFeature_label6:for (int i=0; i<20; i++)
-    {
-      FastDetectorisFeature_label5:for (int streak_size = 4; streak_size<=8; streak_size++)
-      {
-        // check that first event is larger than neighbor
-        if (sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]] <  sae_[pol][pix_x+circle4_[(i-1+20)%20][0]][pix_y+circle4_[(i-1+20)%20][1]])
-          continue;
-
-        // check that streak event is larger than neighbor
-        if (sae_[pol][pix_x+circle4_[(i+streak_size-1)%20][0]][pix_y+circle4_[(i+streak_size-1)%20][1]] < sae_[pol][pix_x+circle4_[(i+streak_size)%20][0]][pix_y+circle4_[(i+streak_size)%20][1]])
-          continue;
-
-        double min_t = sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]];
-        FastDetectorisFeature_label4:for (int j=1; j<streak_size; j++)
-        {
-          const double tj = sae_[pol][pix_x+circle4_[(i+j)%20][0]][pix_y+circle4_[(i+j)%20][1]];
-          if (tj < min_t)
-            min_t = tj;
-        }
-
-        bool did_break = false;
-        FastDetectorisFeature_label3:for (int j=streak_size; j<20; j++)
-        {
-          const double tj = sae_[pol][pix_x+circle4_[(i+j)%20][0]][pix_y+circle4_[(i+j)%20][1]];
-          if (tj >= min_t)
-          {
-            did_break = true;
-            break;
-          }
-        }
-
-        if (!did_break)
-        {
-          *found_streak = true;
-		  cout << "Outer Corner position is : " << i << " and streak size is: " << streak_size << endl;
-		  break;
-        }
-      }
-      if (*found_streak)
-      {
-        break;
-      }
-    }
-
-  }
-
-  //return *found_streak;
-}
-
-void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eventSliceSW)
-{
-	for (int i = 0; i < eventsArraySize; i++)
+	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
         cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 		uint64_t tmp = *dataStream++;
-		uint32_t x, y;
-		x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		ap_uint<8> xWr, yWr;
+		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
 		int64_t ts = tmp >> 32;
-#if DEBUG
-		cout << "x : " << x << endl;
-		cout << "y : " << y << endl;
-		cout << "ts : " << ts << endl;
-#endif
 
-		bool isCorner = 0;
+		ap_int<16> miniRet;
+		ap_uint<6> OFRet;
 
-//		FastDetectorisFeature(x, y, ts, pol, &isCorner);
+        uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE];
+        c = c + 1;
+        areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE] = c;
 
-		x = 239 - x;
-		y = 179 - y;
+        // The area threshold reached, rotate the slice index and clear the areaEventRegs.
+        if (c > areaEventThrSW)
+        {
+            glPLActiveSliceIdxSW--;
+//            idx = glPLActiveSliceIdxSW;
 
-		ap_uint<32> tmpOutput = (0 << 31) + (y << 22) + (x << 12)  + (pol << 11) + isCorner;
+            for(int r = 0; r < 1000; r++)
+            {
+                cout << "Rotated successfully!!!!" << endl;
+                cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
+            }
 
-		ap_uint<32> output;
+            // Check the accumulation slice is clear or not
+            for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+            {
+                for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+                {
+                    if (slicesSW[glPLActiveSliceIdxSW][xAddr][yAddr/COMBINED_PIXELS] != 0)
+                    {
+                        for(int r = 0; r < 1000; r++)
+                        {
+                            cout << "Ha! I caught you, the pixel which is not clear!" << endl;
+                            cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
+                        }
+                    }
+                }
+            }
 
-		// Changed to small endian mode to send it to jAER
-		output.range(7,0) = tmpOutput.range(31,24);
-		output.range(15,8) = tmpOutput.range(23,16);
-		output.range(23,16) = tmpOutput.range(15,8);
-		output.range(31,24) = tmpOutput.range(7,0);
+            for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+            {
+                for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+                {
+                    areaEventRegsSW[areaX][areaY] = 0;
+                }
+            }
 
-		*eventSliceSW++ = output.to_uint();
+           for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+           {
+               resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+               resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+           }
+        }
+
+
+		writePixSW(xWr, yWr, glPLActiveSliceIdxSW);
+
+		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+//				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 64, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 96, (sliceIdx_t)(idx + 3));
+
+//				resetPix(i, 128, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 160, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 192, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 224, (sliceIdx_t)(idx + 3));
+
+		for(int idx1 = 0; idx1 < BLOCK_SIZE; idx1++)
+		{
+			for(int idx2 = 0; idx2 < BLOCK_SIZE; idx2++)
+			{
+				localSumReg[idx1][idx2] = 0;
+			}
+		}
+		miniRetVal = 0x7fff;
+		minOFRet = ap_uint<6>(0xff);   // 0xff means the OF is invalid.
+
+		// In software version, we initial miniSumTmp for every input, so we don't do it here.
+//		initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+//		{
+//			miniSumTmp[j] = ap_int<16>(0);
+//		}
+
+		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
+		{
+
+			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+
+			readBlockColsSW(xWr + xOffSet, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
+
+			miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
+
+		}
+
+		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
+		ap_int<9> tmp2 = miniRet.range(8, 0);
+		apUint6_t tmpOF = OFRet;
+		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
+		*eventSlice++ = output.to_int();
+
+        /* -----------------Feedback part------------------------ */
+        uint16_t OFRetHistCnt = OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(3, 0)];
+        OFRetHistCnt = OFRetHistCnt + 1;
+        OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
+
+        uint16_t countSum = 0;
+        uint32_t radiusSum =  0;
+        for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        {
+            for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+            {
+                uint16_t count = OFRetRegsSW[OFRetHistX][OFRetHistY];
+                uint16_t radius = pow(OFRetHistX,  2) + pow(OFRetHistY,  2);
+                countSum += count;
+                radiusSum += radius * count;
+            }
+        }
+
+	}
+
+	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+	{
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
 	}
 }
 
@@ -1028,15 +971,15 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		serverIP = serverIPIP;
 		socketPort = 8991;
 
-//		if (socketType == 0)     //0 : UDP
-//		{
-//			retSocket = init_socket_UDP(4097);
-//		}
-//		else
-//		{
-//			retSocket = init_socket_TCP(4097);
-//		}
-//		initSocketFlg = true;
+		if (socketType == 0)     //0 : UDP
+		{
+			retSocket = init_socket_UDP(4097);
+		}
+		else
+		{
+			retSocket = init_socket_TCP(4097);
+		}
+		initSocketFlg = true;
 	}
 
 	// resetSlices();   // Clear slices before a new packet come in
@@ -1084,14 +1027,9 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
     sw_ctr.start();
-    uint32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
-    parseEventsSW(data, 10000, eventSliceSW);
+    int32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
+//    parseEventsSW(data, eventsArraySize, eventSliceSW);
     sw_ctr.stop();
-    int total_pack = eventsArraySize / 7600 + 1;
-	int ibuf[1];
-	ibuf[0] = total_pack;
-	for (int i = 0; i < total_pack; i++)
-		sock.sendTo((void *)(& eventSliceSW[i*7600/4]), 7600, serverIP, socketPort);
 
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
@@ -1105,12 +1043,64 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     if (eventsArraySize < event_num) currentStartLine = 0;
     else currentStartLine += event_num;
 
-//    hw_ctr.start();
-//    ap_uint<1> led;
-//	parseEvents(data, eventsArraySize, eventSlice, &led);
-//	hw_ctr.stop();
+    hw_ctr.start();
+    ap_uint<1> led;
+	parseEvents(data, eventsArraySize, eventSlice, &led);
+	hw_ctr.stop();
 
 	int err_cnt = 0;
+
+//	for (int m = 0; m < eventsArraySize; m++)
+//	{
+//		ap_uint<3> OF_x = ((eventSlice[m] >> 17) & 0x7);
+//		ap_uint<3> OF_y = ((eventSlice[m] >> 20) & 0x7);
+//		ap_uint<6> OFRet = OF_y.concat(OF_x);
+//
+//		short xWr = (eventSlice[m] & 0xff);
+//		short yWr = ((eventSlice[m] >> 8) & 0xff);
+//
+//		ap_uint<1> polWr = ((eventSlice[m] >> 16) & 0x1);
+//
+//		uint64_t tmpData = *data++;
+//		ap_uint<3> OFGT_x = (tmpData >> 26);
+//		ap_uint<3> OFGT_y = (tmpData >> 29);
+//		ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
+//		uint32_t tsWr = (tmpData >> 32);
+//
+//        // check result, only check valid result
+//		if(OFRet != 0x3f)
+//		{
+//			if(!(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH
+//				   || yWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT))
+//			{
+//				if(OFRet != OFGT)
+//				{
+//					cout << "Found error at index: " << m << endl;
+//					cout << "x is:  " << xWr << "\t y is: " << yWr << "\t ts is: " << tsWr << endl;
+//
+//					err_cnt++;
+////					resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
+////							<<  OF_y << " " << tsWr << std::endl;
+//				}
+//			}
+//		}
+//		resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
+//				<<  OF_y << " " << tsWr << std::endl;
+//	}
+//
+//	if(err_cnt == 0)
+//	{
+//		cout << "Test " << imgNum << " passed." << endl;
+//	}
+//	total_err_cnt += err_cnt;
+//	if (total_err_cnt == 0)
+//	{
+//			cout<<"*** WHOLE TEST PASSED ***" << endl;
+//	} else
+//	{
+//			cout<<"!!! WHOLE TEST FAILED - " << total_err_cnt << " mismatches detected !!!";
+//			cout<< endl;
+//	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();

@@ -52,15 +52,39 @@ void getXandY(const uint64_t * data, hls::stream<X_TYPE> &xStream, hls::stream<Y
 	bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
 	ap_uint<TS_TYPE_BIT_WIDTH> ts = tmp >> 32;
 
-	xStream << xWr;
-	yStream << yWr;
-	tsStream << ts;
+	apUint17_t tmpOutput;
+	tmpOutput[16] = ap_uint<1>(pol);
+	tmpOutput.range(15, 8) = yWr;
+	tmpOutput.range(7, 0) = xWr;
+	packetEventDataStream << tmpOutput;
+
+	// TODO: Removed the hardcoded code invalid event
+	const int max_scale = 1;
+	// only check if not too close to border
+	const int cs = max_scale*20;
+	// Make this event an invalid event
+	// The maximum range of x is [0, 200), 4 is the corner block range.
+	if (xWr < 20 || xWr >= 240-20-4 ||
+			yWr < 20 || yWr >= 180-20-4 || pol == 0)
+	{
+		xWr = 0;
+		yWr = 0;
+		ts = 0;
+	}
+	else
+	{
+		xWr -= 16;
+		yWr -= 16;
+	}
 
 	xStream << xWr;
 	yStream << yWr;
 	tsStream << ts;
 
-	packetEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
+	xStream << xWr;
+	yStream << yWr;
+	tsStream << ts;
+
 }
 
 void initStageStream(hls::stream< ap_uint<2> >  &stageInStream, hls::stream< ap_uint<2> >  &stageOutStream)
@@ -126,7 +150,6 @@ void writeOneDataToCol(col_pix_t *colData, ap_uint<8> idx, ap_uint<TS_TYPE_BIT_W
 	}
 }
 
-
 void updateSAE(X_TYPE x, Y_TYPE y, ap_uint<TS_TYPE_BIT_WIDTH> ts)
 {
 #pragma HLS INLINE
@@ -151,6 +174,12 @@ void rwSAEStream(hls::stream<X_TYPE> &xStream, hls::stream<Y_TYPE> &yStream, hls
 
 	ap_uint<2> stage = 0;
 	stage = stageStream.read();
+
+	// Invalid event
+	if(x == 0 || y == 0)
+	{
+		stage = 2;
+	}
 
 	if(stage == 0)
 	{
@@ -300,6 +329,32 @@ void idxSorted(ap_uint<TS_TYPE_BIT_WIDTH> oriData, ap_uint<TS_TYPE_BIT_WIDTH> ts
 	*newIdx = temp;
 }
 
+// Function Description: return the idx of current data in the sorted data array.
+//void idxSorted(ap_uint<TS_TYPE_BIT_WIDTH> oriData, ap_uint<TS_TYPE_BIT_WIDTH> tsData[OUTER_SIZE], ap_uint<5> size, ap_uint<5> *newIdx)
+//{
+//#pragma HLS ARRAY_PARTITION variable=tsData cyclic factor=8 dim=0
+//#pragma HLS INLINE
+//	assert(size==16||size==20||size==0);
+//	if(size == 0)
+//	{
+//		*newIdx = 0;
+//		return;
+//	}
+//
+//	ap_uint<5> temp = 0;
+//	for(uint8_t i = 0; i < size; i = i + 16 )
+//	{
+//#pragma HLS PIPELINE
+//#pragma HLS LOOP_TRIPCOUNT min=0 max=2
+//		for(uint8_t j = 0; j < 16; j++)
+//		{
+//			ap_uint<1> cond1 = (tsData[i + j] < oriData);  // Notice the difference between < and <= here.
+//			temp += cond1;
+//		}
+//	}
+//	*newIdx = temp;
+//}
+
 
 void sortedTest(ap_uint<5> oriIdx, ap_uint<TS_TYPE_BIT_WIDTH> inData[OUTER_SIZE], ap_uint<5> size, ap_uint<5> *newIdx)
 {
@@ -341,7 +396,6 @@ void sortedIdxData(ap_uint<TS_TYPE_BIT_WIDTH> inData[OUTER_SIZE], ap_uint<5> siz
 		}
 	}
 }
-
 
 // Function Description: convert the current data array to sorted idx array.
 template<int NPC>
@@ -586,6 +640,7 @@ void checkInnerIdxV2(ap_uint<5> idxData[INNER_SIZE + 6 - 1], ap_uint<5> size, ap
 	}
 }
 
+
 template<int NPC>
 void checkOuterIdx(ap_uint<5> idxData[OUTER_SIZE + 8 - 1], ap_uint<5> size, ap_uint<1> *isCorner)
 {
@@ -704,7 +759,6 @@ void checkIdx(ap_uint<5> inData[OUTER_SIZE], ap_uint<5> size, ap_uint<1> *isCorn
 	}
 }
 
-
 void feedbackStream(ap_uint<1> isStageCorner, hls::stream< ap_uint<2> >  &stageStream, hls::stream< ap_uint<1> > &isFinalCornerStream)
 {
 #pragma HLS INLINE off
@@ -786,17 +840,19 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, uint32_t *event
 
 	ap_uint<2> stage = 0;
 	ap_uint<TS_TYPE_BIT_WIDTH> outer[OUTER_SIZE];
+
 	hls::stream< ap_uint<TS_TYPE_BIT_WIDTH * OUTER_SIZE> > inStream("dataStream");
 #pragma HLS STREAM variable=inStream depth=2 dim=1
 #pragma HLS RESOURCE variable=inStream core=FIFO_SRL
 	ap_uint<5> size;
+#pragma HLS STREAM variable=size depth=5 dim=1
 
     hls::stream<X_TYPE>  xStream("xStream");
     hls::stream<Y_TYPE>  yStream("yStream");
     hls::stream< ap_uint<TS_TYPE_BIT_WIDTH> > tsStream("tsStream");
 
 	hls::stream<apUint17_t> pktEventDataStream("pktEventDataStream");
-#pragma HLS STREAM variable=pktEventDataStream depth=2 dim=1
+#pragma HLS STREAM variable=pktEventDataStream depth=5 dim=1
 #pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
 
 	hls::stream< ap_uint<2> >  stageInStream("stageInStream");
