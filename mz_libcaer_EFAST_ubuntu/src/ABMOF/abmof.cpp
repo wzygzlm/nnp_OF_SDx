@@ -28,6 +28,7 @@ static bool initSocketFlg = false;
 static uint16_t retSocket;
 
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -255,9 +256,6 @@ static void *displayUDP(void *ptr)
 
     std::cout << "Image Size:" << imgSize << std::endl;
 
-//    std::cout << "Sleep the UDP thread 50 seconds:" << std::endl;
-//    sleep(50);
-
     while(1) {
         if(sendFlg)
         {
@@ -269,7 +267,7 @@ static void *displayUDP(void *ptr)
             //do video processing here
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
-            int total_pack = DVS_HEIGHT * DVS_WIDTH / 7600;
+            int total_pack = eventsArraySize / 7600 + 1;
         	int ibuf[1];
         	ibuf[0] = total_pack;
 //        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
@@ -997,7 +995,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	uint16_t y = firstEvent.getY();
 	bool pol   = firstEvent.getPolarity();
 
-	int32_t eventsArraySize = (*polarityPkt).getEventNumber();
+	eventsArraySize = (*polarityPkt).getEventNumber();
 	int32_t eventPerSize = (*polarityPkt).getEventSize();
 
     // Make suer sds_alloc allocate a right memory for eventSlice.
