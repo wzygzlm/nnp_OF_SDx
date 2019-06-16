@@ -30,6 +30,24 @@ static uint16_t retSocket;
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
 
+// Software EFAST
+static const int sensor_width_ = 240;
+static const int sensor_height_ = 180;
+
+// SAE (Surface of Active Event)
+static int sae_[2][DVS_HEIGHT][DVS_WIDTH];
+
+const int circle3_[INNER_SIZE][2] = {{0, 3}, {1, 3}, {2, 2}, {3, 1},
+      {3, 0}, {3, -1}, {2, -2}, {1, -3},
+      {0, -3}, {-1, -3}, {-2, -2}, {-3, -1},
+      {-3, 0}, {-3, 1}, {-2, 2}, {-1, 3}};
+const int circle4_[OUTER_SIZE][2] = {{0, 4}, {1, 4}, {2, 3}, {3, 2},
+      {4, 1}, {4, 0}, {4, -1}, {3, -2},
+      {2, -3}, {1, -4}, {0, -4}, {-1, -4},
+      {-2, -3}, {-3, -2}, {-4, -1}, {-4, 0},
+      {-4, 1}, {-3, 2}, {-2, 3}, {-1, 4}};
+
+
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
 
@@ -913,7 +931,7 @@ void FastDetectorisFeature(int pix_x, int pix_y, int timesmp, bool polarity, boo
   //return *found_streak;
 }
 
-void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eventSlice)
+void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eventSliceSW)
 {
 	for (int i = 0; i < eventsArraySize; i++)
 	{
@@ -945,7 +963,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, uint32_t *eve
 		output.range(23,16) = tmpOutput.range(15,8);
 		output.range(31,24) = tmpOutput.range(7,0);
 
-		*eventSlice++ = output.to_uint();
+		eventSliceSW[i] = output.to_uint();
 	}
 }
 
@@ -1008,15 +1026,15 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		serverIP = serverIPIP;
 		socketPort = 8991;
 
-		if (socketType == 0)     //0 : UDP
-		{
-			retSocket = init_socket_UDP(4097);
-		}
-		else
-		{
-			retSocket = init_socket_TCP(4097);
-		}
-		initSocketFlg = true;
+//		if (socketType == 0)     //0 : UDP
+//		{
+//			retSocket = init_socket_UDP(4097);
+//		}
+//		else
+//		{
+//			retSocket = init_socket_TCP(4097);
+//		}
+//		initSocketFlg = true;
 	}
 
 	// resetSlices();   // Clear slices before a new packet come in
@@ -1063,10 +1081,15 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
-//    sw_ctr.start();
-//    uint32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
-//    parseEventsSW(data, eventsArraySize, eventSliceSW);
-//    sw_ctr.stop();
+    sw_ctr.start();
+    uint32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
+    parseEventsSW(data, eventsArraySize, eventSliceSW);
+    sw_ctr.stop();
+    int total_pack = eventsArraySize / 7600 + 1;
+	int ibuf[1];
+	ibuf[0] = total_pack;
+	for (int i = 0; i < total_pack; i++)
+		sock.sendTo((void *)(& eventSliceSW[0]), 7600, serverIP, socketPort);
 
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
@@ -1080,64 +1103,12 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     if (eventsArraySize < event_num) currentStartLine = 0;
     else currentStartLine += event_num;
 
-    hw_ctr.start();
-    ap_uint<1> led;
-	parseEvents(data, eventsArraySize, eventSlice, &led);
-	hw_ctr.stop();
+//    hw_ctr.start();
+//    ap_uint<1> led;
+//	parseEvents(data, eventsArraySize, eventSlice, &led);
+//	hw_ctr.stop();
 
 	int err_cnt = 0;
-
-//	for (int m = 0; m < eventsArraySize; m++)
-//	{
-//		ap_uint<3> OF_x = ((eventSlice[m] >> 17) & 0x7);
-//		ap_uint<3> OF_y = ((eventSlice[m] >> 20) & 0x7);
-//		ap_uint<6> OFRet = OF_y.concat(OF_x);
-//
-//		short xWr = (eventSlice[m] & 0xff);
-//		short yWr = ((eventSlice[m] >> 8) & 0xff);
-//
-//		ap_uint<1> polWr = ((eventSlice[m] >> 16) & 0x1);
-//
-//		uint64_t tmpData = *data++;
-//		ap_uint<3> OFGT_x = (tmpData >> 26);
-//		ap_uint<3> OFGT_y = (tmpData >> 29);
-//		ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
-//		uint32_t tsWr = (tmpData >> 32);
-//
-//        // check result, only check valid result
-//		if(OFRet != 0x3f)
-//		{
-//			if(!(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH
-//				   || yWr - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT))
-//			{
-//				if(OFRet != OFGT)
-//				{
-//					cout << "Found error at index: " << m << endl;
-//					cout << "x is:  " << xWr << "\t y is: " << yWr << "\t ts is: " << tsWr << endl;
-//
-//					err_cnt++;
-////					resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
-////							<<  OF_y << " " << tsWr << std::endl;
-//				}
-//			}
-//		}
-//		resultStream  << (currentStartLine - event_num + m) << " " << xWr << " " << yWr << " " << polWr << " " <<  OF_x << " "
-//				<<  OF_y << " " << tsWr << std::endl;
-//	}
-//
-//	if(err_cnt == 0)
-//	{
-//		cout << "Test " << imgNum << " passed." << endl;
-//	}
-//	total_err_cnt += err_cnt;
-//	if (total_err_cnt == 0)
-//	{
-//			cout<<"*** WHOLE TEST PASSED ***" << endl;
-//	} else
-//	{
-//			cout<<"!!! WHOLE TEST FAILED - " << total_err_cnt << " mismatches detected !!!";
-//			cout<< endl;
-//	}
 
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
