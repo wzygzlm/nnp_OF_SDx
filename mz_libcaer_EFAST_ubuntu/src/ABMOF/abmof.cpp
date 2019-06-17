@@ -297,7 +297,7 @@ static void *displayUDP(void *ptr)
 //                std::cerr << "bytes = " << bytes << std::endl;
 //                break;
 //            }
-             sendFlg = false;
+            // sendFlg = false;
         }
     }
 
@@ -1030,15 +1030,15 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		serverIP = serverIPIP;
 		socketPort = 8991;
 
-//		if (socketType == 0)     //0 : UDP
-//		{
-//			retSocket = init_socket_UDP(4097);
-//		}
-//		else
-//		{
-//			retSocket = init_socket_TCP(4097);
-//		}
-//		initSocketFlg = true;
+		if (socketType == 0)     //0 : UDP
+		{
+			retSocket = init_socket_UDP(4097);
+		}
+		else
+		{
+			retSocket = init_socket_TCP(4097);
+		}
+		initSocketFlg = true;
 	}
 
 	// resetSlices();   // Clear slices before a new packet come in
@@ -1177,7 +1177,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
     int cmpRet;
 
-    cmpRet = memcmp( eventSliceSW, eventSlice, eventsArraySize);
+    cmpRet = memcmp( eventSliceSW, eventSlice, eventsArraySize * 4);
 
     if (cmpRet != 0)
 	{
