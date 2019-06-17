@@ -1089,11 +1089,11 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     int32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
     parseEventsSW(data, eventsArraySize, eventSliceSW);
     sw_ctr.stop();
-    int total_pack = eventsArraySize / 1000 + 1;
-	int ibuf[1];
-	ibuf[0] = total_pack;
-	for (int i = 0; i < total_pack; i++)
-		sock.sendTo((void *)(& eventSliceSW[i*1000/4]), 1000, serverIP, socketPort);
+//    int total_pack = eventsArraySize / 1000 + 1;
+//	int ibuf[1];
+//	ibuf[0] = total_pack;
+//	for (int i = 0; i < total_pack; i++)
+//		sock.sendTo((void *)(& eventSliceSW[i*1000/4]), 1000, serverIP, socketPort);
 
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
@@ -1109,7 +1109,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
     hw_ctr.start();
     ap_uint<1> led;
-//	parseEvents(data, eventsArraySize, eventSlice, &led);
+	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
 
 	int err_cnt = 0;
@@ -1172,14 +1172,21 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     std::cout << "Number of CPU cycles running application in software: "
                 << sw_cycles << std::endl;
 
-//    std::cout << "Number of CPU cycles running application in hardware: "
-//                << hw_cycles << std::endl;
+    std::cout << "Number of CPU cycles running application in hardware: "
+                << hw_cycles << std::endl;
 
-//    int cmpRet;
-//
-//    cmpRet = memcmp( eventSliceSW, eventSlice, eventsArraySize);
-//
-//    if (cmpRet != 0) std::cout << "Test failed" << std::endl;
+    int cmpRet;
+
+    cmpRet = memcmp( eventSliceSW, eventSlice, eventsArraySize);
+
+    if (cmpRet != 0)
+	{
+    	std::cout << "Test failed." << std::endl;
+	}
+    else
+    {
+    	std::cout << "Test passed." << std::endl;
+    }
 
     sds_free(data);
 	sendEventSlice();
