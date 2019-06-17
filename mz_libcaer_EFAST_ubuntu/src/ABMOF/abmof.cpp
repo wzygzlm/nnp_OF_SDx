@@ -267,13 +267,13 @@ static void *displayUDP(void *ptr)
             //do video processing here
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
-            int total_pack = eventsArraySize / 7600 + 1;
+            int total_pack = eventsArraySize / 1000 + 1;
         	int ibuf[1];
         	ibuf[0] = total_pack;
 //        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
 
         	for (int i = 0; i < total_pack; i++)
-        		sock.sendTo((void *)(& eventSlice[i * 7600/4]), 7600, serverIP, socketPort);
+        		sock.sendTo((void *)(& eventSlice[i * 1000/4]), 1000, serverIP, socketPort);
 
 //            //send processed image
 //            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&destAddr, destAddrLen)) < 0){

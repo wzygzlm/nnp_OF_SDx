@@ -65,7 +65,7 @@ void getXandY(const uint64_t * data, hls::stream<X_TYPE> &xStream, hls::stream<Y
 	// Make this event an invalid event
 	// The maximum range of x is [0, 200), 4 is the corner block range.
 	if (xWr < 20 || xWr >= 240-20-4 ||
-			yWr < 20 || yWr >= 180-20-4 || pol == 0)
+			yWr < 20 || yWr >= 180-20-4 || pol == 1)
 	{
 		xWr = 0;
 		yWr = 0;
