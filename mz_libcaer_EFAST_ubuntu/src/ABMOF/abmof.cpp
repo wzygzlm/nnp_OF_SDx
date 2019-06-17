@@ -30,6 +30,23 @@ static uint16_t retSocket;
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
 
+// Software EFAST
+static const int sensor_width_ = 240;
+static const int sensor_height_ = 180;
+
+// SAE (Surface of Active Event)
+static int sae_[2][DVS_HEIGHT][DVS_WIDTH];
+
+const int circle3_[INNER_SIZE][2] = {{0, 3}, {1, 3}, {2, 2}, {3, 1},
+      {3, 0}, {3, -1}, {2, -2}, {1, -3},
+      {0, -3}, {-1, -3}, {-2, -2}, {-3, -1},
+      {-3, 0}, {-3, 1}, {-2, 2}, {-1, 3}};
+const int circle4_[OUTER_SIZE][2] = {{0, 4}, {1, 4}, {2, 3}, {3, 2},
+      {4, 1}, {4, 0}, {4, -1}, {3, -2},
+      {2, -3}, {1, -4}, {0, -4}, {-1, -4},
+      {-2, -3}, {-3, -2}, {-4, -1}, {-4, 0},
+      {-4, 1}, {-3, 2}, {-2, 3}, {-1, 4}};
+
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
 
@@ -267,20 +284,20 @@ static void *displayUDP(void *ptr)
             //do video processing here
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
-            int total_pack = eventsArraySize / 7600 + 1;
+            int total_pack = eventsArraySize / 1000 + 1;
         	int ibuf[1];
         	ibuf[0] = total_pack;
 //        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
 
         	for (int i = 0; i < total_pack; i++)
-        		sock.sendTo((void *)(& eventSlice[i * 7600/4]), 7600, serverIP, socketPort);
+        		sock.sendTo((void *)(& eventSlice[i * 1000/4]), 1000, serverIP, socketPort);
 
 //            //send processed image
 //            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&destAddr, destAddrLen)) < 0){
 //                std::cerr << "bytes = " << bytes << std::endl;
 //                break;
 //            }
-            // sendFlg = false;
+             sendFlg = false;
         }
     }
 
@@ -772,143 +789,185 @@ static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
 static uint16_t areaEventThrSW = 1000;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
 
-void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
+void FastDetectorisFeature(int pix_x, int pix_y, int timesmp, bool polarity, bool *found_streak)
+{
+	if(polarity==0)
+	{
+		*found_streak = false;
+		return;
+	}
+
+	const int max_scale = 1;
+	// only check if not too close to border
+	const int cs = max_scale*20;
+	if (pix_x < cs || pix_x >= sensor_width_-cs-4 ||
+			pix_y < cs || pix_y >= sensor_height_-cs-4)
+	{
+		*found_streak = false;
+		return;
+	}
+
+	const int pol = 0;
+	// update SAE
+	sae_[pol][pix_x][pix_y] = timesmp;
+
+    *found_streak = false;
+
+#if DEBUG
+  std::cout << "Idx Inner Data SW is: " << std::endl;
+  for (int i=0; i<16; i++)
+  {
+		cout << sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]] << "\t";
+  }
+	std::cout << std::endl;
+#endif
+
+  isFeatureOutterLoop:for (int i=0; i<16; i++)
+  {
+    FastDetectorisFeature_label2:for (int streak_size = 3; streak_size<=6; streak_size++)
+    {
+      // check that streak event is larger than neighbor
+      if ((sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]]) <  (sae_[pol][pix_x+circle3_[(i-1+16)%16][0]][pix_y+circle3_[(i-1+16)%16][1]]))
+        continue;
+
+      // check that streak event is larger than neighbor
+      if (sae_[pol][pix_x+circle3_[(i+streak_size-1)%16][0]][pix_y+circle3_[(i+streak_size-1)%16][1]] < sae_[pol][pix_x+circle3_[(i+streak_size)%16][0]][pix_y+circle3_[(i+streak_size)%16][1]])
+        continue;
+
+      // find the smallest timestamp in corner min_t
+      double min_t = sae_[pol][pix_x+circle3_[i][0]][pix_y+circle3_[i][1]];
+      FastDetectorisFeature_label1:for (int j=1; j<streak_size; j++)
+      {
+        const double tj = sae_[pol][pix_x+circle3_[(i+j)%16][0]][pix_y+circle3_[(i+j)%16][1]];
+        if (tj < min_t)
+          min_t = tj;
+      }
+
+      //check if corner timestamp is higher than corner
+      bool did_break = false;
+      FastDetectorisFeature_label0:for (int j=streak_size; j<16; j++)
+      {
+        const double tj = sae_[pol][pix_x+circle3_[(i+j)%16][0]][pix_y+circle3_[(i+j)%16][1]];
+
+        if (tj >= min_t)
+        {
+          did_break = true;
+          break;
+        }
+      }
+
+      if (!did_break)
+      {
+        *found_streak = true;
+#if DEBUG
+		cout << "Inner Corner position is : " << i << " and streak size is: " << streak_size << endl;
+#endif
+        break;
+      }
+    }
+
+	  if (*found_streak)
+	  {
+		  break;
+	  }
+  }
+
+  if (*found_streak)
+  {
+    *found_streak = false;
+
+#if DEBUG
+	std::cout << "Idx Outer Data SW is: " << std::endl;
+	for (int i=0; i<20; i++)
+	{
+	cout << sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]] << "\t";
+	}
+	std::cout << std::endl;
+#endif
+
+    FastDetectorisFeature_label6:for (int i=0; i<20; i++)
+    {
+      FastDetectorisFeature_label5:for (int streak_size = 4; streak_size<=8; streak_size++)
+      {
+        // check that first event is larger than neighbor
+        if (sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]] <  sae_[pol][pix_x+circle4_[(i-1+20)%20][0]][pix_y+circle4_[(i-1+20)%20][1]])
+          continue;
+
+        // check that streak event is larger than neighbor
+        if (sae_[pol][pix_x+circle4_[(i+streak_size-1)%20][0]][pix_y+circle4_[(i+streak_size-1)%20][1]] < sae_[pol][pix_x+circle4_[(i+streak_size)%20][0]][pix_y+circle4_[(i+streak_size)%20][1]])
+          continue;
+
+        double min_t = sae_[pol][pix_x+circle4_[i][0]][pix_y+circle4_[i][1]];
+        FastDetectorisFeature_label4:for (int j=1; j<streak_size; j++)
+        {
+          const double tj = sae_[pol][pix_x+circle4_[(i+j)%20][0]][pix_y+circle4_[(i+j)%20][1]];
+          if (tj < min_t)
+            min_t = tj;
+        }
+
+        bool did_break = false;
+        FastDetectorisFeature_label3:for (int j=streak_size; j<20; j++)
+        {
+          const double tj = sae_[pol][pix_x+circle4_[(i+j)%20][0]][pix_y+circle4_[(i+j)%20][1]];
+          if (tj >= min_t)
+          {
+            did_break = true;
+            break;
+          }
+        }
+
+        if (!did_break)
+        {
+          *found_streak = true;
+		  cout << "Outer Corner position is : " << i << " and streak size is: " << streak_size << endl;
+		  break;
+        }
+      }
+      if (*found_streak)
+      {
+        break;
+      }
+    }
+
+  }
+
+  //return *found_streak;
+}
+
+
+void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSliceSW)
 {
 //	glPLActiveSliceIdxSW--;
 //	sliceIdx_t idx = glPLActiveSliceIdxSW;
 
+    cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
-        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 		uint64_t tmp = *dataStream++;
-		ap_uint<8> xWr, yWr;
-		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		int x, y;
+		x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
 		int64_t ts = tmp >> 32;
 
-		ap_int<16> miniRet;
-		ap_uint<6> OFRet;
+		bool isCorner = 0;
 
-        uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE];
-        c = c + 1;
-        areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE] = c;
+		FastDetectorisFeature(x, y, ts, pol, &isCorner);
 
-        // The area threshold reached, rotate the slice index and clear the areaEventRegs.
-        if (c > areaEventThrSW)
-        {
-            glPLActiveSliceIdxSW--;
-//            idx = glPLActiveSliceIdxSW;
+		x = 239 - x;
+		y = 179 - y;
 
-            for(int r = 0; r < 1000; r++)
-            {
-                cout << "Rotated successfully!!!!" << endl;
-                cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
-            }
+		ap_uint<32> tmpOutput = (0 << 31) + (y << 22) + (x << 12)  + (pol << 11) + isCorner;
 
-            // Check the accumulation slice is clear or not
-            for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
-            {
-                for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
-                {
-                    if (slicesSW[glPLActiveSliceIdxSW][xAddr][yAddr/COMBINED_PIXELS] != 0)
-                    {
-                        for(int r = 0; r < 1000; r++)
-                        {
-                            cout << "Ha! I caught you, the pixel which is not clear!" << endl;
-                            cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
-                        }
-                    }
-                }
-            }
+		ap_uint<32> output;
 
-            for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
-            {
-                for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
-                {
-                    areaEventRegsSW[areaX][areaY] = 0;
-                }
-            }
+		// Changed to small endian mode to send it to jAER
+		output.range(7,0) = tmpOutput.range(31,24);
+		output.range(15,8) = tmpOutput.range(23,16);
+		output.range(23,16) = tmpOutput.range(15,8);
+		output.range(31,24) = tmpOutput.range(7,0);
 
-           for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
-           {
-               resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
-               resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
-           }
-        }
-
-
-		writePixSW(xWr, yWr, glPLActiveSliceIdxSW);
-
-		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
-//				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 64, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 96, (sliceIdx_t)(idx + 3));
-
-//				resetPix(i, 128, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 160, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 192, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 224, (sliceIdx_t)(idx + 3));
-
-		for(int idx1 = 0; idx1 < BLOCK_SIZE; idx1++)
-		{
-			for(int idx2 = 0; idx2 < BLOCK_SIZE; idx2++)
-			{
-				localSumReg[idx1][idx2] = 0;
-			}
-		}
-		miniRetVal = 0x7fff;
-		minOFRet = ap_uint<6>(0xff);   // 0xff means the OF is invalid.
-
-		// In software version, we initial miniSumTmp for every input, so we don't do it here.
-//		initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
-//		{
-//			miniSumTmp[j] = ap_int<16>(0);
-//		}
-
-		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
-		{
-
-			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-
-			readBlockColsSW(xWr + xOffSet, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
-
-			miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
-
-		}
-
-		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
-		ap_int<9> tmp2 = miniRet.range(8, 0);
-		apUint6_t tmpOF = OFRet;
-		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
-		*eventSlice++ = output.to_int();
-
-        /* -----------------Feedback part------------------------ */
-        uint16_t OFRetHistCnt = OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(3, 0)];
-        OFRetHistCnt = OFRetHistCnt + 1;
-        OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
-
-        uint16_t countSum = 0;
-        uint32_t radiusSum =  0;
-        for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
-        {
-            for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
-            {
-                uint16_t count = OFRetRegsSW[OFRetHistX][OFRetHistY];
-                uint16_t radius = pow(OFRetHistX,  2) + pow(OFRetHistY,  2);
-                countSum += count;
-                radiusSum += radius * count;
-            }
-        }
-
-	}
-
-	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
-	{
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+		*eventSliceSW++ = output.to_uint();
 	}
 }
 
@@ -971,15 +1030,15 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		serverIP = serverIPIP;
 		socketPort = 8991;
 
-		if (socketType == 0)     //0 : UDP
-		{
-			retSocket = init_socket_UDP(4097);
-		}
-		else
-		{
-			retSocket = init_socket_TCP(4097);
-		}
-		initSocketFlg = true;
+//		if (socketType == 0)     //0 : UDP
+//		{
+//			retSocket = init_socket_UDP(4097);
+//		}
+//		else
+//		{
+//			retSocket = init_socket_TCP(4097);
+//		}
+//		initSocketFlg = true;
 	}
 
 	// resetSlices();   // Clear slices before a new packet come in
@@ -1028,8 +1087,13 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
     sw_ctr.start();
     int32_t eventSliceSW[DVS_HEIGHT * DVS_WIDTH];
-//    parseEventsSW(data, eventsArraySize, eventSliceSW);
+    parseEventsSW(data, eventsArraySize, eventSliceSW);
     sw_ctr.stop();
+    int total_pack = eventsArraySize / 1000 + 1;
+	int ibuf[1];
+	ibuf[0] = total_pack;
+	for (int i = 0; i < total_pack; i++)
+		sock.sendTo((void *)(& eventSliceSW[i*1000/4]), 1000, serverIP, socketPort);
 
     // reset the eventSlice
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
@@ -1045,7 +1109,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
     hw_ctr.start();
     ap_uint<1> led;
-	parseEvents(data, eventsArraySize, eventSlice, &led);
+//	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
 
 	int err_cnt = 0;
@@ -1105,11 +1169,11 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	uint64_t sw_cycles = sw_ctr.avg_cpu_cycles();
     uint64_t hw_cycles = hw_ctr.avg_cpu_cycles();
 
-//    std::cout << "Number of CPU cycles running application in software: "
-//                << sw_cycles << std::endl;
+    std::cout << "Number of CPU cycles running application in software: "
+                << sw_cycles << std::endl;
 
-    std::cout << "Number of CPU cycles running application in hardware: "
-                << hw_cycles << std::endl;
+//    std::cout << "Number of CPU cycles running application in hardware: "
+//                << hw_cycles << std::endl;
 
 //    int cmpRet;
 //
