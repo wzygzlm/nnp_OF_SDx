@@ -1,6 +1,7 @@
 #include "abmof.h"
 #include "abmof_hw_accel.h"
 
+#include "PracticalSocket.h"      // For UDPSocket and SocketException
 
 // xfopencv
 // only used in SDx environment
@@ -10,7 +11,6 @@
 
 // standard opencv, used in standard opencv environment
 #include "opencv2/opencv.hpp"
-using namespace cv;
 
 #include <math.h>
 
@@ -28,8 +28,7 @@ static bool initSocketFlg = false;
 static uint16_t retSocket;
 
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
-
-static uint64_t *toSendBuffer = (uint64_t *)malloc(DVS_HEIGHT * DVS_WIDTH);
+static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -212,9 +211,17 @@ int init_socket_UDP(int port)
     return remoteSocket;
 }
 
+static UDPSocket sock;
+string serverIP = "192.168.0.100";
+unsigned short socketPort = 8991;
+
 static void *displayUDP(void *ptr)
 {
     int socket = *(int *)ptr;
+
+	struct sockaddr_in destAddr;
+
+
     struct  sockaddr_in remoteAddr;
     socklen_t addrLen = sizeof(struct sockaddr_in);
 
@@ -223,15 +230,15 @@ static void *displayUDP(void *ptr)
 
     std::cout <<  "Waiting for connections...\n" << std::endl;
     //try to receive some data, this is a blocking call
-    if ((recvLen = recvfrom(socket, buf, 10, 0, (struct sockaddr *) &remoteAddr, &addrLen)) == -1)
-    {
-        std::cerr << "bytes = " << recvLen << std::endl;
-        return NULL;
-    }
-
-    //print details of the client/peer and the data received
-    printf("Received packet from %s:%d\n", inet_ntoa(remoteAddr.sin_addr), ntohs(remoteAddr.sin_port));
-    printf("Data: %s\n" , buf);
+//    if ((recvLen = recvfrom(socket, buf, 10, 0, (struct sockaddr *) &remoteAddr, &addrLen)) == -1)
+//    {
+//        std::cerr << "bytes = " << recvLen << std::endl;
+//        return NULL;
+//    }
+//
+//    //print details of the client/peer and the data received
+//    printf("Received packet from %s:%d\n", inet_ntoa(remoteAddr.sin_addr), ntohs(remoteAddr.sin_port));
+//    printf("Data: %s\n" , buf);
 
     //OpenCV Code
     //----------------------------------------------------------
@@ -260,11 +267,19 @@ static void *displayUDP(void *ptr)
             //do video processing here
             // cvtColor(img, imgGray, CV_BGR2GRAY);
 
-            //send processed image
-            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&remoteAddr, addrLen)) < 0){
-                std::cerr << "bytes = " << bytes << std::endl;
-                break;
-            }
+            int total_pack = eventsArraySize / 1000 + 1;
+        	int ibuf[1];
+        	ibuf[0] = total_pack;
+//        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
+
+        	for (int i = 0; i < total_pack; i++)
+        		sock.sendTo((void *)(& eventSlice[i * 1000/4]), 1000, serverIP, socketPort);
+
+//            //send processed image
+//            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&destAddr, destAddrLen)) < 0){
+//                std::cerr << "bytes = " << bytes << std::endl;
+//                break;
+//            }
             // sendFlg = false;
         }
     }
@@ -287,22 +302,22 @@ void sendEventSlice()
     sendFlg = true;
 }
 
-void resetSlices()
-{
-	// clear slices
-	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
-		for (uchar (&row)[240] : slice)
-			for (uchar & cell : row)
-				cell *= 0;
-}
-
-void resetCurrentSlice()
-{
-	// clear current slice
-	for (uchar (&row)[240] : slices[currentIdx])
-		for (uchar & cell : row)
-			cell *= 0;
-}
+//void resetSlices()
+//{
+//	// clear slices
+//	for (uchar (&slice)[DVS_HEIGHT][DVS_WIDTH] : slices)
+//		for (uchar (&row)[240] : slice)
+//			for (uchar & cell : row)
+//				cell *= 0;
+//}
+//
+//void resetCurrentSlice()
+//{
+//	// clear current slice
+//	for (uchar (&row)[240] : slices[currentIdx])
+//		for (uchar & cell : row)
+//			cell *= 0;
+//}
 
 void accumulate(int16_t x, int16_t y, bool pol, int64_t ts)
 {
@@ -313,18 +328,18 @@ void accumulate(int16_t x, int16_t y, bool pol, int64_t ts)
 }
 
 
-void rotateSlices()
-{
-	if(currentIdx == 2)
-	{
-		currentIdx = 0;
-	}
-	else
-	{
-		currentIdx++;
-	}
-	resetCurrentSlice();
-}
+//void rotateSlices()
+//{
+//	if(currentIdx == 2)
+//	{
+//		currentIdx = 0;
+//	}
+//	else
+//	{
+//		currentIdx++;
+//	}
+//	resetCurrentSlice();
+//}
 
 float sadDistance(int16_t x, int16_t y, int16_t dx, int16_t dy, int16_t blockRadius)
 {
@@ -390,7 +405,7 @@ void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts)
 
 #define TEST_TIMES 10
 
-static col_pixs_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
+static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdxSW = 0;
 
 void resetPixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
@@ -932,10 +947,7 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
         if( x >= DVS_WIDTH || x < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
 
         uint64_t temp = 0;
-//        temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (y << 2) + (polarity << 1) + 1;
-        ts = (0 << 31) + (y << 22) + (x << 12)  + (polarity << 11) + 0;
-  		temp = (ts << 32) + ts;
-
+        temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (y << 2) + (polarity << 1) + 1;
         *data++ = temp;
 
         if(lineCnt >= event_num)
@@ -952,48 +964,23 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
 static int simulationEventSpeed = 0;
 static int currentStartLine = 0;
 static int total_err_cnt = 0;
-static UDPSocket sock;
-VideoCapture cap("vtest.avi"); // Grab the camera
-
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIP, int socketPort, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIPIP, int socketPort, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
 {
 	if (!initSocketFlg)
 	{
-//		if (socketType == 0)     //0 : UDP
-//		{
-//			retSocket = init_socket_UDP(port);
-//		}
-//		else
-//		{
-//			retSocket = init_socket_TCP(port);
-//		}
-		initSocketFlg = true;
-		for(int i = 0; i < 4000; i = i + 4)
+		serverIP = serverIPIP;
+		socketPort = 8991;
+
+		if (socketType == 0)     //0 : UDP
 		{
-			toSendBuffer[i] = i + ((i + 1) << 8) + ((i + 2) << 8) + ((i + 3) << 24);
+			retSocket = init_socket_UDP(4097);
 		}
+		else
+		{
+			retSocket = init_socket_TCP(4097);
+		}
+		initSocketFlg = true;
 	}
-
-	if (!cap.isOpened()) {
-		cerr << "OpenCV Failed to open camera";
-		exit(1);
-	}
-
-	clock_t last_cycle = clock();
-
-	int jpegqual =  ENCODE_QUALITY; // Compression Parameter
-
-	Mat frame, send;
-	vector < uchar > encoded;
-
-	cap >> frame;
-	if(frame.size().width==0) return retSocket;  //simple integrity check; skip erroneous data...
-	resize(frame, send, Size(FRAME_WIDTH, FRAME_HEIGHT), 0, 0, INTER_LINEAR);
-	vector < int > compression_params;
-	compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
-	compression_params.push_back(jpegqual);
-
-	imencode(".jpg", send, encoded, compression_params);
 
 	// resetSlices();   // Clear slices before a new packet come in
 
@@ -1008,7 +995,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	uint16_t y = firstEvent.getY();
 	bool pol   = firstEvent.getPolarity();
 
-	int32_t eventsArraySize = (*polarityPkt).getEventNumber();
+	eventsArraySize = (*polarityPkt).getEventNumber();
 	int32_t eventPerSize = (*polarityPkt).getEventSize();
 
     // Make suer sds_alloc allocate a right memory for eventSlice.
@@ -1048,7 +1035,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
 
     int event_num = eventsArraySize;
-    // eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
+//    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
     //creatEventdata(60+(simulationEventSpeed)%30 , 60, event_num, data);
     // creatEventdata_solid(60+(simulationEventSpeed)%30 , 60, 0, data);
     simulationEventSpeed = simulationEventSpeed + 2;
@@ -1056,30 +1043,10 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     if (eventsArraySize < event_num) currentStartLine = 0;
     else currentStartLine += event_num;
 
-    printf("Before HW processing, the pointer is %p\n",eventSlice);
     hw_ctr.start();
     ap_uint<1> led;
-//	parseEvents(data, eventsArraySize, eventSlice, &led);
+	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
-	printf("After HW processing, the pointer is %p\n",eventSlice);
-
-    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, toSendBuffer);
-
-	int total_pack = 1 + (eventsArraySize - 1) / PACK_SIZE;
-
-	int ibuf[1];
-	ibuf[0] = total_pack;
-	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
-
-	for (int i = 0; i < total_pack; i++)
-		sock.sendTo( & toSendBuffer[i * PACK_SIZE/8], PACK_SIZE, serverIP, socketPort);
-
-	clock_t next_cycle = clock();
-	double duration = (next_cycle - last_cycle) / (double) CLOCKS_PER_SEC;
-	cout << "\teffective FPS:" << (1 / duration) << " \tkbps:" << (PACK_SIZE * total_pack / duration / 1024 * 8) << endl;
-
-	cout << next_cycle - last_cycle;
-	last_cycle = next_cycle;
 
 	int err_cnt = 0;
 
@@ -1151,7 +1118,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 //    if (cmpRet != 0) std::cout << "Test failed" << std::endl;
 
     sds_free(data);
-//	sendEventSlice();
+	sendEventSlice();
 
 //	int i = 0;
 //	for (auto &tmpEvent : *polarityPkt)

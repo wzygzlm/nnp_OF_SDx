@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include "sds_utils.h"
 
-
 #ifdef __SDSCC__
 #include "sds_lib.h"
 #else
@@ -15,13 +14,11 @@
 #define sds_free(x)(free(x))
 #endif
 
-//#define N 16
-//#define NUM_ITERATIONS N
+#define N 16
+#define NUM_ITERATIONS N
 typedef short data_t;
 
 using namespace std;
-
-
 
 static atomic_bool globalShutdown(false);
 
@@ -348,73 +345,66 @@ int main(int argc, char *argv[]){
     ofstream resultfile;
     resultfile.open ("testResult.txt");
 
-    try {
+	while (!globalShutdown.load(memory_order_relaxed)) {
+		std::unique_ptr<libcaer::events::EventPacketContainer> packetContainer = davisHandle.dataGet();
+		if (packetContainer == nullptr) {
+			continue; // Skip if nothing there.
+		}
 
+		printf("\nGot event container with %d packets (allocated).\n", packetContainer->size());
 
-		while (!globalShutdown.load(memory_order_relaxed)) {
-			std::unique_ptr<libcaer::events::EventPacketContainer> packetContainer = davisHandle.dataGet();
-			if (packetContainer == nullptr) {
+		for (auto &packet : *packetContainer) {
+			if (packet == nullptr) {
+				printf("Packet is empty (not present).\n");
 				continue; // Skip if nothing there.
 			}
 
-			printf("\nGot event container with %d packets (allocated).\n", packetContainer->size());
+			printf("Packet of type %d -> %d events, %d capacity.\n", packet->getEventType(), packet->getEventNumber(),
+				packet->getEventCapacity());
 
-			for (auto &packet : *packetContainer) {
-				if (packet == nullptr) {
-					printf("Packet is empty (not present).\n");
-					continue; // Skip if nothing there.
-				}
+			if (packet->getEventType() == POLARITY_EVENT) {
+				std::shared_ptr<const libcaer::events::PolarityEventPacket> polarity
+					= std::static_pointer_cast<libcaer::events::PolarityEventPacket>(packet);
 
-				printf("Packet of type %d -> %d events, %d capacity.\n", packet->getEventType(), packet->getEventNumber(),
-					packet->getEventCapacity());
+				// Get full timestamp and addresses of first event.
+//				CAER_POLARITY_ITERATOR_VALID_START(polarity)
+//				uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
+//				uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
+//				bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
+//				int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
 
-				if (packet->getEventType() == POLARITY_EVENT) {
-					std::shared_ptr<const libcaer::events::PolarityEventPacket> polarity
-						= std::static_pointer_cast<libcaer::events::PolarityEventPacket>(packet);
+				remoteSocket = abmof(polarity, serverIP, socketPort, eventThreshold, socketType, filename, resultfile);
 
-					// Get full timestamp and addresses of first event.
-//					CAER_POLARITY_ITERATOR_VALID_START(polarity)
-//					uint16_t x        = caerPolarityEventGetX(caerPolarityIteratorElement);
-//					uint16_t y        = caerPolarityEventGetY(caerPolarityIteratorElement);
-//					bool pol          = caerPolarityEventGetPolarity(caerPolarityIteratorElement);
-//					int64_t ts        = caerPolarityEventGetTimestamp64(caerPolarityIteratorElement, polarity);
+				// printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
+//				CAER_POLARITY_ITERATOR_VALID_END
+			}
 
-					remoteSocket = abmof(polarity, serverIP, socketPort, eventThreshold, socketType, filename, resultfile);
+			if (packet->getEventType() == FRAME_EVENT) {
+				std::shared_ptr<const libcaer::events::FrameEventPacket> frame
+					= std::static_pointer_cast<libcaer::events::FrameEventPacket>(packet);
 
-//					 printf("First polarity event - ts: %d, x: %d, y: %d, pol: %d.\n", ts, x, y, pol);
-//					CAER_POLARITY_ITERATOR_VALID_END
-				}
+				// Get full timestamp, and sum all pixels of first frame event.
+				const libcaer::events::FrameEvent &firstEvent = (*frame)[0];
 
-				if (packet->getEventType() == FRAME_EVENT) {
-					std::shared_ptr<const libcaer::events::FrameEventPacket> frame
-						= std::static_pointer_cast<libcaer::events::FrameEventPacket>(packet);
+				int32_t ts   = firstEvent.getTimestamp();
+				uint64_t sum = 0;
 
-					// Get full timestamp, and sum all pixels of first frame event.
-					const libcaer::events::FrameEvent &firstEvent = (*frame)[0];
-
-					int32_t ts   = firstEvent.getTimestamp();
-					uint64_t sum = 0;
-
-					for (int32_t y = 0; y < firstEvent.getLengthY(); y++) {
-						for (int32_t x = 0; x < firstEvent.getLengthX(); x++) {
-							sum += firstEvent.getPixel(x, y);
-						}
+				for (int32_t y = 0; y < firstEvent.getLengthY(); y++) {
+					for (int32_t x = 0; x < firstEvent.getLengthX(); x++) {
+						sum += firstEvent.getPixel(x, y);
 					}
-
-					printf("First frame event - ts: %d, sum: %" PRIu64 ".\n", ts, sum);
 				}
+
+				printf("First frame event - ts: %d, sum: %" PRIu64 ".\n", ts, sum);
 			}
 		}
-    } catch (SocketException & e) {
-				cerr << e.what() << endl;
-				exit(1);
-  	}
+	}
 
 	davisHandle.dataStop();
 
 	// Close automatically done by destructor.
 
-//    close(remoteSocket);   // close socket;
+    close(remoteSocket);   // close socket;
 	printf("Shutdown successful.\n");
 
 	return (EXIT_SUCCESS);

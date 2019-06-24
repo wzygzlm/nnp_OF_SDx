@@ -19,12 +19,6 @@
 #include <sstream>
 #include <vector>
 
-// UDP parts
-#include "PracticalSocket.h"      // For UDPSocket and SocketException
-#include <iostream>               // For cout and cerr
-#include <cstdlib>                // For atoi()
-#include "config.h"
-
 struct SADResult {
 	uint16_t dx;
 	uint16_t dy;
@@ -32,7 +26,7 @@ struct SADResult {
 	uint64_t sadValue;
 };
 
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIP, int port, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream);
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIPIP, int socketPort, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream);
 
 int init_socket(int port);
 void abmof_accel(int16_t x, int16_t y, bool pol, int64_t ts);
