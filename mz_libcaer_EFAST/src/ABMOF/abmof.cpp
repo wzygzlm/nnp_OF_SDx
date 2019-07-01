@@ -29,6 +29,7 @@ static uint16_t retSocket;
 
 static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
 static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
+static uint32_t packetCounter = 0;
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -273,7 +274,15 @@ static void *displayUDP(void *ptr)
 //        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
 
         	for (int i = 0; i < total_pack; i++)
-        		sock.sendTo((void *)(& eventSlice[i * 1000/4]), 1000, serverIP, socketPort);
+        	{
+        		uint32_t *tmpBuffer = (uint32_t *)malloc(8000);
+        		tmpBuffer[0] = packetCounter;
+        		tmpBuffer[1001] = 0x55aa55aa;
+        		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * 1000]), 4000);
+        		sock.sendTo(tmpBuffer, 4000, serverIP, socketPort);
+        		packetCounter++;
+        		free(tmpBuffer);
+        	}
 
 //            //send processed image
 //            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&destAddr, destAddrLen)) < 0){
@@ -1047,6 +1056,22 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     ap_uint<1> led;
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
+
+//    int total_pack = eventsArraySize / 1500 + 1;
+//	int ibuf[1];
+//	ibuf[0] = total_pack;
+////        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
+//
+//	for (int i = 0; i < total_pack; i++)
+//	{
+//		uint32_t *tmpBuffer = (uint32_t *)malloc(8000);
+//		tmpBuffer[0] = packetCounter;
+//		tmpBuffer[1001] = 0x55aa55aa;
+//		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * 1500]), 6000);
+//		sock.sendTo(tmpBuffer, 6000, serverIP, socketPort);
+//		free(tmpBuffer);
+//		packetCounter++;
+//	}
 
 	int err_cnt = 0;
 
