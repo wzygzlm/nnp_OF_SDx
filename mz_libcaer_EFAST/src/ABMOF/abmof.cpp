@@ -980,14 +980,14 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 		serverIP = serverIPIP;
 		socketPort = 8991;
 
-		if (socketType == 0)     //0 : UDP
-		{
-			retSocket = init_socket_UDP(4097);
-		}
-		else
-		{
-			retSocket = init_socket_TCP(4097);
-		}
+//		if (socketType == 0)     //0 : UDP
+//		{
+//			retSocket = init_socket_UDP(4097);
+//		}
+//		else
+//		{
+//			retSocket = init_socket_TCP(4097);
+//		}
 		initSocketFlg = true;
 	}
 
@@ -1057,21 +1057,21 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
 
-//    int total_pack = eventsArraySize / 1500 + 1;
-//	int ibuf[1];
-//	ibuf[0] = total_pack;
-////        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
-//
-//	for (int i = 0; i < total_pack; i++)
-//	{
-//		uint32_t *tmpBuffer = (uint32_t *)malloc(8000);
-//		tmpBuffer[0] = packetCounter;
-//		tmpBuffer[1001] = 0x55aa55aa;
-//		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * 1500]), 6000);
-//		sock.sendTo(tmpBuffer, 6000, serverIP, socketPort);
-//		free(tmpBuffer);
-//		packetCounter++;
-//	}
+    int total_pack = eventsArraySize / 1000 + 1;
+	int ibuf[1];
+	ibuf[0] = total_pack;
+//        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
+
+	for (int i = 0; i < total_pack; i++)
+	{
+		uint32_t *tmpBuffer = (uint32_t *)malloc(8000);
+		tmpBuffer[0] = packetCounter;
+		tmpBuffer[1001] = 0x55aa55aa;
+		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * 1000]), 4000);
+		sock.sendTo(tmpBuffer, 4000, serverIP, socketPort);
+		packetCounter++;
+		free(tmpBuffer);
+	}
 
 	int err_cnt = 0;
 
