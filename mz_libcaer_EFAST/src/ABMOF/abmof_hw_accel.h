@@ -6,6 +6,8 @@
 #include "hls_stream.h"
 #include "ap_axi_sdata.h"
 
+#define MAX_SIZE_PER_DATA_PKT 50000
+
 #define SLICES_NUMBER 4
 #define SLICE_WIDTH  256
 #define SLICE_HEIGHT 256
