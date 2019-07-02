@@ -1065,10 +1065,13 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	for (int i = 0; i < total_pack; i++)
 	{
 		uint32_t *tmpBuffer = (uint32_t *)malloc(8000);
+		uint32_t packetCounterSwapEndian;    // Convert the endian order.
+		packetCounterSwapEndian = ((packetCounter >> 24) & 0xff) + ( ((packetCounter >> 16) & 0xff) << 8) +
+				( ((packetCounter >> 8) & 0xff) << 16) + ( ((packetCounter >> 0) & 0xff) << 24);
 		tmpBuffer[0] = packetCounter;
 		tmpBuffer[1001] = 0x55aa55aa;
 		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * 1000]), 4000);
-		sock.sendTo(tmpBuffer, 4000, serverIP, socketPort);
+		sock.sendTo(tmpBuffer, 4004, serverIP, socketPort);
 		packetCounter++;
 		free(tmpBuffer);
 	}
