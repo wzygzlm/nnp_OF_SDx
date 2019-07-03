@@ -1069,14 +1069,17 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
 	for (int i = 0; i < total_pack; i++)
 	{
-		uint64_t *tmpBuffer = (uint64_t *)malloc(1024 * 8);  // Max size of the buffer is 8K due to the wifi limitation.
+		uint8_t *tmpBuffer = (uint8_t *)malloc(1024 * 8);  // Max size of the buffer is 8K due to the wifi limitation.
 //		uint32_t packetCounterSwapEndian;    // Convert the endian order.
 //		packetCounterSwapEndian = ((packetCounter >> 24) & 0xff) + ( ((packetCounter >> 16) & 0xff) << 8) +
 //				( ((packetCounter >> 8) & 0xff) << 16) + ( ((packetCounter >> 0) & 0xff) << 24);
-		tmpBuffer[0] = packetCounter;
+		tmpBuffer[0] = (packetCounter >> 0) & 0xff ;
+		tmpBuffer[1] = (packetCounter >> 8) & 0xff ;
+		tmpBuffer[2] = (packetCounter >> 16) & 0xff ;
+		tmpBuffer[3] = (packetCounter >> 24) & 0xff ;
 //		tmpBuffer[1001] = 0x55aa55aa;
-		memcpy((void *)(& tmpBuffer[0]), (void *)(& eventSlice[i * udpSplitPktSize]), udpSplitPktSize * 8);
-		sock.sendTo(tmpBuffer, udpSplitPktSize * 8, serverIP, socketPort);  // udpSplitPktSize * 8 + 8 is the event number per packet + sizeof(packetheader).
+		memcpy((void *)(& tmpBuffer[4]), (void *)(& eventSlice[i * udpSplitPktSize]), udpSplitPktSize * 8);
+		sock.sendTo(tmpBuffer, udpSplitPktSize * 8 + 4, serverIP, socketPort);  // udpSplitPktSize * 8 + 4 is the event number per packet + sizeof(packetheader).
 		packetCounter++;
 		free(tmpBuffer);
 	}
