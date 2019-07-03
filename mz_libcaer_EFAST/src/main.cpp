@@ -243,6 +243,10 @@ int main(int argc, char *argv[]){
     int socketPort = 4097, udpSplitPktSize = 1500, packetInterval = 10000, socketType = 0;  // Default value
     string filename = "/mnt/emmc/pig-withOFResult_areaThr_1000-OFResult.txt";
 
+	printf("The usage of this program is: \n ");
+	printf(	"applicationName remoteUDPport remoteIP udpSplitPktSize packetInterval socketType.\n ");
+    printf("The first two parameters are necessary. All the rest parameters have default value.\n");
+
     if (argc == 2) serverIP = argv[1];
     if (argc == 3)
     {
