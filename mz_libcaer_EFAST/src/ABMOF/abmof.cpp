@@ -27,7 +27,7 @@ static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
 static uint16_t retSocket;
 
-static uint32_t *eventSlice = (uint32_t *)sds_alloc(4 * MAX_SIZE_PER_DATA_PKT);
+static uint64_t *eventSlice = (uint64_t *)sds_alloc(8 * MAX_SIZE_PER_DATA_PKT);
 static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
 static uint32_t packetCounter = 0;
 
@@ -1010,7 +1010,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     // Make suer sds_alloc allocate a right memory for eventSlice.
 	if(eventSlice == NULL)
 	{
-		eventSlice = (uint32_t *)sds_alloc(4 * MAX_SIZE_PER_DATA_PKT);
+		eventSlice = (uint64_t *)sds_alloc(8 * MAX_SIZE_PER_DATA_PKT);
 		return retSocket;
 	}
 
@@ -1041,7 +1041,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     sw_ctr.stop();
 
     // reset the eventSlice
-    memset((char *) eventSlice, 0, 4 * MAX_SIZE_PER_DATA_PKT);
+    memset((char *) eventSlice, 0, 8 * MAX_SIZE_PER_DATA_PKT);
 
     int event_num = eventsArraySize;
 //    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
@@ -1057,9 +1057,9 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
 
-	if (udpSplitPktSize * 4 >= 8000) // Limit the udpSplitPktSize due to the wifi connection.
+	if (udpSplitPktSize * 8 >= 8000) // Limit the udpSplitPktSize due to the wifi connection.
 	{
-		udpSplitPktSize = 2000;
+		udpSplitPktSize = 1000;
 	}
 
     int total_pack = eventsArraySize / udpSplitPktSize + 1;
@@ -1069,14 +1069,14 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
 
 	for (int i = 0; i < total_pack; i++)
 	{
-		uint32_t *tmpBuffer = (uint32_t *)malloc(1024 * 8);  // Max size of the buffer is 8K due to the wifi limitation.
+		uint64_t *tmpBuffer = (uint64_t *)malloc(1024 * 8);  // Max size of the buffer is 8K due to the wifi limitation.
 //		uint32_t packetCounterSwapEndian;    // Convert the endian order.
 //		packetCounterSwapEndian = ((packetCounter >> 24) & 0xff) + ( ((packetCounter >> 16) & 0xff) << 8) +
 //				( ((packetCounter >> 8) & 0xff) << 16) + ( ((packetCounter >> 0) & 0xff) << 24);
 		tmpBuffer[0] = packetCounter;
 //		tmpBuffer[1001] = 0x55aa55aa;
-		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * udpSplitPktSize]), udpSplitPktSize * 4);
-		sock.sendTo(tmpBuffer, udpSplitPktSize * 4 + 4, serverIP, socketPort);  // udpSplitPktSize * 4 + 4 is the event number per packet + sizeof(packetheader).
+		memcpy((void *)(& tmpBuffer[0]), (void *)(& eventSlice[i * udpSplitPktSize]), udpSplitPktSize * 8);
+		sock.sendTo(tmpBuffer, udpSplitPktSize * 8, serverIP, socketPort);  // udpSplitPktSize * 8 + 8 is the event number per packet + sizeof(packetheader).
 		packetCounter++;
 		free(tmpBuffer);
 	}
