@@ -27,8 +27,9 @@ static uint64_t imgNum = 0;
 static bool initSocketFlg = false;
 static uint16_t retSocket;
 
-static uint32_t *eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+static uint64_t *eventSlice = (uint64_t *)sds_alloc(8 * MAX_SIZE_PER_DATA_PKT);
 static int32_t eventsArraySize = 0; // Share this between the UDP thread and the main thread.
+static uint32_t packetCounter = 0;
 
 // To trigger the tcp to send event slice
 static bool sendFlg = false;
@@ -273,7 +274,15 @@ static void *displayUDP(void *ptr)
 //        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
 
         	for (int i = 0; i < total_pack; i++)
-        		sock.sendTo((void *)(& eventSlice[i * 1000/4]), 1000, serverIP, socketPort);
+        	{
+        		uint32_t *tmpBuffer = (uint32_t *)malloc(8000);
+        		tmpBuffer[0] = packetCounter;
+        		tmpBuffer[1001] = 0x55aa55aa;
+        		memcpy((void *)(& tmpBuffer[1]), (void *)(& eventSlice[i * 1000]), 4000);
+        		sock.sendTo(tmpBuffer, 4000, serverIP, socketPort);
+        		packetCounter++;
+        		free(tmpBuffer);
+        	}
 
 //            //send processed image
 //            if ((bytes = sendto(socket, (void *)(eventSlice), DVS_HEIGHT * DVS_WIDTH, 0, (struct sockaddr*)&destAddr, destAddrLen)) < 0){
@@ -964,21 +973,21 @@ int creatEventdataFromFile(std::string filename, int startLine, int event_num, u
 static int simulationEventSpeed = 0;
 static int currentStartLine = 0;
 static int total_err_cnt = 0;
-int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIPIP, int socketPort, int eventThreshold, int socketType, std::string filename, std::ofstream &resultStream)
+int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPkt, char *serverIPIP, int socketPort, int udpSplitPktSize, int socketType, std::string filename, std::ofstream &resultStream)
 {
 	if (!initSocketFlg)
 	{
 		serverIP = serverIPIP;
 		socketPort = 8991;
 
-		if (socketType == 0)     //0 : UDP
-		{
-			retSocket = init_socket_UDP(4097);
-		}
-		else
-		{
-			retSocket = init_socket_TCP(4097);
-		}
+//		if (socketType == 0)     //0 : UDP
+//		{
+//			retSocket = init_socket_UDP(4097);
+//		}
+//		else
+//		{
+//			retSocket = init_socket_TCP(4097);
+//		}
 		initSocketFlg = true;
 	}
 
@@ -1001,28 +1010,28 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     // Make suer sds_alloc allocate a right memory for eventSlice.
 	if(eventSlice == NULL)
 	{
-		eventSlice = (uint32_t *)sds_alloc(DVS_HEIGHT * DVS_WIDTH);
+		eventSlice = (uint64_t *)sds_alloc(8 * MAX_SIZE_PER_DATA_PKT);
 		return retSocket;
 	}
 
 //    eventsArraySize = 3000;
 //    eventPerSize = 8;
 
-	if(eventsArraySize >= eventThreshold)
-	{
-		eventsArraySize = eventThreshold;
-	}
+//	if(eventsArraySize >= eventThreshold)
+//	{
+//		eventsArraySize = eventThreshold;
+//	}
 
 	// Currently we need to make eventSlice a static pointer, otherwise the display thread may have
 	// competence with this main thread. To achieve this, we must specify the size of eventSlice.
 	// For software, this might not be an issue since eventSlice is a FIFO which doesn't have address
 	// when implemented on hardware.
-	if(eventsArraySize >= DVS_HEIGHT * DVS_WIDTH / 4)
+	if(eventsArraySize >= MAX_SIZE_PER_DATA_PKT)
 	{
-		eventsArraySize = DVS_HEIGHT * DVS_WIDTH / 4;
+		eventsArraySize = MAX_SIZE_PER_DATA_PKT;
 	}
 
-	uint64_t * data = (uint64_t *)sds_alloc(eventsArraySize * eventPerSize);
+	uint64_t * data = (uint64_t *)sds_alloc(MAX_SIZE_PER_DATA_PKT * eventPerSize);
 	memcpy(data, (void *)&(firstEvent.data), eventsArraySize * eventPerSize);
     sds_utils::perf_counter hw_ctr, sw_ctr;
 
@@ -1032,7 +1041,7 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     sw_ctr.stop();
 
     // reset the eventSlice
-    memset((char *) eventSlice, 0, DVS_HEIGHT * DVS_WIDTH);
+    memset((char *) eventSlice, 0, 8 * MAX_SIZE_PER_DATA_PKT);
 
     int event_num = eventsArraySize;
 //    eventsArraySize = creatEventdataFromFile(filename, currentStartLine, event_num, data);
@@ -1047,6 +1056,48 @@ int abmof(std::shared_ptr<const libcaer::events::PolarityEventPacket> polarityPk
     ap_uint<1> led;
 	parseEvents(data, eventsArraySize, eventSlice, &led);
 	hw_ctr.stop();
+
+	if (udpSplitPktSize * 8 >= 8000) // Limit the udpSplitPktSize due to the wifi connection.
+	{
+		udpSplitPktSize = 1000;
+	}
+
+    int total_pack = eventsArraySize / udpSplitPktSize + 1;
+	int ibuf[1];
+	ibuf[0] = total_pack;
+	int eventsNumRemain = eventsArraySize;
+//        	sock.sendTo(ibuf, sizeof(int), serverIP, socketPort);
+
+	for (int i = 0; i < total_pack; i++)
+	{
+		int eventsNumToSend = udpSplitPktSize;
+		if (eventsNumRemain < udpSplitPktSize)
+		{
+			eventsNumToSend = eventsNumRemain;
+		}
+
+		// Empty packet, ignore it.
+		if(eventsNumToSend == 0)
+		{
+			break;
+		}
+
+		uint8_t *tmpBuffer = (uint8_t *)malloc(1024 * 8);  // Max size of the buffer is 8K due to the wifi limitation.
+//		uint32_t packetCounterSwapEndian;    // Convert the endian order.
+//		packetCounterSwapEndian = ((packetCounter >> 24) & 0xff) + ( ((packetCounter >> 16) & 0xff) << 8) +
+//				( ((packetCounter >> 8) & 0xff) << 16) + ( ((packetCounter >> 0) & 0xff) << 24);
+		tmpBuffer[0] = (packetCounter >> 0) & 0xff;
+		tmpBuffer[1] = (packetCounter >> 8) & 0xff;
+		tmpBuffer[2] = (packetCounter >> 16) & 0xff;
+		tmpBuffer[3] = (packetCounter >> 24) & 0xff;
+//		tmpBuffer[1001] = 0x55aa55aa;
+		memcpy((void *)(& tmpBuffer[4]), (void *)(& eventSlice[i * eventsNumToSend]), eventsNumToSend * 8);
+		sock.sendTo(tmpBuffer, eventsNumToSend * 8 + 4, serverIP, socketPort);  // udpSplitPktSize * 8 + 4 is the event number per packet + sizeof(packetheader).
+
+		eventsNumRemain -= eventsNumToSend;
+		packetCounter++;
+		free(tmpBuffer);
+	}
 
 	int err_cnt = 0;
 
